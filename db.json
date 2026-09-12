@@ -1,0 +1,5006 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "fullName": "Admin",
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "123123",
+      "phone": "0900000000",
+      "address": "Ha Noi",
+      "role": "admin",
+      "status": "active",
+      "createdAt": "2026-05-27"
+    },
+    {
+      "fullName": "Nhan Vien",
+      "username": "staff",
+      "email": "staff@gmail.com",
+      "password": "123123",
+      "phone": "0911111112",
+      "address": "TP Ho Chi Minh",
+      "role": "staff",
+      "status": "active",
+      "id": "2"
+    },
+    {
+      "id": "1779866309897",
+      "fullName": "Nam",
+      "username": "nam",
+      "email": "nam@gmail.com",
+      "password": "123123",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "role": "customer",
+      "status": "active",
+      "createdAt": "27/5/2026"
+    },
+    {
+      "id": "1780362093745",
+      "fullName": "Huy",
+      "username": "huy",
+      "email": "huy@gmail.com",
+      "password": "123123",
+      "phone": "0123456123",
+      "address": "TP HCM",
+      "role": "staff",
+      "status": "active",
+      "createdAt": "2/6/2026"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Apple",
+      "description": "Điện thoại iPhone"
+    },
+    {
+      "id": "2",
+      "name": "Samsung",
+      "description": "Điện thoại Samsung"
+    },
+    {
+      "id": "3",
+      "name": "Xiaomi",
+      "description": "Điện thoại Xiaomi"
+    },
+    {
+      "id": "4",
+      "name": "OPPO",
+      "description": "Điện thoại OPPO"
+    },
+    {
+      "id": "5",
+      "name": "Vivo",
+      "description": "Điện thoại Vivo"
+    },
+    {
+      "id": "6",
+      "name": "Realme",
+      "description": "Điện thoại Realme"
+    },
+    {
+      "id": "7",
+      "name": "Google",
+      "description": "Điện thoại Google Pixel"
+    },
+    {
+      "id": "8",
+      "name": "OnePlus",
+      "description": "Điện thoại OnePlus"
+    }
+  ],
+  "products": [
+    {
+      "id": "31",
+      "name": "iPhone 17 Pro Max",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg",
+      "price": 37990000,
+      "oldPrice": 39990000,
+      "msrp": 39990000,
+      "rating": 5,
+      "reviews": 2,
+      "screen": "6.9 inch OLED Super Retina XDR, 120Hz",
+      "chip": "Apple A19 Pro",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "48MP + 48MP + 48MP",
+      "battery": "4832 mAh",
+      "charge": "Sạc nhanh khoảng 40W, MagSafe 25W",
+      "quantity": 15,
+      "description": "iPhone 17 Pro Max là flagship cao cấp với chip A19 Pro, màn hình 6.9 inch ProMotion, cụm 3 camera 48MP và tùy chọn bộ nhớ đến 2TB.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR 6.9 inch, ProMotion 120Hz",
+        "rearCamera": "48MP Fusion + 48MP Ultra Wide + 48MP Telephoto",
+        "frontCamera": "18MP Center Stage"
+      },
+      "batteryCharge": {
+        "battery": "4832 mAh",
+        "charge": "Khoảng 40W, 0-50% khoảng 20 phút",
+        "wireless": "Có sạc không dây MagSafe/Qi2"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Apple Intelligence, Dynamic Island, Always-on Display, camera Telephoto 8x optical-quality"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Thiết kế nhôm nguyên khối, Ceramic Shield 2",
+        "weight": "233g",
+        "color": "Cam vũ trụ"
+      },
+      "variants": [
+        {
+          "id": "cam-vu-tru-256gb",
+          "color": "Cam vũ trụ",
+          "storage": "256GB",
+          "price": 37990000,
+          "oldPrice": 39990000,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        },
+        {
+          "id": "xanh-dam-256gb",
+          "color": "Xanh đậm",
+          "storage": "256GB",
+          "price": 37690000,
+          "oldPrice": 39690000,
+          "image": "/IMG/iphone-17-pro-max-deep-blue.jpg"
+        },
+        {
+          "id": "bac-256gb",
+          "color": "Bạc",
+          "storage": "256GB",
+          "price": 37790000,
+          "oldPrice": 39790000,
+          "image": "/IMG/iphone-17-pro-max-silver.jpg"
+        },
+        {
+          "id": "cam-vu-tru-512gb",
+          "color": "Cam vũ trụ",
+          "storage": "512GB",
+          "price": 44290000,
+          "oldPrice": 46290000,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        },
+        {
+          "id": "xanh-dam-512gb",
+          "color": "Xanh đậm",
+          "storage": "512GB",
+          "price": 43990000,
+          "oldPrice": 45990000,
+          "image": "/IMG/iphone-17-pro-max-deep-blue.jpg"
+        },
+        {
+          "id": "bac-512gb",
+          "color": "Bạc",
+          "storage": "512GB",
+          "price": 44090000,
+          "oldPrice": 46090000,
+          "image": "/IMG/iphone-17-pro-max-silver.jpg"
+        },
+        {
+          "id": "cam-vu-tru-1tb",
+          "color": "Cam vũ trụ",
+          "storage": "1TB",
+          "price": 51290000,
+          "oldPrice": 53290000,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        },
+        {
+          "id": "xanh-dam-1tb",
+          "color": "Xanh đậm",
+          "storage": "1TB",
+          "price": 50990000,
+          "oldPrice": 52990000,
+          "image": "/IMG/iphone-17-pro-max-deep-blue.jpg"
+        },
+        {
+          "id": "bac-1tb",
+          "color": "Bạc",
+          "storage": "1TB",
+          "price": 51090000,
+          "oldPrice": 53090000,
+          "image": "/IMG/iphone-17-pro-max-silver.jpg"
+        },
+        {
+          "id": "cam-vu-tru-2tb",
+          "color": "Cam vũ trụ",
+          "storage": "2TB",
+          "price": 63290000,
+          "oldPrice": 65290000,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        },
+        {
+          "id": "xanh-dam-2tb",
+          "color": "Xanh đậm",
+          "storage": "2TB",
+          "price": 62990000,
+          "oldPrice": 64990000,
+          "image": "/IMG/iphone-17-pro-max-deep-blue.jpg"
+        },
+        {
+          "id": "bac-2tb",
+          "color": "Bạc",
+          "storage": "2TB",
+          "price": 63090000,
+          "oldPrice": 65090000,
+          "image": "/IMG/iphone-17-pro-max-silver.jpg"
+        }
+      ]
+    },
+    {
+      "id": "32",
+      "name": "iPhone 17 Pro",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-17-pro-deep-blue.jpg",
+      "price": 34990000,
+      "oldPrice": 36990000,
+      "msrp": 36990000,
+      "rating": 5,
+      "reviews": 36,
+      "screen": "6.3 inch OLED Super Retina XDR, 120Hz",
+      "chip": "Apple A19 Pro",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "48MP + 48MP + 48MP",
+      "battery": "4252 mAh",
+      "charge": "Sạc nhanh khoảng 40W, MagSafe 25W",
+      "quantity": 18,
+      "description": "iPhone 17 Pro có chip A19 Pro, màn hình 6.3 inch ProMotion, thiết kế nhôm nguyên khối và hệ thống 3 camera 48MP.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR 6.3 inch, ProMotion 120Hz",
+        "rearCamera": "48MP Fusion + 48MP Ultra Wide + 48MP Telephoto",
+        "frontCamera": "18MP Center Stage"
+      },
+      "batteryCharge": {
+        "battery": "4252 mAh",
+        "charge": "Khoảng 40W, 0-50% khoảng 20 phút",
+        "wireless": "Có sạc không dây MagSafe/Qi2"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Apple Intelligence, Dynamic Island, Always-on Display, camera Telephoto 8x optical-quality"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Thiết kế nhôm nguyên khối, Ceramic Shield 2",
+        "weight": "206g",
+        "color": "Cam vũ trụ"
+      },
+      "variants": [
+        {
+          "id": "cam-vu-tru-256gb",
+          "color": "Cam vũ trụ",
+          "storage": "256GB",
+          "price": 34990000,
+          "oldPrice": 36990000,
+          "image": "/IMG/iphone-17-pro-cosmic-orange.jpg"
+        },
+        {
+          "id": "xanh-dam-256gb",
+          "color": "Xanh đậm",
+          "storage": "256GB",
+          "price": 34690000,
+          "oldPrice": 36690000,
+          "image": "/IMG/iphone-17-pro-deep-blue.jpg"
+        },
+        {
+          "id": "bac-256gb",
+          "color": "Bạc",
+          "storage": "256GB",
+          "price": 34790000,
+          "oldPrice": 36790000,
+          "image": "/IMG/iphone-17-pro-silver.jpg"
+        },
+        {
+          "id": "cam-vu-tru-512gb",
+          "color": "Cam vũ trụ",
+          "storage": "512GB",
+          "price": 41490000,
+          "oldPrice": 43490000,
+          "image": "/IMG/iphone-17-pro-cosmic-orange.jpg"
+        },
+        {
+          "id": "xanh-dam-512gb",
+          "color": "Xanh đậm",
+          "storage": "512GB",
+          "price": 41190000,
+          "oldPrice": 43190000,
+          "image": "/IMG/iphone-17-pro-deep-blue.jpg"
+        },
+        {
+          "id": "bac-512gb",
+          "color": "Bạc",
+          "storage": "512GB",
+          "price": 41290000,
+          "oldPrice": 43290000,
+          "image": "/IMG/iphone-17-pro-silver.jpg"
+        },
+        {
+          "id": "cam-vu-tru-1tb",
+          "color": "Cam vũ trụ",
+          "storage": "1TB",
+          "price": 47990000,
+          "oldPrice": 49990000,
+          "image": "/IMG/iphone-17-pro-cosmic-orange.jpg"
+        },
+        {
+          "id": "xanh-dam-1tb",
+          "color": "Xanh đậm",
+          "storage": "1TB",
+          "price": 47690000,
+          "oldPrice": 49690000,
+          "image": "/IMG/iphone-17-pro-deep-blue.jpg"
+        },
+        {
+          "id": "bac-1tb",
+          "color": "Bạc",
+          "storage": "1TB",
+          "price": 47790000,
+          "oldPrice": 49790000,
+          "image": "/IMG/iphone-17-pro-silver.jpg"
+        }
+      ]
+    },
+    {
+      "id": "33",
+      "name": "iPhone Air",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-air-space-black.jpg",
+      "price": 31990000,
+      "oldPrice": 33990000,
+      "msrp": 33990000,
+      "rating": 5,
+      "reviews": 15,
+      "screen": "6.5 inch OLED Super Retina XDR, 120Hz",
+      "chip": "Apple A19 Pro",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "48MP Fusion",
+      "battery": "3149 mAh",
+      "charge": "Sạc nhanh khoảng 30W, MagSafe 20W",
+      "quantity": 18,
+      "description": "iPhone Air là mẫu iPhone siêu mỏng với khung Titanium, chip A19 Pro, màn hình 6.5 inch ProMotion và camera Fusion 48MP.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR 6.5 inch, ProMotion 120Hz",
+        "rearCamera": "48MP Fusion Main",
+        "frontCamera": "18MP Center Stage"
+      },
+      "batteryCharge": {
+        "battery": "3149 mAh",
+        "charge": "Sạc nhanh khoảng 30W",
+        "wireless": "Có sạc không dây MagSafe/Qi2"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Thiết kế siêu mỏng 5.64mm, Apple Intelligence, Dynamic Island"
+      },
+      "connection": {
+        "sim": "eSIM / Nano SIM + eSIM tùy thị trường",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung Titanium, Ceramic Shield 2 trước và Ceramic Shield sau",
+        "weight": "165g",
+        "color": "Đen Space Black"
+      },
+      "variants": [
+        {
+          "id": "den-space-black-256gb",
+          "color": "Đen Space Black",
+          "storage": "256GB",
+          "price": 31990000,
+          "oldPrice": 33990000,
+          "image": "/IMG/iphone-air-space-black.jpg"
+        },
+        {
+          "id": "trang-cloud-white-256gb",
+          "color": "Trắng Cloud White",
+          "storage": "256GB",
+          "price": 31690000,
+          "oldPrice": 33690000,
+          "image": "/IMG/iphone-air-cloud-white.jpg"
+        },
+        {
+          "id": "vang-light-gold-256gb",
+          "color": "Vàng Light Gold",
+          "storage": "256GB",
+          "price": 31790000,
+          "oldPrice": 33790000,
+          "image": "/IMG/iphone-air-light-gold.jpg"
+        },
+        {
+          "id": "xanh-sky-blue-256gb",
+          "color": "Xanh Sky Blue",
+          "storage": "256GB",
+          "price": 32090000,
+          "oldPrice": 34090000,
+          "image": "/IMG/iphone-air-sky-blue.jpg"
+        },
+        {
+          "id": "den-space-black-512gb",
+          "color": "Đen Space Black",
+          "storage": "512GB",
+          "price": 38490000,
+          "oldPrice": 40490000,
+          "image": "/IMG/iphone-air-space-black.jpg"
+        },
+        {
+          "id": "trang-cloud-white-512gb",
+          "color": "Trắng Cloud White",
+          "storage": "512GB",
+          "price": 38190000,
+          "oldPrice": 40190000,
+          "image": "/IMG/iphone-air-cloud-white.jpg"
+        },
+        {
+          "id": "vang-light-gold-512gb",
+          "color": "Vàng Light Gold",
+          "storage": "512GB",
+          "price": 38290000,
+          "oldPrice": 40290000,
+          "image": "/IMG/iphone-air-light-gold.jpg"
+        },
+        {
+          "id": "xanh-sky-blue-512gb",
+          "color": "Xanh Sky Blue",
+          "storage": "512GB",
+          "price": 38590000,
+          "oldPrice": 40590000,
+          "image": "/IMG/iphone-air-sky-blue.jpg"
+        },
+        {
+          "id": "den-space-black-1tb",
+          "color": "Đen Space Black",
+          "storage": "1TB",
+          "price": 46490000,
+          "oldPrice": 48490000,
+          "image": "/IMG/iphone-air-space-black.jpg"
+        },
+        {
+          "id": "trang-cloud-white-1tb",
+          "color": "Trắng Cloud White",
+          "storage": "1TB",
+          "price": 46190000,
+          "oldPrice": 48190000,
+          "image": "/IMG/iphone-air-cloud-white.jpg"
+        },
+        {
+          "id": "vang-light-gold-1tb",
+          "color": "Vàng Light Gold",
+          "storage": "1TB",
+          "price": 46290000,
+          "oldPrice": 48290000,
+          "image": "/IMG/iphone-air-light-gold.jpg"
+        },
+        {
+          "id": "xanh-sky-blue-1tb",
+          "color": "Xanh Sky Blue",
+          "storage": "1TB",
+          "price": 46590000,
+          "oldPrice": 48590000,
+          "image": "/IMG/iphone-air-sky-blue.jpg"
+        }
+      ]
+    },
+    {
+      "id": "34",
+      "name": "iPhone 17",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-17-black.jpg",
+      "price": 24990000,
+      "oldPrice": 26990000,
+      "msrp": 26990000,
+      "rating": 5,
+      "reviews": 65,
+      "screen": "6.3 inch OLED Super Retina XDR, 120Hz",
+      "chip": "Apple A19",
+      "ram": "8GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "48MP + 48MP",
+      "battery": "3692 mAh",
+      "charge": "Sạc nhanh khoảng 40W, MagSafe 25W",
+      "quantity": 25,
+      "description": "iPhone 17 có chip A19, màn hình 6.3 inch ProMotion 120Hz, Dynamic Island và hệ thống camera Dual Fusion 48MP.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR 6.3 inch, ProMotion 120Hz",
+        "rearCamera": "48MP Fusion Main + 48MP Ultra Wide",
+        "frontCamera": "18MP Center Stage"
+      },
+      "batteryCharge": {
+        "battery": "3692 mAh",
+        "charge": "Khoảng 40W, 0-50% khoảng 20 phút",
+        "wireless": "Có sạc không dây MagSafe/Qi2"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Apple Intelligence, Dynamic Island, Always-on Display"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhôm, Ceramic Shield 2, mặt lưng kính pha màu",
+        "weight": "177g",
+        "color": "Đen"
+      },
+      "variants": [
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 24990000,
+          "oldPrice": 26990000,
+          "image": "/IMG/iphone-17-black.jpg"
+        },
+        {
+          "id": "trang-256gb",
+          "color": "Trắng",
+          "storage": "256GB",
+          "price": 24690000,
+          "oldPrice": 26690000,
+          "image": "/IMG/iphone-17-white.jpg"
+        },
+        {
+          "id": "xanh-mist-blue-256gb",
+          "color": "Xanh Mist Blue",
+          "storage": "256GB",
+          "price": 24790000,
+          "oldPrice": 26790000,
+          "image": "/IMG/iphone-17-mist-blue.jpg"
+        },
+        {
+          "id": "xanh-sage-256gb",
+          "color": "Xanh Sage",
+          "storage": "256GB",
+          "price": 25090000,
+          "oldPrice": 27090000,
+          "image": "/IMG/iphone-17-sage.jpg"
+        },
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 31490000,
+          "oldPrice": 33490000,
+          "image": "/IMG/iphone-17-black.jpg"
+        },
+        {
+          "id": "trang-512gb",
+          "color": "Trắng",
+          "storage": "512GB",
+          "price": 31190000,
+          "oldPrice": 33190000,
+          "image": "/IMG/iphone-17-white.jpg"
+        },
+        {
+          "id": "xanh-mist-blue-512gb",
+          "color": "Xanh Mist Blue",
+          "storage": "512GB",
+          "price": 31290000,
+          "oldPrice": 33290000,
+          "image": "/IMG/iphone-17-mist-blue.jpg"
+        },
+        {
+          "id": "xanh-sage-512gb",
+          "color": "Xanh Sage",
+          "storage": "512GB",
+          "price": 31590000,
+          "oldPrice": 33590000,
+          "image": "/IMG/iphone-17-sage.jpg"
+        }
+      ]
+    },
+    {
+      "id": "35",
+      "name": "iPhone 17e",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-17e-black.jpg",
+      "price": 17490000,
+      "oldPrice": 18990000,
+      "msrp": 18990000,
+      "rating": 5,
+      "reviews": 30,
+      "screen": "6.1 inch OLED Super Retina XDR, 60Hz",
+      "chip": "Apple A19",
+      "ram": "8GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "48MP Fusion",
+      "battery": "4005 mAh",
+      "charge": "Sạc nhanh khoảng 30W, MagSafe 25W",
+      "quantity": 25,
+      "description": "iPhone 17e là mẫu iPhone dễ tiếp cận với chip A19, camera Fusion 48MP, USB-C, MagSafe và bộ nhớ khởi điểm 256GB.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR 6.1 inch, 60Hz",
+        "rearCamera": "48MP Fusion Main",
+        "frontCamera": "12MP"
+      },
+      "batteryCharge": {
+        "battery": "4005 mAh",
+        "charge": "Sạc nhanh khoảng 30W",
+        "wireless": "Có sạc không dây MagSafe/Qi2"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Apple Intelligence, USB-C, Action Button"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhôm, Ceramic Shield 2, mặt lưng kính",
+        "weight": "169g",
+        "color": "Đen"
+      },
+      "variants": [
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 17490000,
+          "oldPrice": 18990000,
+          "image": "/IMG/iphone-17e-black.jpg"
+        },
+        {
+          "id": "trang-256gb",
+          "color": "Trắng",
+          "storage": "256GB",
+          "price": 17190000,
+          "oldPrice": 18690000,
+          "image": "/IMG/iphone-17e-white.jpg"
+        },
+        {
+          "id": "hong-soft-pink-256gb",
+          "color": "Hồng Soft Pink",
+          "storage": "256GB",
+          "price": 17290000,
+          "oldPrice": 18790000,
+          "image": "/IMG/iphone-17e-soft-pink.jpg"
+        },
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 22490000,
+          "oldPrice": 23990000,
+          "image": "/IMG/iphone-17e-black.jpg"
+        },
+        {
+          "id": "trang-512gb",
+          "color": "Trắng",
+          "storage": "512GB",
+          "price": 22190000,
+          "oldPrice": 23690000,
+          "image": "/IMG/iphone-17e-white.jpg"
+        },
+        {
+          "id": "hong-soft-pink-512gb",
+          "color": "Hồng Soft Pink",
+          "storage": "512GB",
+          "price": 22290000,
+          "oldPrice": 23790000,
+          "image": "/IMG/iphone-17e-soft-pink.jpg"
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "name": "iPhone 16 Pro Max",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-16-pro-max-desert-titanium.jpg",
+      "price": 38990000,
+      "oldPrice": 40990000,
+      "msrp": 40990000,
+      "rating": 5,
+      "reviews": 2,
+      "screen": "6.9 inch OLED Super Retina XDR, 120Hz",
+      "chip": "Apple A18 Pro",
+      "ram": "8GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "48MP + 48MP + 12MP",
+      "battery": "4685 mAh",
+      "charge": "Sạc nhanh khoảng 30W, MagSafe 25W",
+      "quantity": 9,
+      "description": "iPhone 16 Pro Max có màn hình 6.9 inch, chip A18 Pro, Camera Control, Apple Intelligence và hệ thống camera Pro 48MP.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR 6.9 inch, 120Hz",
+        "rearCamera": "48MP Fusion + 48MP Ultra Wide + 12MP Tele 5x",
+        "frontCamera": "12MP TrueDepth"
+      },
+      "batteryCharge": {
+        "battery": "4685 mAh",
+        "charge": "Sạc nhanh khoảng 30W, MagSafe 25W",
+        "wireless": "Có sạc không dây MagSafe/Qi2"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Camera Control, Apple Intelligence, Dynamic Island, Always-on Display"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung Titanium, mặt lưng kính nhám",
+        "weight": "227g",
+        "color": "Titan sa mạc"
+      },
+      "variants": [
+        {
+          "id": "titan-sa-mac-512gb",
+          "color": "Titan sa mạc",
+          "storage": "512GB",
+          "price": 38990000,
+          "oldPrice": 40990000,
+          "image": "/IMG/iphone-16-pro-max-desert-titanium.jpg"
+        },
+        {
+          "id": "titan-den-512gb",
+          "color": "Titan đen",
+          "storage": "512GB",
+          "price": 38690000,
+          "oldPrice": 40690000,
+          "image": "/IMG/iphone-16-pro-max-black-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-512gb",
+          "color": "Titan trắng",
+          "storage": "512GB",
+          "price": 38790000,
+          "oldPrice": 40790000,
+          "image": "/IMG/iphone-16-pro-max-white-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-512gb",
+          "color": "Titan tự nhiên",
+          "storage": "512GB",
+          "price": 39090000,
+          "oldPrice": 41090000,
+          "image": "/IMG/iphone-16-pro-max-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-sa-mac-256gb",
+          "color": "Titan sa mạc",
+          "storage": "256GB",
+          "price": 34990000,
+          "oldPrice": 36990000,
+          "image": "/IMG/iphone-16-pro-max-desert-titanium.jpg"
+        },
+        {
+          "id": "titan-den-256gb",
+          "color": "Titan đen",
+          "storage": "256GB",
+          "price": 34690000,
+          "oldPrice": 36690000,
+          "image": "/IMG/iphone-16-pro-max-black-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-256gb",
+          "color": "Titan trắng",
+          "storage": "256GB",
+          "price": 34790000,
+          "oldPrice": 36790000,
+          "image": "/IMG/iphone-16-pro-max-white-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-256gb",
+          "color": "Titan tự nhiên",
+          "storage": "256GB",
+          "price": 35090000,
+          "oldPrice": 37090000,
+          "image": "/IMG/iphone-16-pro-max-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-sa-mac-1tb",
+          "color": "Titan sa mạc",
+          "storage": "1TB",
+          "price": 43990000,
+          "oldPrice": 45990000,
+          "image": "/IMG/iphone-16-pro-max-desert-titanium.jpg"
+        },
+        {
+          "id": "titan-den-1tb",
+          "color": "Titan đen",
+          "storage": "1TB",
+          "price": 43690000,
+          "oldPrice": 45690000,
+          "image": "/IMG/iphone-16-pro-max-black-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-1tb",
+          "color": "Titan trắng",
+          "storage": "1TB",
+          "price": 43790000,
+          "oldPrice": 45790000,
+          "image": "/IMG/iphone-16-pro-max-white-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-1tb",
+          "color": "Titan tự nhiên",
+          "storage": "1TB",
+          "price": 44090000,
+          "oldPrice": 46090000,
+          "image": "/IMG/iphone-16-pro-max-natural-titanium.jpg"
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "name": "iPhone 15 Pro Max",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg",
+      "price": 29990000,
+      "oldPrice": 33990000,
+      "msrp": 33990000,
+      "rating": 5,
+      "reviews": 5029,
+      "screen": "6.7 inch OLED, 120Hz",
+      "chip": "Apple A17 Pro",
+      "ram": "8GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "48MP + 12MP + 12MP",
+      "battery": "4422 mAh",
+      "charge": "Sạc nhanh 20W",
+      "quantity": 13,
+      "description": "iPhone 15 Pro Max sở hữu thiết kế Titanium, hiệu năng mạnh mẽ với chip A17 Pro, camera chất lượng cao và màn hình Super Retina XDR.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR, 120Hz",
+        "rearCamera": "48MP + 12MP + 12MP",
+        "frontCamera": "12MP"
+      },
+      "batteryCharge": {
+        "battery": "4422 mAh",
+        "charge": "20W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Dynamic Island, Always-on Display"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung Titanium, mặt lưng kính",
+        "weight": "221g",
+        "color": "Titan tự nhiên"
+      },
+      "variants": [
+        {
+          "id": "titan-tu-nhien-256gb",
+          "color": "Titan tự nhiên",
+          "storage": "256GB",
+          "price": 29990000,
+          "oldPrice": 33990000,
+          "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-den-256gb",
+          "color": "Titan đen",
+          "storage": "256GB",
+          "price": 29690000,
+          "oldPrice": 33690000,
+          "image": "/IMG/iphone-15-pro-max-black-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-256gb",
+          "color": "Titan trắng",
+          "storage": "256GB",
+          "price": 29790000,
+          "oldPrice": 33790000,
+          "image": "/IMG/iphone-15-pro-max-white-titanium.jpg"
+        },
+        {
+          "id": "titan-xanh-256gb",
+          "color": "Titan xanh",
+          "storage": "256GB",
+          "price": 30090000,
+          "oldPrice": 34090000,
+          "image": "/IMG/iphone-15-pro-max-blue-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-512gb",
+          "color": "Titan tự nhiên",
+          "storage": "512GB",
+          "price": 34490000,
+          "oldPrice": 38490000,
+          "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-den-512gb",
+          "color": "Titan đen",
+          "storage": "512GB",
+          "price": 34190000,
+          "oldPrice": 38190000,
+          "image": "/IMG/iphone-15-pro-max-black-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-512gb",
+          "color": "Titan trắng",
+          "storage": "512GB",
+          "price": 34290000,
+          "oldPrice": 38290000,
+          "image": "/IMG/iphone-15-pro-max-white-titanium.jpg"
+        },
+        {
+          "id": "titan-xanh-512gb",
+          "color": "Titan xanh",
+          "storage": "512GB",
+          "price": 34590000,
+          "oldPrice": 38590000,
+          "image": "/IMG/iphone-15-pro-max-blue-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-1tb",
+          "color": "Titan tự nhiên",
+          "storage": "1TB",
+          "price": 39490000,
+          "oldPrice": 43490000,
+          "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-den-1tb",
+          "color": "Titan đen",
+          "storage": "1TB",
+          "price": 39190000,
+          "oldPrice": 43190000,
+          "image": "/IMG/iphone-15-pro-max-black-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-1tb",
+          "color": "Titan trắng",
+          "storage": "1TB",
+          "price": 39290000,
+          "oldPrice": 43290000,
+          "image": "/IMG/iphone-15-pro-max-white-titanium.jpg"
+        },
+        {
+          "id": "titan-xanh-1tb",
+          "color": "Titan xanh",
+          "storage": "1TB",
+          "price": 39590000,
+          "oldPrice": 43590000,
+          "image": "/IMG/iphone-15-pro-max-blue-titanium.jpg"
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "name": "iPhone 15 Pro",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-15-pro-blue-titanium.jpg",
+      "price": 24990000,
+      "oldPrice": 28990000,
+      "msrp": 28990000,
+      "rating": 5,
+      "reviews": 942,
+      "screen": "6.1 inch OLED, 120Hz",
+      "chip": "Apple A17 Pro",
+      "ram": "8GB",
+      "storage": "128GB",
+      "rom": "128GB",
+      "camera": "48MP + 12MP + 12MP",
+      "battery": "3274 mAh",
+      "charge": "Sạc nhanh 20W",
+      "quantity": 15,
+      "description": "iPhone 15 Pro sở hữu bộ khung Titanium siêu bền nhẹ, nút Action mới và hiệu năng đồ họa đỉnh cao với chip A17 Pro.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "128GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR, 120Hz",
+        "rearCamera": "48MP + 12MP + 12MP",
+        "frontCamera": "12MP"
+      },
+      "batteryCharge": {
+        "battery": "3274 mAh",
+        "charge": "20W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Dynamic Island, Action Button"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung Titanium, mặt lưng kính",
+        "weight": "187g",
+        "color": "Titan xanh"
+      },
+      "variants": [
+        {
+          "id": "titan-xanh-128gb",
+          "color": "Titan xanh",
+          "storage": "128GB",
+          "price": 24990000,
+          "oldPrice": 28990000,
+          "image": "/IMG/iphone-15-pro-blue-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-128gb",
+          "color": "Titan tự nhiên",
+          "storage": "128GB",
+          "price": 24690000,
+          "oldPrice": 28690000,
+          "image": "/IMG/iphone-15-pro-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-128gb",
+          "color": "Titan trắng",
+          "storage": "128GB",
+          "price": 24790000,
+          "oldPrice": 28790000,
+          "image": "/IMG/iphone-15-pro-white-titanium.jpg"
+        },
+        {
+          "id": "titan-den-128gb",
+          "color": "Titan đen",
+          "storage": "128GB",
+          "price": 25090000,
+          "oldPrice": 29090000,
+          "image": "/IMG/iphone-15-pro-black-titanium.jpg"
+        },
+        {
+          "id": "titan-xanh-256gb",
+          "color": "Titan xanh",
+          "storage": "256GB",
+          "price": 28490000,
+          "oldPrice": 32490000,
+          "image": "/IMG/iphone-15-pro-blue-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-256gb",
+          "color": "Titan tự nhiên",
+          "storage": "256GB",
+          "price": 28190000,
+          "oldPrice": 32190000,
+          "image": "/IMG/iphone-15-pro-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-256gb",
+          "color": "Titan trắng",
+          "storage": "256GB",
+          "price": 28290000,
+          "oldPrice": 32290000,
+          "image": "/IMG/iphone-15-pro-white-titanium.jpg"
+        },
+        {
+          "id": "titan-den-256gb",
+          "color": "Titan đen",
+          "storage": "256GB",
+          "price": 28590000,
+          "oldPrice": 32590000,
+          "image": "/IMG/iphone-15-pro-black-titanium.jpg"
+        },
+        {
+          "id": "titan-xanh-512gb",
+          "color": "Titan xanh",
+          "storage": "512GB",
+          "price": 32490000,
+          "oldPrice": 36490000,
+          "image": "/IMG/iphone-15-pro-blue-titanium.jpg"
+        },
+        {
+          "id": "titan-tu-nhien-512gb",
+          "color": "Titan tự nhiên",
+          "storage": "512GB",
+          "price": 32190000,
+          "oldPrice": 36190000,
+          "image": "/IMG/iphone-15-pro-natural-titanium.jpg"
+        },
+        {
+          "id": "titan-trang-512gb",
+          "color": "Titan trắng",
+          "storage": "512GB",
+          "price": 32290000,
+          "oldPrice": 36290000,
+          "image": "/IMG/iphone-15-pro-white-titanium.jpg"
+        },
+        {
+          "id": "titan-den-512gb",
+          "color": "Titan đen",
+          "storage": "512GB",
+          "price": 32590000,
+          "oldPrice": 36590000,
+          "image": "/IMG/iphone-15-pro-black-titanium.jpg"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "iPhone 14 Pro",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-14-pro-black.jpg",
+      "price": 21990000,
+      "oldPrice": 26990000,
+      "msrp": 26990000,
+      "rating": 5,
+      "reviews": 1856,
+      "screen": "6.1 inch OLED, 120Hz",
+      "chip": "Apple A16 Bionic",
+      "ram": "6GB",
+      "storage": "128GB",
+      "rom": "128GB",
+      "camera": "48MP + 12MP + 12MP",
+      "battery": "3200 mAh",
+      "charge": "Sạc nhanh 20W",
+      "quantity": 24,
+      "description": "iPhone 14 Pro có thiết kế cao cấp, màn hình sắc nét, Dynamic Island và camera chính 48MP.",
+      "status": "active",
+      "memory": {
+        "ram": "6GB",
+        "storage": "128GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR, 120Hz",
+        "rearCamera": "48MP + 12MP + 12MP",
+        "frontCamera": "12MP"
+      },
+      "batteryCharge": {
+        "battery": "3200 mAh",
+        "charge": "20W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Dynamic Island"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "Lightning"
+      },
+      "design": {
+        "material": "Khung thép không gỉ, mặt lưng kính",
+        "weight": "206g",
+        "color": "Đen"
+      },
+      "variants": [
+        {
+          "id": "den-128gb",
+          "color": "Đen",
+          "storage": "128GB",
+          "price": 21990000,
+          "oldPrice": 26990000,
+          "image": "/IMG/iphone-14-pro-black.jpg"
+        },
+        {
+          "id": "bac-128gb",
+          "color": "Bạc",
+          "storage": "128GB",
+          "price": 21690000,
+          "oldPrice": 26690000,
+          "image": "/IMG/iphone-14-pro-silver.jpg"
+        },
+        {
+          "id": "vang-128gb",
+          "color": "Vàng",
+          "storage": "128GB",
+          "price": 21790000,
+          "oldPrice": 26790000,
+          "image": "/IMG/iphone-14-pro-gold.jpg"
+        },
+        {
+          "id": "tim-128gb",
+          "color": "Tím",
+          "storage": "128GB",
+          "price": 22090000,
+          "oldPrice": 27090000,
+          "image": "/IMG/iphone-14-pro-purple.jpg"
+        },
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 24490000,
+          "oldPrice": 29490000,
+          "image": "/IMG/iphone-14-pro-black.jpg"
+        },
+        {
+          "id": "bac-256gb",
+          "color": "Bạc",
+          "storage": "256GB",
+          "price": 24190000,
+          "oldPrice": 29190000,
+          "image": "/IMG/iphone-14-pro-silver.jpg"
+        },
+        {
+          "id": "vang-256gb",
+          "color": "Vàng",
+          "storage": "256GB",
+          "price": 24290000,
+          "oldPrice": 29290000,
+          "image": "/IMG/iphone-14-pro-gold.jpg"
+        },
+        {
+          "id": "tim-256gb",
+          "color": "Tím",
+          "storage": "256GB",
+          "price": 24590000,
+          "oldPrice": 29590000,
+          "image": "/IMG/iphone-14-pro-purple.jpg"
+        },
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 27490000,
+          "oldPrice": 32490000,
+          "image": "/IMG/iphone-14-pro-black.jpg"
+        },
+        {
+          "id": "bac-512gb",
+          "color": "Bạc",
+          "storage": "512GB",
+          "price": 27190000,
+          "oldPrice": 32190000,
+          "image": "/IMG/iphone-14-pro-silver.jpg"
+        },
+        {
+          "id": "vang-512gb",
+          "color": "Vàng",
+          "storage": "512GB",
+          "price": 27290000,
+          "oldPrice": 32290000,
+          "image": "/IMG/iphone-14-pro-gold.jpg"
+        },
+        {
+          "id": "tim-512gb",
+          "color": "Tím",
+          "storage": "512GB",
+          "price": 27590000,
+          "oldPrice": 32590000,
+          "image": "/IMG/iphone-14-pro-purple.jpg"
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "name": "iPhone 13",
+      "brand": "Apple",
+      "categoryId": "1",
+      "image": "/IMG/iphone-13-blue.jpg",
+      "price": 13490000,
+      "oldPrice": 16990000,
+      "msrp": 16990000,
+      "rating": 5,
+      "reviews": 512,
+      "screen": "6.1 inch OLED, 60Hz",
+      "chip": "Apple A15 Bionic",
+      "ram": "4GB",
+      "storage": "128GB",
+      "rom": "128GB",
+      "camera": "12MP + 12MP",
+      "battery": "3225 mAh",
+      "charge": "Sạc nhanh 20W",
+      "quantity": 30,
+      "description": "Dù ra mắt đã lâu nhưng iPhone 13 vẫn là dòng máy giữ giá xuất sắc nhờ chip A15 mượt mà, camera chéo bắt mắt và pin bền bỉ.",
+      "status": "active",
+      "memory": {
+        "ram": "4GB",
+        "storage": "128GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Super Retina XDR, 60Hz",
+        "rearCamera": "12MP + 12MP",
+        "frontCamera": "12MP"
+      },
+      "batteryCharge": {
+        "battery": "3225 mAh",
+        "charge": "20W",
+        "wireless": "Có sạc MagSafe"
+      },
+      "utilities": {
+        "security": "Face ID",
+        "waterResistant": "IP68",
+        "special": "Chế độ Điện ảnh (Cinematic Mode)"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "Lightning"
+      },
+      "design": {
+        "material": "Khung nhôm, mặt lưng kính",
+        "weight": "174g",
+        "color": "Xanh dương"
+      },
+      "variants": [
+        {
+          "id": "xanh-duong-128gb",
+          "color": "Xanh dương",
+          "storage": "128GB",
+          "price": 13490000,
+          "oldPrice": 16990000,
+          "image": "/IMG/iphone-13-blue.jpg"
+        },
+        {
+          "id": "den-128gb",
+          "color": "Đen",
+          "storage": "128GB",
+          "price": 13190000,
+          "oldPrice": 16690000,
+          "image": "/IMG/iphone-13-black.jpg"
+        },
+        {
+          "id": "trang-128gb",
+          "color": "Trắng",
+          "storage": "128GB",
+          "price": 13290000,
+          "oldPrice": 16790000,
+          "image": "/IMG/iphone-13-white.jpg"
+        },
+        {
+          "id": "hong-128gb",
+          "color": "Hồng",
+          "storage": "128GB",
+          "price": 13590000,
+          "oldPrice": 17090000,
+          "image": "/IMG/iphone-13-pink.jpg"
+        },
+        {
+          "id": "xanh-duong-256gb",
+          "color": "Xanh dương",
+          "storage": "256GB",
+          "price": 16490000,
+          "oldPrice": 19990000,
+          "image": "/IMG/iphone-13-blue.jpg"
+        },
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 16190000,
+          "oldPrice": 19690000,
+          "image": "/IMG/iphone-13-black.jpg"
+        },
+        {
+          "id": "trang-256gb",
+          "color": "Trắng",
+          "storage": "256GB",
+          "price": 16290000,
+          "oldPrice": 19790000,
+          "image": "/IMG/iphone-13-white.jpg"
+        },
+        {
+          "id": "hong-256gb",
+          "color": "Hồng",
+          "storage": "256GB",
+          "price": 16590000,
+          "oldPrice": 20090000,
+          "image": "/IMG/iphone-13-pink.jpg"
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "name": "Samsung Galaxy Z Fold7 5G",
+      "brand": "Samsung",
+      "categoryId": "2",
+      "image": "/IMG/samsung-galaxy-z-fold7-shadow-silver.jpg",
+      "price": 43990000,
+      "oldPrice": 46990000,
+      "msrp": 46990000,
+      "rating": 5,
+      "reviews": 42,
+      "screen": "8.0 inch + 6.5 inch Dynamic AMOLED 2X, 120Hz",
+      "chip": "Snapdragon 8 Elite for Galaxy",
+      "ram": "12GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "200MP + 10MP + 12MP",
+      "battery": "4400 mAh",
+      "charge": "Sạc nhanh 25W",
+      "quantity": 5,
+      "description": "Galaxy Z Fold7 5G là điện thoại gập ngang cao cấp với màn hình chính 8 inch, camera chính 200MP và Galaxy AI.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "Màn hình chính 8.0 inch, màn hình phụ 6.5 inch, Dynamic AMOLED 2X 120Hz",
+        "rearCamera": "200MP + 10MP Tele 3x + 12MP Ultra Wide",
+        "frontCamera": "10MP màn hình phụ + 10MP màn hình chính"
+      },
+      "batteryCharge": {
+        "battery": "4400 mAh",
+        "charge": "25W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay cạnh bên",
+        "waterResistant": "IP48",
+        "special": "Màn hình gập ngang, Galaxy AI, không hỗ trợ S Pen"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung Armor Aluminum, mặt lưng kính",
+        "weight": "215g",
+        "color": "Bạc Shadow"
+      },
+      "variants": [
+        {
+          "id": "bac-shadow",
+          "color": "Bạc Shadow",
+          "price": 43990000,
+          "oldPrice": 46990000,
+          "image": "/IMG/samsung-galaxy-z-fold7-shadow-silver.jpg",
+          "storage": "512GB"
+        },
+        {
+          "id": "xanh-shadow",
+          "color": "Xanh Shadow",
+          "price": 43690000,
+          "oldPrice": 46690000,
+          "image": "/IMG/samsung-galaxy-z-fold7-shadow-blue.jpg",
+          "storage": "512GB"
+        },
+        {
+          "id": "den-jetblack",
+          "color": "Đen Jetblack",
+          "price": 43790000,
+          "oldPrice": 47790000,
+          "image": "/IMG/samsung-galaxy-z-fold7-jet-black.jpg",
+          "storage": "512GB"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Samsung Galaxy Z Flip7 5G",
+      "brand": "Samsung",
+      "categoryId": "2",
+      "image": "/IMG/samsung-galaxy-z-flip7-navy-blue.jpg",
+      "price": 35990000,
+      "oldPrice": 40990000,
+      "msrp": 40990000,
+      "rating": 5,
+      "reviews": 456,
+      "screen": "6.9 inch + 4.1 inch Dynamic AMOLED 2X, 120Hz",
+      "chip": "Exynos 2500",
+      "ram": "12GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 12MP",
+      "battery": "4300 mAh",
+      "charge": "Sạc nhanh 25W",
+      "quantity": 11,
+      "description": "Galaxy Z Flip7 5G có thiết kế gập vỏ sò, màn hình phụ lớn, camera 50MP và pin 4300 mAh.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "Màn hình chính 6.9 inch, màn hình phụ 4.1 inch, Dynamic AMOLED 2X 120Hz",
+        "rearCamera": "50MP Wide + 12MP Ultra Wide",
+        "frontCamera": "10MP"
+      },
+      "batteryCharge": {
+        "battery": "4300 mAh",
+        "charge": "25W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay cạnh bên",
+        "waterResistant": "IP48",
+        "special": "Màn hình gập, Flex Mode, Galaxy AI"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung Armor Aluminum, mặt lưng kính",
+        "weight": "188g",
+        "color": "Xanh Navy"
+      },
+      "variants": [
+        {
+          "id": "xanh-navy-512gb",
+          "color": "Xanh Navy",
+          "storage": "512GB",
+          "price": 35990000,
+          "oldPrice": 40990000,
+          "image": "/IMG/samsung-galaxy-z-flip7-navy-blue.jpg"
+        },
+        {
+          "id": "xam-marble-512gb",
+          "color": "Xám Marble",
+          "storage": "512GB",
+          "price": 35690000,
+          "oldPrice": 40690000,
+          "image": "/IMG/samsung-galaxy-z-flip7-marble-gray.jpg"
+        },
+        {
+          "id": "den-jetblack-512gb",
+          "color": "Đen Jetblack",
+          "storage": "512GB",
+          "price": 35790000,
+          "oldPrice": 40790000,
+          "image": "/IMG/samsung-galaxy-z-flip7-jet-black.jpg"
+        },
+        {
+          "id": "vang-amber-512gb",
+          "color": "Vàng Amber",
+          "storage": "512GB",
+          "price": 36090000,
+          "oldPrice": 41090000,
+          "image": "/IMG/samsung-galaxy-z-flip7-amber-yellow.jpg"
+        },
+        {
+          "id": "xanh-navy-256gb",
+          "color": "Xanh Navy",
+          "storage": "256GB",
+          "price": 31990000,
+          "oldPrice": 36990000,
+          "image": "/IMG/samsung-galaxy-z-flip7-navy-blue.jpg"
+        },
+        {
+          "id": "xam-marble-256gb",
+          "color": "Xám Marble",
+          "storage": "256GB",
+          "price": 31690000,
+          "oldPrice": 36690000,
+          "image": "/IMG/samsung-galaxy-z-flip7-marble-gray.jpg"
+        },
+        {
+          "id": "den-jetblack-256gb",
+          "color": "Đen Jetblack",
+          "storage": "256GB",
+          "price": 31790000,
+          "oldPrice": 36790000,
+          "image": "/IMG/samsung-galaxy-z-flip7-jet-black.jpg"
+        },
+        {
+          "id": "vang-amber-256gb",
+          "color": "Vàng Amber",
+          "storage": "256GB",
+          "price": 32090000,
+          "oldPrice": 37090000,
+          "image": "/IMG/samsung-galaxy-z-flip7-amber-yellow.jpg"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Samsung Galaxy S24 Ultra",
+      "brand": "Samsung",
+      "categoryId": "2",
+      "image": "/IMG/samsung-galaxy-s24-ultra-titan-xam.jpg",
+      "price": 26990000,
+      "oldPrice": 31990000,
+      "msrp": 31990000,
+      "rating": 4,
+      "reviews": 2323,
+      "screen": "6.8 inch AMOLED, 120Hz",
+      "chip": "Snapdragon 8 Gen 3",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "200MP + 50MP + 12MP + 10MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh 45W",
+      "quantity": 17,
+      "description": "Samsung Galaxy S24 Ultra là mẫu flagship cao cấp với bút S Pen, camera 200MP, Galaxy AI và hiệu năng mạnh mẽ.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "Dynamic AMOLED 2X, 120Hz",
+        "rearCamera": "200MP + 50MP + 12MP + 10MP",
+        "frontCamera": "12MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "45W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP68",
+        "special": "Bút S Pen, Galaxy AI"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung Titanium, mặt lưng kính",
+        "weight": "232g",
+        "color": "Titan xám"
+      },
+      "variants": [
+        {
+          "id": "titan-xam-256gb",
+          "color": "Titan xám",
+          "storage": "256GB",
+          "price": 26990000,
+          "oldPrice": 31990000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-xam.jpg"
+        },
+        {
+          "id": "titan-den-256gb",
+          "color": "Titan đen",
+          "storage": "256GB",
+          "price": 26690000,
+          "oldPrice": 31690000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-black-titanium.jpg"
+        },
+        {
+          "id": "titan-tim-256gb",
+          "color": "Titan tím",
+          "storage": "256GB",
+          "price": 26790000,
+          "oldPrice": 31790000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-tim.jpg"
+        },
+        {
+          "id": "titan-vang-256gb",
+          "color": "Titan vàng",
+          "storage": "256GB",
+          "price": 27090000,
+          "oldPrice": 32090000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-vang.jpg"
+        },
+        {
+          "id": "titan-xam-512gb",
+          "color": "Titan xám",
+          "storage": "512GB",
+          "price": 30990000,
+          "oldPrice": 35990000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-xam.jpg"
+        },
+        {
+          "id": "titan-den-512gb",
+          "color": "Titan đen",
+          "storage": "512GB",
+          "price": 30690000,
+          "oldPrice": 35690000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-black-titanium.jpg"
+        },
+        {
+          "id": "titan-tim-512gb",
+          "color": "Titan tím",
+          "storage": "512GB",
+          "price": 30790000,
+          "oldPrice": 35790000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-tim.jpg"
+        },
+        {
+          "id": "titan-vang-512gb",
+          "color": "Titan vàng",
+          "storage": "512GB",
+          "price": 31090000,
+          "oldPrice": 36090000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-vang.jpg"
+        },
+        {
+          "id": "titan-xam-1tb",
+          "color": "Titan xám",
+          "storage": "1TB",
+          "price": 36990000,
+          "oldPrice": 41990000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-xam.jpg"
+        },
+        {
+          "id": "titan-den-1tb",
+          "color": "Titan đen",
+          "storage": "1TB",
+          "price": 36690000,
+          "oldPrice": 41690000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-black-titanium.jpg"
+        },
+        {
+          "id": "titan-tim-1tb",
+          "color": "Titan tím",
+          "storage": "1TB",
+          "price": 36790000,
+          "oldPrice": 41790000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-tim.jpg"
+        },
+        {
+          "id": "titan-vang-1tb",
+          "color": "Titan vàng",
+          "storage": "1TB",
+          "price": 37090000,
+          "oldPrice": 42090000,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-vang.jpg"
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Samsung Galaxy S24 Plus",
+      "brand": "Samsung",
+      "categoryId": "2",
+      "image": "/IMG/samsung-galaxy-s24-plus-amber-yellow.jpg",
+      "price": 21490000,
+      "oldPrice": 25990000,
+      "msrp": 25990000,
+      "rating": 4,
+      "reviews": 312,
+      "screen": "6.7 inch Dynamic AMOLED 2X, 120Hz",
+      "chip": "Exynos 2400",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 10MP + 12MP",
+      "battery": "4900 mAh",
+      "charge": "Sạc nhanh 45W",
+      "quantity": 25,
+      "description": "Samsung Galaxy S24+ mang đến màn hình QHD+ sắc nét bậc nhất, dung lượng RAM lớn cùng các tính năng trợ lý AI thông minh.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "Dynamic AMOLED 2X, 120Hz",
+        "rearCamera": "50MP + 10MP + 12MP",
+        "frontCamera": "12MP"
+      },
+      "batteryCharge": {
+        "battery": "4900 mAh",
+        "charge": "45W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP68",
+        "special": "Galaxy AI, Màn hình QHD+"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhôm Armor Aluminum, mặt lưng kính",
+        "weight": "196g",
+        "color": "Vàng Amber"
+      },
+      "variants": [
+        {
+          "id": "vang-amber",
+          "color": "Vàng Amber",
+          "price": 21490000,
+          "oldPrice": 25990000,
+          "image": "/IMG/samsung-galaxy-s24-plus-amber-yellow.jpg",
+          "storage": "256GB"
+        },
+        {
+          "id": "den-onyx",
+          "color": "Đen Onyx",
+          "price": 21190000,
+          "oldPrice": 25690000,
+          "image": "/IMG/samsung-galaxy-s24-plus-onyx-black.jpg",
+          "storage": "256GB"
+        },
+        {
+          "id": "tim-cobalt",
+          "color": "Tím Cobalt",
+          "price": 21290000,
+          "oldPrice": 25790000,
+          "image": "/IMG/samsung-galaxy-s24-plus-cobalt-purple.jpg",
+          "storage": "256GB"
+        },
+        {
+          "id": "xam-marble",
+          "color": "Xám Marble",
+          "price": 21590000,
+          "oldPrice": 26090000,
+          "image": "/IMG/samsung-galaxy-s24-plus-marble-gray.jpg",
+          "storage": "256GB"
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "name": "Samsung Galaxy A55 5G",
+      "brand": "Samsung",
+      "categoryId": "2",
+      "image": "/IMG/samsung-galaxy-a55-dark-blue.jpg",
+      "price": 9690000,
+      "oldPrice": 10990000,
+      "msrp": 10990000,
+      "rating": 5,
+      "reviews": 753,
+      "screen": "6.6 inch Super AMOLED, 120Hz",
+      "chip": "Exynos 1480",
+      "ram": "8GB",
+      "storage": "128GB",
+      "rom": "128GB",
+      "camera": "50MP + 12MP + 5MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh 25W",
+      "quantity": 35,
+      "description": "Samsung Galaxy A55 sở hữu khung viền kim loại cao cấp đột phá, bảo mật Knox Vault chuẩn quân đội và khả năng quay video đêm xuất sắc.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "128GB",
+        "card": "Hỗ trợ thẻ nhớ MicroSD tối đa 1TB"
+      },
+      "displayCamera": {
+        "display": "Super AMOLED FHD+, 120Hz",
+        "rearCamera": "50MP + 12MP + 5MP",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "25W",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP67",
+        "special": "Khung kim loại, Bảo mật Samsung Knox Vault"
+      },
+      "connection": {
+        "sim": "2 Nano SIM (Khay lai)",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung kim loại Gorilla Glass+, mặt lưng kính",
+        "weight": "213g",
+        "color": "Xanh đen"
+      },
+      "variants": [
+        {
+          "id": "xanh-den-128gb",
+          "color": "Xanh đen",
+          "storage": "128GB",
+          "price": 9690000,
+          "oldPrice": 10990000,
+          "image": "/IMG/samsung-galaxy-a55-dark-blue.jpg"
+        },
+        {
+          "id": "xanh-iceblue-128gb",
+          "color": "Xanh Iceblue",
+          "storage": "128GB",
+          "price": 9390000,
+          "oldPrice": 10690000,
+          "image": "/IMG/samsung-galaxy-a55-ice-blue.jpg"
+        },
+        {
+          "id": "tim-lilac-128gb",
+          "color": "Tím Lilac",
+          "storage": "128GB",
+          "price": 9490000,
+          "oldPrice": 10790000,
+          "image": "/IMG/samsung-galaxy-a55-lilac-purple.jpg"
+        },
+        {
+          "id": "xanh-den-256gb",
+          "color": "Xanh đen",
+          "storage": "256GB",
+          "price": 10990000,
+          "oldPrice": 12290000,
+          "image": "/IMG/samsung-galaxy-a55-dark-blue.jpg"
+        },
+        {
+          "id": "xanh-iceblue-256gb",
+          "color": "Xanh Iceblue",
+          "storage": "256GB",
+          "price": 10690000,
+          "oldPrice": 11990000,
+          "image": "/IMG/samsung-galaxy-a55-ice-blue.jpg"
+        },
+        {
+          "id": "tim-lilac-256gb",
+          "color": "Tím Lilac",
+          "storage": "256GB",
+          "price": 10790000,
+          "oldPrice": 12090000,
+          "image": "/IMG/samsung-galaxy-a55-lilac-purple.jpg"
+        }
+      ]
+    },
+    {
+      "id": "29",
+      "name": "Samsung Galaxy A35 5G",
+      "brand": "Samsung",
+      "categoryId": "2",
+      "image": "/IMG/samsung-galaxy-a35-5g-stone-blue.jpg",
+      "price": 7490000,
+      "oldPrice": 8290000,
+      "msrp": 8290000,
+      "rating": 4,
+      "reviews": 532,
+      "screen": "6.6 inch Super AMOLED, 120Hz",
+      "chip": "Exynos 1380",
+      "ram": "8GB",
+      "storage": "128GB",
+      "rom": "128GB",
+      "camera": "50MP + 8MP + 5MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh 25W",
+      "quantity": 45,
+      "description": "Chiếc smartphone quốc dân phân khúc tầm trung với mặt lưng kính sang trọng, thiết kế viền nổi Key Island độc đáo và camera chống rung OIS sắc nét.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "128GB",
+        "card": "Hỗ trợ thẻ nhớ mở rộng MicroSD lên tới 1TB"
+      },
+      "displayCamera": {
+        "display": "Super AMOLED FHD+, màn hình nốt ruồi Infinity-O",
+        "rearCamera": "50MP (Chính OIS) + 8MP (Góc rộng) + 5MP (Macro)",
+        "frontCamera": "13MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "25W",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP67",
+        "special": "Thiết kế Key Island, Bảo mật Knox Vault"
+      },
+      "connection": {
+        "sim": "2 Nano SIM (Khay lai dùng chung thẻ nhớ)",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhựa vuông, mặt lưng kính cường lực cao cấp",
+        "weight": "209g",
+        "color": "Xanh đá"
+      },
+      "variants": [
+        {
+          "id": "xanh-da-128gb",
+          "color": "Xanh đá",
+          "storage": "128GB",
+          "price": 7490000,
+          "oldPrice": 8290000,
+          "image": "/IMG/samsung-galaxy-a35-5g-stone-blue.jpg"
+        },
+        {
+          "id": "den-awesome-navy-128gb",
+          "color": "Đen Awesome Navy",
+          "storage": "128GB",
+          "price": 7190000,
+          "oldPrice": 7990000,
+          "image": "/IMG/samsung-galaxy-a35-5g-awesome-navy.jpg"
+        },
+        {
+          "id": "vang-lemon-128gb",
+          "color": "Vàng Lemon",
+          "storage": "128GB",
+          "price": 7290000,
+          "oldPrice": 8090000,
+          "image": "/IMG/samsung-galaxy-a35-5g-lemon-yellow.jpg"
+        },
+        {
+          "id": "xanh-da-256gb",
+          "color": "Xanh đá",
+          "storage": "256GB",
+          "price": 8590000,
+          "oldPrice": 9390000,
+          "image": "/IMG/samsung-galaxy-a35-5g-stone-blue.jpg"
+        },
+        {
+          "id": "den-awesome-navy-256gb",
+          "color": "Đen Awesome Navy",
+          "storage": "256GB",
+          "price": 8290000,
+          "oldPrice": 9090000,
+          "image": "/IMG/samsung-galaxy-a35-5g-awesome-navy.jpg"
+        },
+        {
+          "id": "vang-lemon-256gb",
+          "color": "Vàng Lemon",
+          "storage": "256GB",
+          "price": 8390000,
+          "oldPrice": 9190000,
+          "image": "/IMG/samsung-galaxy-a35-5g-lemon-yellow.jpg"
+        }
+      ]
+    },
+    {
+      "id": "23",
+      "name": "Xiaomi 14 Ultra",
+      "brand": "Xiaomi",
+      "categoryId": "3",
+      "image": "/IMG/xiaomi-14-ultra-black.jpg",
+      "price": 28990000,
+      "oldPrice": 32990000,
+      "msrp": 32990000,
+      "rating": 5,
+      "reviews": 164,
+      "screen": "6.73 inch AMOLED, 120Hz",
+      "chip": "Snapdragon 8 Gen 3",
+      "ram": "16GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 50MP + 50MP + 50MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh HyperCharge 90W",
+      "quantity": 8,
+      "description": "Quái thú nhiếp ảnh với cụm 4 camera ống kính Leica cao cấp, cảm biến chính 1 inch thay đổi khẩu độ cơ học vô cấp cực đại.",
+      "status": "active",
+      "memory": {
+        "ram": "16GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "AMOLED WQHD+, 120Hz, 3000 nits",
+        "rearCamera": "50MP (Chính) + 50MP (Góc rộng) + 50MP (Tele 3.2x) + 50MP (Periscope 5x)",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "90W dây, 80W không dây",
+        "wireless": "Có sạc không dây siêu nhanh"
+      },
+      "utilities": {
+        "security": "Vân tay siêu âm dưới màn hình",
+        "waterResistant": "IP68",
+        "special": "Ống kính Leica Summilux, Khung nhôm nguyên khối Xiaomi Shield Glass"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C (USB 3.2 Gen 2)"
+      },
+      "design": {
+        "material": "Khung hợp kim nhôm, mặt lưng da thuần chay",
+        "weight": "220g",
+        "color": "Đen"
+      },
+      "variants": [
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 28990000,
+          "oldPrice": 32990000,
+          "image": "/IMG/xiaomi-14-ultra-black.jpg"
+        },
+        {
+          "id": "trang-512gb",
+          "color": "Trắng",
+          "storage": "512GB",
+          "price": 28690000,
+          "oldPrice": 32690000,
+          "image": "/IMG/xiaomi-14-ultra-white.jpg"
+        },
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 25990000,
+          "oldPrice": 29990000,
+          "image": "/IMG/xiaomi-14-ultra-black.jpg"
+        },
+        {
+          "id": "trang-256gb",
+          "color": "Trắng",
+          "storage": "256GB",
+          "price": 25690000,
+          "oldPrice": 29690000,
+          "image": "/IMG/xiaomi-14-ultra-white.jpg"
+        },
+        {
+          "id": "den-1tb",
+          "color": "Đen",
+          "storage": "1TB",
+          "price": 33990000,
+          "oldPrice": 37990000,
+          "image": "/IMG/xiaomi-14-ultra-black.jpg"
+        },
+        {
+          "id": "trang-1tb",
+          "color": "Trắng",
+          "storage": "1TB",
+          "price": 33690000,
+          "oldPrice": 37690000,
+          "image": "/IMG/xiaomi-14-ultra-white.jpg"
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Xiaomi 14 Pro",
+      "brand": "Xiaomi",
+      "categoryId": "3",
+      "image": "/IMG/xiaomi-14-pro-xanh.jpg",
+      "price": 17490000,
+      "oldPrice": 19990000,
+      "msrp": 19990000,
+      "rating": 4,
+      "reviews": 823,
+      "screen": "6.73 inch LTPO AMOLED, 120Hz",
+      "chip": "Snapdragon 8 Gen 3",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 50MP + 50MP",
+      "battery": "4880 mAh",
+      "charge": "Sạc nhanh 120W, không dây 50W",
+      "quantity": 30,
+      "description": "Xiaomi 14 Pro có màn hình LTPO AMOLED 120Hz, chip Snapdragon 8 Gen 3, cụm camera Leica 50MP và sạc nhanh 120W.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "LTPO AMOLED 6.73 inch, 120Hz",
+        "rearCamera": "50MP + 50MP Tele + 50MP Ultra Wide",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "4880 mAh",
+        "charge": "120W dây, 50W không dây",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP68",
+        "special": "Camera Leica, sạc nhanh 120W"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung kim loại, mặt lưng kính",
+        "weight": "223g",
+        "color": "Xanh"
+      },
+      "variants": [
+        {
+          "id": "xanh-256gb",
+          "color": "Xanh",
+          "storage": "256GB",
+          "price": 17490000,
+          "oldPrice": 19990000,
+          "image": "/IMG/xiaomi-14-pro-xanh.jpg"
+        },
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 17190000,
+          "oldPrice": 19690000,
+          "image": "/IMG/xiaomi-14-pro-black.jpg"
+        },
+        {
+          "id": "trang-256gb",
+          "color": "Trắng",
+          "storage": "256GB",
+          "price": 17290000,
+          "oldPrice": 19790000,
+          "image": "/IMG/xiaomi-14-pro-white.jpg"
+        },
+        {
+          "id": "xanh-512gb",
+          "color": "Xanh",
+          "storage": "512GB",
+          "price": 20490000,
+          "oldPrice": 22990000,
+          "image": "/IMG/xiaomi-14-pro-xanh.jpg"
+        },
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 20190000,
+          "oldPrice": 22690000,
+          "image": "/IMG/xiaomi-14-pro-black.jpg"
+        },
+        {
+          "id": "trang-512gb",
+          "color": "Trắng",
+          "storage": "512GB",
+          "price": 20290000,
+          "oldPrice": 22790000,
+          "image": "/IMG/xiaomi-14-pro-white.jpg"
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Xiaomi Redmi Note 13 Pro 4G",
+      "brand": "Xiaomi",
+      "categoryId": "3",
+      "image": "/IMG/xiaomi-redmi-note-13-pro-4g-forest-green.jpg",
+      "price": 5990000,
+      "oldPrice": 7290000,
+      "msrp": 7290000,
+      "rating": 4,
+      "reviews": 120,
+      "screen": "6.67 inch AMOLED, 120Hz",
+      "chip": "MediaTek Helio G99-Ultra",
+      "ram": "8GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "200MP + 8MP + 2MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh 67W",
+      "quantity": 50,
+      "description": "Kẻ hủy diệt phân khúc tầm trung với camera siêu độ phân giải 200MP chống rung OIS và màn hình viền siêu mỏng.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "256GB",
+        "card": "Hỗ trợ thẻ nhớ MicroSD lên đến 1TB"
+      },
+      "displayCamera": {
+        "display": "AMOLED FHD+, 120Hz",
+        "rearCamera": "200MP + 8MP + 2MP",
+        "frontCamera": "16MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "67W",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP54",
+        "special": "Camera 200MP OIS, Loa kép Dolby Atmos"
+      },
+      "connection": {
+        "sim": "2 Nano SIM (Hỗ trợ khay lai thẻ nhớ)",
+        "network": "4G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung và lưng nhựa cao cấp",
+        "weight": "188g",
+        "color": "Xanh Forest"
+      },
+      "variants": [
+        {
+          "id": "xanh-forest-256gb",
+          "color": "Xanh Forest",
+          "storage": "256GB",
+          "price": 5990000,
+          "oldPrice": 7290000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-forest-green.jpg"
+        },
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 5690000,
+          "oldPrice": 6990000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-black.jpg"
+        },
+        {
+          "id": "tim-lavender-256gb",
+          "color": "Tím Lavender",
+          "storage": "256GB",
+          "price": 5790000,
+          "oldPrice": 7090000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-lavender-purple.jpg"
+        },
+        {
+          "id": "xanh-forest-128gb",
+          "color": "Xanh Forest",
+          "storage": "128GB",
+          "price": 5490000,
+          "oldPrice": 6790000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-forest-green.jpg"
+        },
+        {
+          "id": "den-128gb",
+          "color": "Đen",
+          "storage": "128GB",
+          "price": 5190000,
+          "oldPrice": 6490000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-black.jpg"
+        },
+        {
+          "id": "tim-lavender-128gb",
+          "color": "Tím Lavender",
+          "storage": "128GB",
+          "price": 5290000,
+          "oldPrice": 6590000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-lavender-purple.jpg"
+        },
+        {
+          "id": "xanh-forest-512gb",
+          "color": "Xanh Forest",
+          "storage": "512GB",
+          "price": 6990000,
+          "oldPrice": 8290000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-forest-green.jpg"
+        },
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 6690000,
+          "oldPrice": 7990000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-black.jpg"
+        },
+        {
+          "id": "tim-lavender-512gb",
+          "color": "Tím Lavender",
+          "storage": "512GB",
+          "price": 6790000,
+          "oldPrice": 8090000,
+          "image": "/IMG/xiaomi-redmi-note-13-pro-4g-lavender-purple.jpg"
+        }
+      ]
+    },
+    {
+      "id": "30",
+      "name": "Xiaomi Redmi 13C",
+      "brand": "Xiaomi",
+      "categoryId": "3",
+      "image": "/IMG/xiaomi-redmi-13c-night-black.jpg",
+      "price": 3090000,
+      "oldPrice": 3490000,
+      "msrp": 3490000,
+      "rating": 4,
+      "reviews": 243,
+      "screen": "6.74 inch IPS LCD, 90Hz",
+      "chip": "MediaTek Helio G85",
+      "ram": "4GB",
+      "storage": "128GB",
+      "rom": "128GB",
+      "camera": "50MP + 2MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh Power Delivery 18W",
+      "quantity": 80,
+      "description": "Vua phân khúc giá rẻ với cấu hình ổn định bền bỉ, màn hình kích thước lớn tần số quét 90Hz bảo vệ mắt tối đa.",
+      "status": "active",
+      "memory": {
+        "ram": "4GB",
+        "storage": "128GB",
+        "card": "Hỗ trợ khay thẻ nhớ MicroSD riêng biệt lên tới 1TB"
+      },
+      "displayCamera": {
+        "display": "IPS LCD HD+, 90Hz mượt mà",
+        "rearCamera": "50MP (Chính) + 2MP (Macro) + Thấu kính phụ AI",
+        "frontCamera": "8MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "Hỗ trợ sạc 18W (Củ sạc đi kèm máy 10W)",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay tích hợp nút nguồn cạnh bên",
+        "waterResistant": "Không có chuẩn kháng nước chính thức",
+        "special": "Màn hình đạt chứng nhận lọc ánh sáng xanh TÜV Rheinland, Có jack cắm tai nghe 3.5mm"
+      },
+      "connection": {
+        "sim": "2 Nano SIM + 1 Thẻ nhớ (3 khe cắm độc lập)",
+        "network": "4G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung và mặt lưng nhựa nhám nhã nhặn",
+        "weight": "192g",
+        "color": "Đen bóng đêm"
+      },
+      "variants": [
+        {
+          "id": "den-bong-dem-128gb",
+          "color": "Đen bóng đêm",
+          "storage": "128GB",
+          "price": 3090000,
+          "oldPrice": 3490000,
+          "image": "/IMG/xiaomi-redmi-13c-night-black.jpg"
+        },
+        {
+          "id": "xanh-navy-128gb",
+          "color": "Xanh Navy",
+          "storage": "128GB",
+          "price": 2790000,
+          "oldPrice": 3190000,
+          "image": "/IMG/xiaomi-redmi-13c-navy-blue.jpg"
+        },
+        {
+          "id": "xanh-clover-128gb",
+          "color": "Xanh Clover",
+          "storage": "128GB",
+          "price": 2890000,
+          "oldPrice": 3290000,
+          "image": "/IMG/xiaomi-redmi-13c-clover-green.jpg"
+        },
+        {
+          "id": "den-bong-dem-256gb",
+          "color": "Đen bóng đêm",
+          "storage": "256GB",
+          "price": 3690000,
+          "oldPrice": 4090000,
+          "image": "/IMG/xiaomi-redmi-13c-night-black.jpg"
+        },
+        {
+          "id": "xanh-navy-256gb",
+          "color": "Xanh Navy",
+          "storage": "256GB",
+          "price": 3390000,
+          "oldPrice": 3790000,
+          "image": "/IMG/xiaomi-redmi-13c-navy-blue.jpg"
+        },
+        {
+          "id": "xanh-clover-256gb",
+          "color": "Xanh Clover",
+          "storage": "256GB",
+          "price": 3490000,
+          "oldPrice": 3890000,
+          "image": "/IMG/xiaomi-redmi-13c-clover-green.jpg"
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "OPPO Find X7 Ultra",
+      "brand": "OPPO",
+      "categoryId": "4",
+      "image": "/IMG/oppo-find-x7-ultra-tailored-black.jpg",
+      "price": 20990000,
+      "oldPrice": 23990000,
+      "msrp": 23990000,
+      "rating": 4,
+      "reviews": 445,
+      "screen": "6.82 inch LTPO AMOLED, 120Hz",
+      "chip": "Snapdragon 8 Gen 3",
+      "ram": "16GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 50MP + 50MP + 50MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh SUPERVOOC 100W, không dây 50W",
+      "quantity": 16,
+      "description": "OPPO Find X7 Ultra nổi bật với cụm 4 camera 50MP Hasselblad, màn hình LTPO AMOLED lớn và sạc nhanh 100W.",
+      "status": "active",
+      "memory": {
+        "ram": "16GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "LTPO AMOLED 6.82 inch, 120Hz",
+        "rearCamera": "50MP + 50MP Ultra Wide + 50MP Tele + 50MP Periscope",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "100W SUPERVOOC, không dây 50W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP68",
+        "special": "Camera Hasselblad, 2 camera tiềm vọng"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung kim loại, mặt lưng kính",
+        "weight": "221g",
+        "color": "Đen Tailored"
+      },
+      "variants": [
+        {
+          "id": "den-tailored-512gb",
+          "color": "Đen Tailored",
+          "storage": "512GB",
+          "price": 20990000,
+          "oldPrice": 23990000,
+          "image": "/IMG/oppo-find-x7-ultra-tailored-black.jpg"
+        },
+        {
+          "id": "nau-sepia-512gb",
+          "color": "Nâu Sepia",
+          "storage": "512GB",
+          "price": 20690000,
+          "oldPrice": 23690000,
+          "image": "/IMG/oppo-find-x7-ultra-sepia-brown.jpg"
+        },
+        {
+          "id": "xanh-ocean-512gb",
+          "color": "Xanh Ocean",
+          "storage": "512GB",
+          "price": 20790000,
+          "oldPrice": 23790000,
+          "image": "/IMG/oppo-find-x7-ultra-ocean-blue.jpg"
+        },
+        {
+          "id": "den-tailored-256gb",
+          "color": "Đen Tailored",
+          "storage": "256GB",
+          "price": 18990000,
+          "oldPrice": 21990000,
+          "image": "/IMG/oppo-find-x7-ultra-tailored-black.jpg"
+        },
+        {
+          "id": "nau-sepia-256gb",
+          "color": "Nâu Sepia",
+          "storage": "256GB",
+          "price": 18690000,
+          "oldPrice": 21690000,
+          "image": "/IMG/oppo-find-x7-ultra-sepia-brown.jpg"
+        },
+        {
+          "id": "xanh-ocean-256gb",
+          "color": "Xanh Ocean",
+          "storage": "256GB",
+          "price": 18790000,
+          "oldPrice": 21790000,
+          "image": "/IMG/oppo-find-x7-ultra-ocean-blue.jpg"
+        },
+        {
+          "id": "den-tailored-1tb",
+          "color": "Đen Tailored",
+          "storage": "1TB",
+          "price": 24990000,
+          "oldPrice": 27990000,
+          "image": "/IMG/oppo-find-x7-ultra-tailored-black.jpg"
+        },
+        {
+          "id": "nau-sepia-1tb",
+          "color": "Nâu Sepia",
+          "storage": "1TB",
+          "price": 24690000,
+          "oldPrice": 27690000,
+          "image": "/IMG/oppo-find-x7-ultra-sepia-brown.jpg"
+        },
+        {
+          "id": "xanh-ocean-1tb",
+          "color": "Xanh Ocean",
+          "storage": "1TB",
+          "price": 24790000,
+          "oldPrice": 27790000,
+          "image": "/IMG/oppo-find-x7-ultra-ocean-blue.jpg"
+        }
+      ]
+    },
+    {
+      "id": "24",
+      "name": "OPPO Reno12 Pro 5G",
+      "brand": "OPPO",
+      "categoryId": "4",
+      "image": "/IMG/oppo-reno12-pro-cosmic-silver.jpg",
+      "price": 16990000,
+      "oldPrice": 18990000,
+      "msrp": 18990000,
+      "rating": 5,
+      "reviews": 94,
+      "screen": "6.7 inch AMOLED cong, 120Hz",
+      "chip": "MediaTek Dimensity 7300-Energy",
+      "ram": "12GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 50MP + 8MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh SUPERVOOC 80W",
+      "quantity": 18,
+      "description": "Smartphone đi đầu xu hướng AI nhiếp ảnh tầm trung, thiết kế dòng chảy bạc thời thượng cùng độ bền chuẩn chống chịu va đập tuyệt đối.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "AMOLED bo cong 4 cạnh, 120Hz",
+        "rearCamera": "50MP (Chính) + 50MP (Chân dung) + 8MP (Góc siêu rộng)",
+        "frontCamera": "50MP Auto Focus"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "80W SUPERVOOC",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP65",
+        "special": "OPPO AI (Xóa vật thể, Tách nền thông minh), Thiết kế đệm khí chống va đập"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung hợp kim siêu bền, mặt lưng kính cường lực tinh thể",
+        "weight": "180g",
+        "color": "Bạc vũ trụ"
+      },
+      "variants": [
+        {
+          "id": "bac-vu-tru-512gb",
+          "color": "Bạc vũ trụ",
+          "storage": "512GB",
+          "price": 16990000,
+          "oldPrice": 18990000,
+          "image": "/IMG/oppo-reno12-pro-cosmic-silver.jpg"
+        },
+        {
+          "id": "den-nebula-512gb",
+          "color": "Đen Nebula",
+          "storage": "512GB",
+          "price": 16690000,
+          "oldPrice": 18690000,
+          "image": "/IMG/oppo-reno12-pro-nebula-black.jpg"
+        },
+        {
+          "id": "hong-sunset-512gb",
+          "color": "Hồng Sunset",
+          "storage": "512GB",
+          "price": 16790000,
+          "oldPrice": 18790000,
+          "image": "/IMG/oppo-reno12-pro-sunset-pink.jpg"
+        },
+        {
+          "id": "bac-vu-tru-256gb",
+          "color": "Bạc vũ trụ",
+          "storage": "256GB",
+          "price": 14990000,
+          "oldPrice": 16990000,
+          "image": "/IMG/oppo-reno12-pro-cosmic-silver.jpg"
+        },
+        {
+          "id": "den-nebula-256gb",
+          "color": "Đen Nebula",
+          "storage": "256GB",
+          "price": 14690000,
+          "oldPrice": 16690000,
+          "image": "/IMG/oppo-reno12-pro-nebula-black.jpg"
+        },
+        {
+          "id": "hong-sunset-256gb",
+          "color": "Hồng Sunset",
+          "storage": "256GB",
+          "price": 14790000,
+          "oldPrice": 16790000,
+          "image": "/IMG/oppo-reno12-pro-sunset-pink.jpg"
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "name": "OPPO Reno11 F 5G",
+      "brand": "OPPO",
+      "categoryId": "4",
+      "image": "/IMG/oppo-reno11-f-blue.jpg",
+      "price": 8490000,
+      "oldPrice": 8990000,
+      "msrp": 8990000,
+      "rating": 5,
+      "reviews": 388,
+      "screen": "6.7 inch AMOLED, 120Hz",
+      "chip": "MediaTek Dimensity 7050",
+      "ram": "8GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "64MP + 8MP + 2MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh SUPERVOOC 67W",
+      "quantity": 40,
+      "description": "Chuyên gia chân dung OPPO Reno11 F mang thiết kế vân kim sa độc đáo, khả năng kháng nước bền bỉ và sạc siêu nhanh.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "256GB",
+        "card": "Hỗ trợ thẻ nhớ tối đa 2TB"
+      },
+      "displayCamera": {
+        "display": "AMOLED viền mỏng, 120Hz",
+        "rearCamera": "64MP + 8MP + 2MP",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "67W SUPERVOOC",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP65",
+        "special": "Thiết kế mỏng nhẹ, Chụp chân dung AI"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhựa vuông vắn, mặt lưng nhựa nhám",
+        "weight": "177g",
+        "color": "Xanh dương"
+      },
+      "variants": [
+        {
+          "id": "xanh-duong-256gb",
+          "color": "Xanh dương",
+          "storage": "256GB",
+          "price": 8490000,
+          "oldPrice": 8990000,
+          "image": "/IMG/oppo-reno11-f-blue.jpg"
+        },
+        {
+          "id": "xanh-den-256gb",
+          "color": "Xanh đen",
+          "storage": "256GB",
+          "price": 8190000,
+          "oldPrice": 8690000,
+          "image": "/IMG/oppo-reno11-f-dark-blue.jpg"
+        },
+        {
+          "id": "xanh-duong-128gb",
+          "color": "Xanh dương",
+          "storage": "128GB",
+          "price": 7490000,
+          "oldPrice": 7990000,
+          "image": "/IMG/oppo-reno11-f-blue.jpg"
+        },
+        {
+          "id": "xanh-den-128gb",
+          "color": "Xanh đen",
+          "storage": "128GB",
+          "price": 7290000,
+          "oldPrice": 7790000,
+          "image": "/IMG/oppo-reno11-f-dark-blue.jpg"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Vivo X100 Pro",
+      "brand": "Vivo",
+      "categoryId": "5",
+      "image": "/IMG/vivo-x100-pro-asteroid-black.jpg",
+      "price": 18490000,
+      "oldPrice": 20990000,
+      "msrp": 20990000,
+      "rating": 5,
+      "reviews": 567,
+      "screen": "6.78 inch AMOLED, 120Hz",
+      "chip": "MediaTek Dimensity 9300",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 50MP + 50MP",
+      "battery": "5400 mAh",
+      "charge": "Sạc nhanh 100W",
+      "quantity": 19,
+      "description": "Vivo X100 Pro tập trung vào camera, pin tốt, màn hình đẹp và hiệu năng ổn định.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "AMOLED, 120Hz",
+        "rearCamera": "50MP + 50MP + 50MP",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5400 mAh",
+        "charge": "100W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP68",
+        "special": "Camera ZEISS, chụp đêm tốt"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung kim loại, mặt lưng kính",
+        "weight": "225g",
+        "color": "Đen Asteroid"
+      },
+      "variants": [
+        {
+          "id": "den-asteroid-256gb",
+          "color": "Đen Asteroid",
+          "storage": "256GB",
+          "price": 18490000,
+          "oldPrice": 20990000,
+          "image": "/IMG/vivo-x100-pro-asteroid-black.jpg"
+        },
+        {
+          "id": "xanh-sunset-256gb",
+          "color": "Xanh Sunset",
+          "storage": "256GB",
+          "price": 18190000,
+          "oldPrice": 20690000,
+          "image": "/IMG/vivo-x100-pro-sunset-blue.jpg"
+        },
+        {
+          "id": "cam-sunset-256gb",
+          "color": "Cam Sunset",
+          "storage": "256GB",
+          "price": 18290000,
+          "oldPrice": 20790000,
+          "image": "/IMG/vivo-x100-pro-sunset-orange.jpg"
+        },
+        {
+          "id": "den-asteroid-512gb",
+          "color": "Đen Asteroid",
+          "storage": "512GB",
+          "price": 21490000,
+          "oldPrice": 23990000,
+          "image": "/IMG/vivo-x100-pro-asteroid-black.jpg"
+        },
+        {
+          "id": "xanh-sunset-512gb",
+          "color": "Xanh Sunset",
+          "storage": "512GB",
+          "price": 21190000,
+          "oldPrice": 23690000,
+          "image": "/IMG/vivo-x100-pro-sunset-blue.jpg"
+        },
+        {
+          "id": "cam-sunset-512gb",
+          "color": "Cam Sunset",
+          "storage": "512GB",
+          "price": 21290000,
+          "oldPrice": 23790000,
+          "image": "/IMG/vivo-x100-pro-sunset-orange.jpg"
+        }
+      ]
+    },
+    {
+      "id": "25",
+      "name": "Vivo V40 Pro 5G",
+      "brand": "Vivo",
+      "categoryId": "5",
+      "image": "/IMG/vivo-v40-pro-5g-titanium-grey.jpg",
+      "price": 15490000,
+      "oldPrice": 16990000,
+      "msrp": 16990000,
+      "rating": 4,
+      "reviews": 56,
+      "screen": "6.78 inch AMOLED, 120Hz",
+      "chip": "MediaTek Dimensity 9200+",
+      "ram": "12GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 50MP + 50MP",
+      "battery": "5500 mAh",
+      "charge": "Sạc nhanh FlashCharge 80W",
+      "quantity": 12,
+      "description": "Sự kết hợp hoàn hảo khi hệ thống camera được tinh chỉnh bởi ZEISS danh tiếng đưa vào dòng V-series, đi kèm viên pin BlueVolt 5500 mAh siêu mỏng.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "AMOLED 1.5K, 120Hz, 4500 nits đỉnh",
+        "rearCamera": "50MP (Chính ZEISS OIS) + 50MP (Góc rộng) + 50MP (Tele Chân dung)",
+        "frontCamera": "50MP góc rộng"
+      },
+      "batteryCharge": {
+        "battery": "5500 mAh",
+        "charge": "80W dây",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP68/IP69",
+        "special": "Ống kính đồng chế tạo với ZEISS, Đèn Aura Light AI thế hệ mới"
+      },
+      "connection": {
+        "sim": "2 Nano SIM hoặc eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhựa cao cấp giả kim, mặt lưng kính nhám",
+        "weight": "192g",
+        "color": "Xám Titanium"
+      },
+      "variants": [
+        {
+          "id": "xam-titanium-512gb",
+          "color": "Xám Titanium",
+          "storage": "512GB",
+          "price": 15490000,
+          "oldPrice": 16990000,
+          "image": "/IMG/vivo-v40-pro-5g-titanium-grey.jpg"
+        },
+        {
+          "id": "xanh-ganges-512gb",
+          "color": "Xanh Ganges",
+          "storage": "512GB",
+          "price": 15190000,
+          "oldPrice": 16690000,
+          "image": "/IMG/vivo-v40-pro-5g-ganges-blue.jpg"
+        },
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 15290000,
+          "oldPrice": 16790000,
+          "image": "/IMG/vivo-v40-pro-black.jpg"
+        },
+        {
+          "id": "xam-titanium-256gb",
+          "color": "Xám Titanium",
+          "storage": "256GB",
+          "price": 13990000,
+          "oldPrice": 15490000,
+          "image": "/IMG/vivo-v40-pro-5g-titanium-grey.jpg"
+        },
+        {
+          "id": "xanh-ganges-256gb",
+          "color": "Xanh Ganges",
+          "storage": "256GB",
+          "price": 13690000,
+          "oldPrice": 15190000,
+          "image": "/IMG/vivo-v40-pro-5g-ganges-blue.jpg"
+        },
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 13790000,
+          "oldPrice": 15290000,
+          "image": "/IMG/vivo-v40-pro-black.jpg"
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "name": "Vivo V30 5G",
+      "brand": "Vivo",
+      "categoryId": "5",
+      "image": "/IMG/vivo-v30-wave-blue.jpg",
+      "price": 12490000,
+      "oldPrice": 13990000,
+      "msrp": 13990000,
+      "rating": 5,
+      "reviews": 215,
+      "screen": "6.78 inch AMOLED cong, 120Hz",
+      "chip": "Snapdragon 7 Gen 3",
+      "ram": "12GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 50MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh FlashCharge 80W",
+      "quantity": 14,
+      "description": "Vivo V30 5G nổi bật với hệ thống đèn Aura Light 3.0 thông minh, bộ nhớ cực khủng 512GB và camera selfie nhóm 50MP.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "AMOLED 1.5K Cong, 120Hz",
+        "rearCamera": "50MP (Chính) + 50MP (Góc rộng)",
+        "frontCamera": "50MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "80W",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP54",
+        "special": "Vòng sáng Aura dịu nhẹ, Màn hình cong"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhựa, mặt lưng kính",
+        "weight": "186g",
+        "color": "Xanh Sương Mai"
+      },
+      "variants": [
+        {
+          "id": "xanh-suong-mai-512gb",
+          "color": "Xanh Sương Mai",
+          "storage": "512GB",
+          "price": 12490000,
+          "oldPrice": 13990000,
+          "image": "/IMG/vivo-v30-wave-blue.jpg"
+        },
+        {
+          "id": "den-to-lua-512gb",
+          "color": "Đen Tơ Lụa",
+          "storage": "512GB",
+          "price": 12490000,
+          "oldPrice": 13990000,
+          "image": "/IMG/vivo-v30-noble-black.jpg"
+        }
+      ]
+    },
+    {
+      "id": "26",
+      "name": "Realme GT 6 5G",
+      "brand": "Realme",
+      "categoryId": "6",
+      "image": "/IMG/realme-gt6-5g-black.jpg",
+      "price": 14990000,
+      "oldPrice": 16490000,
+      "msrp": 16490000,
+      "rating": 5,
+      "reviews": 84,
+      "screen": "6.78 inch AMOLED, 120Hz",
+      "chip": "Snapdragon 8s Gen 3",
+      "ram": "16GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 50MP + 8MP",
+      "battery": "5500 mAh",
+      "charge": "Sạc nhanh SUPERVOOC 120W",
+      "quantity": 22,
+      "description": "Sát thủ flagship quay trở lại với độ sáng màn hình kỷ lục 6000 nits, chip AI xử lý mượt mà tác vụ nặng và khả năng sạc đầy pin chỉ trong 28 phút.",
+      "status": "active",
+      "memory": {
+        "ram": "16GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "8T LTPO AMOLED, 120Hz, 6000 nits",
+        "rearCamera": "50MP (Sony LYT-808 OIS) + 50MP (Tele) + 8MP (Góc rộng)",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5500 mAh",
+        "charge": "120W SUPERVOOC",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP65",
+        "special": "Màn hình sáng nhất thế giới 6000 nits, NextAI tối ưu hiệu năng chơi game"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung kim loại, mặt lưng kính hoàn thiện gương dual-tone",
+        "weight": "199g",
+        "color": "Đen"
+      },
+      "variants": [
+        {
+          "id": "den-12gb-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "ram": "12GB",
+          "price": 7750000,
+          "image": "/IMG/realme-gt6-5g-black.jpg",
+          "oldPrice": 9250000
+        },
+        {
+          "id": "trang-12gb-256gb",
+          "color": "Trắng",
+          "storage": "256GB",
+          "ram": "12GB",
+          "price": 7750000,
+          "image": "/IMG/realme-gt6-5g-white.jpg",
+          "oldPrice": 9250000
+        },
+        {
+          "id": "tim-12gb-256gb",
+          "color": "Tím",
+          "storage": "256GB",
+          "ram": "12GB",
+          "price": 7750000,
+          "image": "/IMG/realme-gt6-5g-purple.jpg",
+          "oldPrice": 9250000
+        },
+        {
+          "id": "den-16gb-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "ram": "16GB",
+          "price": 8350000,
+          "image": "/IMG/realme-gt6-5g-black.jpg",
+          "oldPrice": 9850000
+        },
+        {
+          "id": "trang-16gb-256gb",
+          "color": "Trắng",
+          "storage": "256GB",
+          "ram": "16GB",
+          "price": 8350000,
+          "image": "/IMG/realme-gt6-5g-white.jpg",
+          "oldPrice": 9850000
+        },
+        {
+          "id": "tim-16gb-256gb",
+          "color": "Tím",
+          "storage": "256GB",
+          "ram": "16GB",
+          "price": 8350000,
+          "image": "/IMG/realme-gt6-5g-purple.jpg",
+          "oldPrice": 9850000
+        },
+        {
+          "id": "den-16gb-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "ram": "16GB",
+          "price": 8750000,
+          "image": "/IMG/realme-gt6-5g-black.jpg",
+          "oldPrice": 10250000
+        },
+        {
+          "id": "trang-16gb-512gb",
+          "color": "Trắng",
+          "storage": "512GB",
+          "ram": "16GB",
+          "price": 8750000,
+          "image": "/IMG/realme-gt6-5g-white.jpg",
+          "oldPrice": 10250000
+        },
+        {
+          "id": "tim-16gb-512gb",
+          "color": "Tím",
+          "storage": "512GB",
+          "ram": "16GB",
+          "price": 8750000,
+          "image": "/IMG/realme-gt6-5g-purple.jpg",
+          "oldPrice": 10250000
+        },
+        {
+          "id": "den-16gb-1tb",
+          "color": "Đen",
+          "storage": "1TB",
+          "ram": "16GB",
+          "price": 13700000,
+          "image": "/IMG/realme-gt6-5g-black.jpg",
+          "oldPrice": 15200000
+        },
+        {
+          "id": "trang-16gb-1tb",
+          "color": "Trắng",
+          "storage": "1TB",
+          "ram": "16GB",
+          "price": 13700000,
+          "image": "/IMG/realme-gt6-5g-white.jpg",
+          "oldPrice": 15200000
+        },
+        {
+          "id": "tim-16gb-1tb",
+          "color": "Tím",
+          "storage": "1TB",
+          "ram": "16GB",
+          "price": 13700000,
+          "image": "/IMG/realme-gt6-5g-purple.jpg",
+          "oldPrice": 15200000
+        }
+      ]
+    },
+    {
+      "name": "Realme GT 5 Pro",
+      "brand": "Realme",
+      "categoryId": "6",
+      "image": "/IMG/realme-gt-5-pro-bright-moon-silver.jpg",
+      "price": 11990000,
+      "oldPrice": 13990000,
+      "rating": 4,
+      "reviews": 678,
+      "screen": "6.78 inch AMOLED, 144Hz",
+      "chip": "Snapdragon 8 Gen 3",
+      "ram": "12GB",
+      "storage": "256GB",
+      "camera": "50MP + 50MP + 8MP",
+      "battery": "5400 mAh",
+      "charge": "Sạc nhanh 100W",
+      "quantity": 35,
+      "description": "Realme GT 5 Pro có hiệu năng mạnh, giá tốt, pin lớn và sạc nhanh phù hợp người dùng thích cấu hình cao.",
+      "status": "active",
+      "msrp": 13990000,
+      "rom": "256GB",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "AMOLED 6.78 inch, 144Hz",
+        "rearCamera": "50MP + 50MP + 8MP",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5400 mAh",
+        "charge": "100W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP64",
+        "special": "Snapdragon 8 Gen 3, hiệu năng cao"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung kim loại, mặt lưng kính/da tuỳ màu",
+        "weight": "218g",
+        "color": "Bạc Bright Moon"
+      },
+      "id": "9",
+      "variants": [
+        {
+          "id": "bac-bright-moon-256gb",
+          "color": "Bạc Bright Moon",
+          "storage": "256GB",
+          "price": 11990000,
+          "oldPrice": 13990000,
+          "image": "/IMG/realme-gt-5-pro-bright-moon-silver.jpg"
+        },
+        {
+          "id": "den-starry-night-256gb",
+          "color": "Đen Starry Night",
+          "storage": "256GB",
+          "price": 11690000,
+          "oldPrice": 13690000,
+          "image": "/IMG/realme-gt-5-pro-starry-night-black.jpg"
+        },
+        {
+          "id": "cam-red-rock-256gb",
+          "color": "Cam Red Rock",
+          "storage": "256GB",
+          "price": 11790000,
+          "oldPrice": 13790000,
+          "image": "/IMG/realme-gt-5-pro-red-rock-orange.jpg"
+        },
+        {
+          "id": "bac-bright-moon-512gb",
+          "color": "Bạc Bright Moon",
+          "storage": "512GB",
+          "price": 13990000,
+          "oldPrice": 15990000,
+          "image": "/IMG/realme-gt-5-pro-bright-moon-silver.jpg"
+        },
+        {
+          "id": "den-starry-night-512gb",
+          "color": "Đen Starry Night",
+          "storage": "512GB",
+          "price": 13690000,
+          "oldPrice": 15690000,
+          "image": "/IMG/realme-gt-5-pro-starry-night-black.jpg"
+        },
+        {
+          "id": "cam-red-rock-512gb",
+          "color": "Cam Red Rock",
+          "storage": "512GB",
+          "price": 13790000,
+          "oldPrice": 15790000,
+          "image": "/IMG/realme-gt-5-pro-red-rock-orange.jpg"
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "name": "Realme C65",
+      "brand": "Realme",
+      "categoryId": "6",
+      "image": "/IMG/realme-c65-nebula-purple.jpg",
+      "price": 4290000,
+      "oldPrice": 4790000,
+      "msrp": 4790000,
+      "rating": 4,
+      "reviews": 612,
+      "screen": "6.67 inch IPS LCD, 90Hz",
+      "chip": "MediaTek Helio G85",
+      "ram": "8GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 2MP",
+      "battery": "5000 mAh",
+      "charge": "Sạc nhanh 45W SUPERVOOC",
+      "quantity": 60,
+      "description": "Mẫu smartphone phổ thông mượt mà vượt trội nhờ chứng nhận vận hành ổn định 48 tháng từ TÜV SÜD.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "256GB",
+        "card": "Hỗ trợ thẻ nhớ MicroSD tối đa 2TB"
+      },
+      "displayCamera": {
+        "display": "IPS LCD HD+, 90Hz",
+        "rearCamera": "50MP + 2MP",
+        "frontCamera": "8MP"
+      },
+      "batteryCharge": {
+        "battery": "5000 mAh",
+        "charge": "45W",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay cạnh viền",
+        "waterResistant": "IP54",
+        "special": "Cử chỉ không chạm AI, Nút động lực"
+      },
+      "connection": {
+        "sim": "2 Nano SIM + Thẻ nhớ riêng biệt",
+        "network": "4G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung và lưng nhựa bóng giả kính",
+        "weight": "185g",
+        "color": "Tím Nebula"
+      },
+      "variants": [
+        {
+          "id": "tim-nebula-256gb",
+          "color": "Tím Nebula",
+          "storage": "256GB",
+          "price": 4290000,
+          "oldPrice": 4790000,
+          "image": "/IMG/realme-c65-nebula-purple.jpg"
+        },
+        {
+          "id": "den-starlight-256gb",
+          "color": "Đen Starlight",
+          "storage": "256GB",
+          "price": 3990000,
+          "oldPrice": 4490000,
+          "image": "/IMG/realme-c65-starlight-black.jpg"
+        },
+        {
+          "id": "vang-sunny-256gb",
+          "color": "Vàng Sunny",
+          "storage": "256GB",
+          "price": 4090000,
+          "oldPrice": 4590000,
+          "image": "/IMG/realme-c65-vang-sunny.jpg"
+        },
+        {
+          "id": "tim-nebula-128gb",
+          "color": "Tím Nebula",
+          "storage": "128GB",
+          "price": 3690000,
+          "oldPrice": 4190000,
+          "image": "/IMG/realme-c65-nebula-purple.jpg"
+        },
+        {
+          "id": "den-starlight-128gb",
+          "color": "Đen Starlight",
+          "storage": "128GB",
+          "price": 3390000,
+          "oldPrice": 3890000,
+          "image": "/IMG/realme-c65-starlight-black.jpg"
+        },
+        {
+          "id": "vang-sunny-128gb",
+          "color": "Vàng Sunny",
+          "storage": "128GB",
+          "price": 3490000,
+          "oldPrice": 3990000,
+          "image": "/IMG/realme-c65-vang-sunny.jpg"
+        }
+      ]
+    },
+    {
+      "id": "27",
+      "name": "Google Pixel 9 Pro XL",
+      "brand": "Google",
+      "categoryId": "7",
+      "image": "/IMG/google-pixel-9-pro-xl-hazel.jpg",
+      "price": 27490000,
+      "oldPrice": 29990000,
+      "msrp": 29990000,
+      "rating": 5,
+      "reviews": 34,
+      "screen": "6.8 inch OLED, 120Hz",
+      "chip": "Google Tensor G4",
+      "ram": "16GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 48MP + 48MP",
+      "battery": "5060 mAh",
+      "charge": "Sạc nhanh 37W",
+      "quantity": 6,
+      "description": "Flagship đỉnh nhất năm của nhà Google với ngôn ngữ thiết kế camera dạng thanh kẹo bo tròn hoàn toàn mới, tích hợp sâu mô hình AI Gemini Nano nâng cao cực thông minh.",
+      "status": "active",
+      "memory": {
+        "ram": "16GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "Super Actua display OLED, 120Hz",
+        "rearCamera": "50MP (Chính) + 48MP (Góc rộng) + 48MP (Tele 5x)",
+        "frontCamera": "42MP Auto Focus"
+      },
+      "batteryCharge": {
+        "battery": "5060 mAh",
+        "charge": "Sạc nhanh 37W",
+        "wireless": "Có sạc không dây nhanh 23W"
+      },
+      "utilities": {
+        "security": "Vân tay siêu âm dưới màn hình, Mở khóa khuôn mặt",
+        "waterResistant": "IP68",
+        "special": "Gemini Live, Magic Editor nâng cấp, Video Boost 8K"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G, Hỗ trợ Kết nối vệ tinh Satellite SOS",
+        "port": "USB-C (USB 3.2)"
+      },
+      "design": {
+        "material": "Khung nhôm satin mờ cao cấp, mặt lưng kính nhám Gorilla Glass Victus 2",
+        "weight": "221g",
+        "color": "Xám Hazel"
+      },
+      "variants": [
+        {
+          "id": "xam-hazel-256gb",
+          "color": "Xám Hazel",
+          "storage": "256GB",
+          "price": 27490000,
+          "oldPrice": 29990000,
+          "image": "/IMG/google-pixel-9-pro-xl-hazel.jpg"
+        },
+        {
+          "id": "den-obsidian-256gb",
+          "color": "Đen Obsidian",
+          "storage": "256GB",
+          "price": 27190000,
+          "oldPrice": 29690000,
+          "image": "/IMG/google-pixel-9-pro-xl-obsidian.jpg"
+        },
+        {
+          "id": "trang-porcelain-256gb",
+          "color": "Trắng Porcelain",
+          "storage": "256GB",
+          "price": 27290000,
+          "oldPrice": 29790000,
+          "image": "/IMG/google-pixel-9-pro-xl-porcelain.jpg"
+        },
+        {
+          "id": "hong-rose-quartz-256gb",
+          "color": "Hồng Rose Quartz",
+          "storage": "256GB",
+          "price": 27590000,
+          "oldPrice": 30090000,
+          "image": "/IMG/google-pixel-9-pro-xl-rose-quartz.jpg"
+        },
+        {
+          "id": "xam-hazel-512gb",
+          "color": "Xám Hazel",
+          "storage": "512GB",
+          "price": 31990000,
+          "oldPrice": 34490000,
+          "image": "/IMG/google-pixel-9-pro-xl-hazel.jpg"
+        },
+        {
+          "id": "den-obsidian-512gb",
+          "color": "Đen Obsidian",
+          "storage": "512GB",
+          "price": 31690000,
+          "oldPrice": 34190000,
+          "image": "/IMG/google-pixel-9-pro-xl-obsidian.jpg"
+        },
+        {
+          "id": "trang-porcelain-512gb",
+          "color": "Trắng Porcelain",
+          "storage": "512GB",
+          "price": 31790000,
+          "oldPrice": 34290000,
+          "image": "/IMG/google-pixel-9-pro-xl-porcelain.jpg"
+        },
+        {
+          "id": "hong-rose-quartz-512gb",
+          "color": "Hồng Rose Quartz",
+          "storage": "512GB",
+          "price": 32090000,
+          "oldPrice": 34590000,
+          "image": "/IMG/google-pixel-9-pro-xl-rose-quartz.jpg"
+        },
+        {
+          "id": "xam-hazel-1tb",
+          "color": "Xám Hazel",
+          "storage": "1TB",
+          "price": 36990000,
+          "oldPrice": 39490000,
+          "image": "/IMG/google-pixel-9-pro-xl-hazel.jpg"
+        },
+        {
+          "id": "den-obsidian-1tb",
+          "color": "Đen Obsidian",
+          "storage": "1TB",
+          "price": 36690000,
+          "oldPrice": 39190000,
+          "image": "/IMG/google-pixel-9-pro-xl-obsidian.jpg"
+        },
+        {
+          "id": "trang-porcelain-1tb",
+          "color": "Trắng Porcelain",
+          "storage": "1TB",
+          "price": 36790000,
+          "oldPrice": 39290000,
+          "image": "/IMG/google-pixel-9-pro-xl-porcelain.jpg"
+        },
+        {
+          "id": "hong-rose-quartz-1tb",
+          "color": "Hồng Rose Quartz",
+          "storage": "1TB",
+          "price": 37090000,
+          "oldPrice": 39590000,
+          "image": "/IMG/google-pixel-9-pro-xl-rose-quartz.jpg"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Google Pixel 8 Pro",
+      "brand": "Google",
+      "categoryId": "7",
+      "image": "/IMG/google-pixel-8-pro-black.jpg",
+      "price": 20990000,
+      "oldPrice": 23990000,
+      "msrp": 23990000,
+      "rating": 3,
+      "reviews": 2,
+      "screen": "6.7 inch OLED, 120Hz",
+      "chip": "Google Tensor G3",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 48MP + 48MP",
+      "battery": "5050 mAh",
+      "charge": "Sạc nhanh 30W",
+      "quantity": 14,
+      "description": "Google Pixel 8 Pro nổi bật với camera xử lý AI, phần mềm mượt và trải nghiệm Android nguyên bản.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "LTPO OLED, 120Hz",
+        "rearCamera": "50MP + 48MP + 48MP",
+        "frontCamera": "10.5MP"
+      },
+      "batteryCharge": {
+        "battery": "5050 mAh",
+        "charge": "30W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình, mở khóa khuôn mặt",
+        "waterResistant": "IP68",
+        "special": "AI Camera, Magic Editor"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhôm, mặt lưng kính",
+        "weight": "213g",
+        "color": "Đen"
+      },
+      "variants": [
+        {
+          "id": "den-256gb",
+          "color": "Đen",
+          "storage": "256GB",
+          "price": 20990000,
+          "oldPrice": 23990000,
+          "image": "/IMG/google-pixel-8-pro-black.jpg"
+        },
+        {
+          "id": "xanh-bay-256gb",
+          "color": "Xanh Bay",
+          "storage": "256GB",
+          "price": 20690000,
+          "oldPrice": 23690000,
+          "image": "/IMG/google-pixel-8-pro-bay-blue.jpg"
+        },
+        {
+          "id": "trang-porcelain-256gb",
+          "color": "Trắng Porcelain",
+          "storage": "256GB",
+          "price": 20790000,
+          "oldPrice": 23790000,
+          "image": "/IMG/google-pixel-8-pro-porcelain-white.jpg"
+        },
+        {
+          "id": "den-128gb",
+          "color": "Đen",
+          "storage": "128GB",
+          "price": 18990000,
+          "oldPrice": 21990000,
+          "image": "/IMG/google-pixel-8-pro-black.jpg"
+        },
+        {
+          "id": "xanh-bay-128gb",
+          "color": "Xanh Bay",
+          "storage": "128GB",
+          "price": 18690000,
+          "oldPrice": 21690000,
+          "image": "/IMG/google-pixel-8-pro-bay-blue.jpg"
+        },
+        {
+          "id": "trang-porcelain-128gb",
+          "color": "Trắng Porcelain",
+          "storage": "128GB",
+          "price": 18790000,
+          "oldPrice": 21790000,
+          "image": "/IMG/google-pixel-8-pro-porcelain-white.jpg"
+        },
+        {
+          "id": "den-512gb",
+          "color": "Đen",
+          "storage": "512GB",
+          "price": 24490000,
+          "oldPrice": 27490000,
+          "image": "/IMG/google-pixel-8-pro-black.jpg"
+        },
+        {
+          "id": "xanh-bay-512gb",
+          "color": "Xanh Bay",
+          "storage": "512GB",
+          "price": 24190000,
+          "oldPrice": 27190000,
+          "image": "/IMG/google-pixel-8-pro-bay-blue.jpg"
+        },
+        {
+          "id": "trang-porcelain-512gb",
+          "color": "Trắng Porcelain",
+          "storage": "512GB",
+          "price": 24290000,
+          "oldPrice": 27290000,
+          "image": "/IMG/google-pixel-8-pro-porcelain-white.jpg"
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "name": "Google Pixel 8a",
+      "brand": "Google",
+      "categoryId": "7",
+      "image": "/IMG/google-pixel-8a-bay-blue.jpg",
+      "price": 12990000,
+      "oldPrice": 14990000,
+      "msrp": 14990000,
+      "rating": 5,
+      "reviews": 143,
+      "screen": "6.1 inch OLED, 120Hz",
+      "chip": "Google Tensor G3",
+      "ram": "8GB",
+      "storage": "128GB",
+      "rom": "128GB",
+      "camera": "64MP + 13MP",
+      "battery": "4492 mAh",
+      "charge": "Sạc nhanh 18W",
+      "quantity": 8,
+      "description": "Phiên bản rút gọn hoàn hảo của dòng Pixel 8 cao cấp, sở hữu trọn vẹn chip xử lý AI Tensor G3 mạnh mẽ và cam kết cập nhật phần mềm 7 năm.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "128GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "OLED Actua Display, 120Hz",
+        "rearCamera": "64MP + 13MP",
+        "frontCamera": "13MP"
+      },
+      "batteryCharge": {
+        "battery": "4492 mAh",
+        "charge": "18W",
+        "wireless": "Có sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình, Khuôn mặt",
+        "waterResistant": "IP67",
+        "special": "Circle to Search, Trợ lý ảo Gemini tích hợp sâu"
+      },
+      "connection": {
+        "sim": "Nano SIM + eSIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung nhôm tái chế, mặt lưng nhựa composite nhám",
+        "weight": "188g",
+        "color": "Xanh Bay"
+      },
+      "variants": [
+        {
+          "id": "xanh-bay-128gb",
+          "color": "Xanh Bay",
+          "storage": "128GB",
+          "price": 12990000,
+          "oldPrice": 14990000,
+          "image": "/IMG/google-pixel-8a-bay-blue.jpg"
+        },
+        {
+          "id": "den-obsidian-128gb",
+          "color": "Đen Obsidian",
+          "storage": "128GB",
+          "price": 12690000,
+          "oldPrice": 14690000,
+          "image": "/IMG/google-pixel-8a-obsidian-black.jpg"
+        },
+        {
+          "id": "trang-porcelain-128gb",
+          "color": "Trắng Porcelain",
+          "storage": "128GB",
+          "price": 12790000,
+          "oldPrice": 14790000,
+          "image": "/IMG/google-pixel-8a-porcelain-white.jpg"
+        },
+        {
+          "id": "xanh-aloe-128gb",
+          "color": "Xanh Aloe",
+          "storage": "128GB",
+          "price": 13090000,
+          "oldPrice": 15090000,
+          "image": "/IMG/google-pixel-8a-aloe-green.jpg"
+        },
+        {
+          "id": "xanh-bay-256gb",
+          "color": "Xanh Bay",
+          "storage": "256GB",
+          "price": 14990000,
+          "oldPrice": 16990000,
+          "image": "/IMG/google-pixel-8a-bay-blue.jpg"
+        },
+        {
+          "id": "den-obsidian-256gb",
+          "color": "Đen Obsidian",
+          "storage": "256GB",
+          "price": 14690000,
+          "oldPrice": 16690000,
+          "image": "/IMG/google-pixel-8a-obsidian-black.jpg"
+        },
+        {
+          "id": "trang-porcelain-256gb",
+          "color": "Trắng Porcelain",
+          "storage": "256GB",
+          "price": 14790000,
+          "oldPrice": 16790000,
+          "image": "/IMG/google-pixel-8a-porcelain-white.jpg"
+        },
+        {
+          "id": "xanh-aloe-256gb",
+          "color": "Xanh Aloe",
+          "storage": "256GB",
+          "price": 15090000,
+          "oldPrice": 17090000,
+          "image": "/IMG/google-pixel-8a-aloe-green.jpg"
+        }
+      ]
+    },
+    {
+      "id": "28",
+      "name": "OnePlus 12 5G",
+      "brand": "OnePlus",
+      "categoryId": "8",
+      "image": "/IMG/oneplus-12-silky-black.jpg",
+      "price": 22990000,
+      "oldPrice": 25490000,
+      "msrp": 25490000,
+      "rating": 5,
+      "reviews": 112,
+      "screen": "6.82 inch AMOLED, 120Hz",
+      "chip": "Snapdragon 8 Gen 3",
+      "ram": "16GB",
+      "storage": "512GB",
+      "rom": "512GB",
+      "camera": "50MP + 64MP + 48MP",
+      "battery": "5400 mAh",
+      "charge": "Sạc nhanh SUPERVOOC 100W",
+      "quantity": 15,
+      "description": "Flagship hoàn thiện đỉnh cao kỷ niệm 10 năm của OnePlus, trang bị tản nhiệt buồng hơi VC siêu rộng và camera tinh chỉnh bởi Hasselblad đời thứ 4.",
+      "status": "active",
+      "memory": {
+        "ram": "16GB",
+        "storage": "512GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "2K Oriental AMOLED BOE, 120Hz, ProXDR",
+        "rearCamera": "50MP (Sony LYT-808) + 64MP (Kính tiềm vọng 3x) + 48MP (Góc siêu rộng)",
+        "frontCamera": "32MP"
+      },
+      "batteryCharge": {
+        "battery": "5400 mAh",
+        "charge": "100W dây, 50W sạc không dây AIRVOOC",
+        "wireless": "Có hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình, Nút gạt Alert Slider đặc trưng",
+        "waterResistant": "IP65",
+        "special": "Hệ thống màu sắc Hasselblad, Cảm ứng mượt cả khi màn hình dính nước (Aqua Touch)"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C (USB 3.2 Gen 1)"
+      },
+      "design": {
+        "material": "Khung nhôm cao cấp, mặt lưng kính nhám vân đá đen",
+        "weight": "220g",
+        "color": "Đen Silky"
+      },
+      "variants": [
+        {
+          "id": "den-silky-512gb",
+          "color": "Đen Silky",
+          "storage": "512GB",
+          "price": 22990000,
+          "oldPrice": 25490000,
+          "image": "/IMG/oneplus-12-silky-black.jpg"
+        },
+        {
+          "id": "xanh-flowy-emerald-512gb",
+          "color": "Xanh Flowy Emerald",
+          "storage": "512GB",
+          "price": 22690000,
+          "oldPrice": 25190000,
+          "image": "/IMG/oneplus-12-flowy-emerald-green.jpg"
+        },
+        {
+          "id": "trang-glacial-512gb",
+          "color": "Trắng Glacial",
+          "storage": "512GB",
+          "price": 22790000,
+          "oldPrice": 25290000,
+          "image": "/IMG/oneplus-12-glacial-white.jpg"
+        },
+        {
+          "id": "den-silky-256gb",
+          "color": "Đen Silky",
+          "storage": "256GB",
+          "price": 20990000,
+          "oldPrice": 23490000,
+          "image": "/IMG/oneplus-12-silky-black.jpg"
+        },
+        {
+          "id": "xanh-flowy-emerald-256gb",
+          "color": "Xanh Flowy Emerald",
+          "storage": "256GB",
+          "price": 20690000,
+          "oldPrice": 23190000,
+          "image": "/IMG/oneplus-12-flowy-emerald-green.jpg"
+        },
+        {
+          "id": "trang-glacial-256gb",
+          "color": "Trắng Glacial",
+          "storage": "256GB",
+          "price": 20790000,
+          "oldPrice": 23290000,
+          "image": "/IMG/oneplus-12-glacial-white.jpg"
+        },
+        {
+          "id": "den-silky-1tb",
+          "color": "Đen Silky",
+          "storage": "1TB",
+          "price": 26990000,
+          "oldPrice": 29490000,
+          "image": "/IMG/oneplus-12-silky-black.jpg"
+        },
+        {
+          "id": "xanh-flowy-emerald-1tb",
+          "color": "Xanh Flowy Emerald",
+          "storage": "1TB",
+          "price": 26690000,
+          "oldPrice": 29190000,
+          "image": "/IMG/oneplus-12-flowy-emerald-green.jpg"
+        },
+        {
+          "id": "trang-glacial-1tb",
+          "color": "Trắng Glacial",
+          "storage": "1TB",
+          "price": 26790000,
+          "oldPrice": 29290000,
+          "image": "/IMG/oneplus-12-glacial-white.jpg"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "OnePlus 12R 5G",
+      "brand": "OnePlus",
+      "categoryId": "8",
+      "image": "/IMG/oneplus-12r-5g-cool-blue.jpg",
+      "price": 18990000,
+      "oldPrice": 21990000,
+      "msrp": 21990000,
+      "rating": 4,
+      "reviews": 534,
+      "screen": "6.78 inch LTPO AMOLED, 120Hz",
+      "chip": "Snapdragon 8 Gen 2",
+      "ram": "12GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 8MP + 2MP",
+      "battery": "5500 mAh",
+      "charge": "Sạc nhanh SUPERVOOC 100W",
+      "quantity": 22,
+      "description": "OnePlus 12R 5G tập trung vào hiệu năng mạnh, màn hình LTPO AMOLED 120Hz, pin 5500 mAh và sạc nhanh 100W.",
+      "status": "active",
+      "memory": {
+        "ram": "12GB",
+        "storage": "256GB",
+        "card": "Không hỗ trợ thẻ nhớ"
+      },
+      "displayCamera": {
+        "display": "LTPO AMOLED 6.78 inch, 120Hz",
+        "rearCamera": "50MP + 8MP + 2MP",
+        "frontCamera": "16MP"
+      },
+      "batteryCharge": {
+        "battery": "5500 mAh",
+        "charge": "100W SUPERVOOC",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP64",
+        "special": "Alert Slider, hiệu năng cao"
+      },
+      "connection": {
+        "sim": "2 Nano SIM",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung kim loại, mặt lưng kính",
+        "weight": "207g",
+        "color": "Xanh Cool Blue"
+      },
+      "variants": [
+        {
+          "id": "xanh-cool-blue-256gb",
+          "color": "Xanh Cool Blue",
+          "storage": "256GB",
+          "price": 18990000,
+          "oldPrice": 21990000,
+          "image": "/IMG/oneplus-12r-5g-cool-blue.jpg"
+        },
+        {
+          "id": "xam-iron-gray-256gb",
+          "color": "Xám Iron Gray",
+          "storage": "256GB",
+          "price": 18690000,
+          "oldPrice": 21690000,
+          "image": "/IMG/oneplus-12r-5g-iron-gray.jpg"
+        },
+        {
+          "id": "xanh-cool-blue-128gb",
+          "color": "Xanh Cool Blue",
+          "storage": "128GB",
+          "price": 16990000,
+          "oldPrice": 19990000,
+          "image": "/IMG/oneplus-12r-5g-cool-blue.jpg"
+        },
+        {
+          "id": "xam-iron-gray-128gb",
+          "color": "Xám Iron Gray",
+          "storage": "128GB",
+          "price": 16690000,
+          "oldPrice": 19690000,
+          "image": "/IMG/oneplus-12r-5g-iron-gray.jpg"
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "name": "OnePlus Nord CE4 Lite 5G",
+      "brand": "OnePlus",
+      "categoryId": "8",
+      "image": "/IMG/oneplus-nord-ce4-lite-mega-blue.jpg",
+      "price": 6990000,
+      "oldPrice": 7990000,
+      "msrp": 7990000,
+      "rating": 4,
+      "reviews": 98,
+      "screen": "6.67 inch AMOLED, 120Hz",
+      "chip": "Snapdragon 695 5G",
+      "ram": "8GB",
+      "storage": "256GB",
+      "rom": "256GB",
+      "camera": "50MP + 2MP",
+      "battery": "5500 mAh",
+      "charge": "Sạc nhanh SUPERVOOC 80W",
+      "quantity": 20,
+      "description": "OnePlus Nord CE4 Lite mang đến màn hình AMOLED 2100 nits siêu sáng, pin khủng 5500 mAh kết hợp sạc nhanh thần tốc.",
+      "status": "active",
+      "memory": {
+        "ram": "8GB",
+        "storage": "256GB",
+        "card": "Hỗ trợ thẻ nhớ MicroSD tối đa 2TB"
+      },
+      "displayCamera": {
+        "display": "AMOLED cực sáng, 120Hz",
+        "rearCamera": "50MP (Sony LYT-600 OIS) + 2MP",
+        "frontCamera": "16MP"
+      },
+      "batteryCharge": {
+        "battery": "5500 mAh",
+        "charge": "80W SUPERVOOC",
+        "wireless": "Không hỗ trợ sạc không dây"
+      },
+      "utilities": {
+        "security": "Vân tay dưới màn hình",
+        "waterResistant": "IP54",
+        "special": "Màn hình siêu sáng 2100 nits, Loa kép âm lượng 300%"
+      },
+      "connection": {
+        "sim": "2 Nano SIM (Khay lai)",
+        "network": "5G",
+        "port": "USB-C"
+      },
+      "design": {
+        "material": "Khung và lưng nhựa cao cấp",
+        "weight": "191g",
+        "color": "Xanh lam"
+      },
+      "variants": [
+        {
+          "id": "xanh-lam-256gb",
+          "color": "Xanh lam",
+          "storage": "256GB",
+          "price": 6990000,
+          "oldPrice": 7990000,
+          "image": "/IMG/oneplus-nord-ce4-lite-mega-blue.jpg"
+        },
+        {
+          "id": "bac-256gb",
+          "color": "Bạc",
+          "storage": "256GB",
+          "price": 6690000,
+          "oldPrice": 7690000,
+          "image": "/IMG/oneplus-nord-ce4-lite-super-silver.jpg"
+        },
+        {
+          "id": "cam-256gb",
+          "color": "Cam",
+          "storage": "256GB",
+          "price": 6790000,
+          "oldPrice": 7790000,
+          "image": "/IMG/oneplus-nord-ce4-lite-ultra-orange.jpg"
+        },
+        {
+          "id": "xanh-lam-128gb",
+          "color": "Xanh lam",
+          "storage": "128GB",
+          "price": 6290000,
+          "oldPrice": 7290000,
+          "image": "/IMG/oneplus-nord-ce4-lite-mega-blue.jpg"
+        },
+        {
+          "id": "bac-128gb",
+          "color": "Bạc",
+          "storage": "128GB",
+          "price": 5990000,
+          "oldPrice": 6990000,
+          "image": "/IMG/oneplus-nord-ce4-lite-super-silver.jpg"
+        },
+        {
+          "id": "cam-128gb",
+          "color": "Cam",
+          "storage": "128GB",
+          "price": 6090000,
+          "oldPrice": 7090000,
+          "image": "/IMG/oneplus-nord-ce4-lite-ultra-orange.jpg"
+        }
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "userId": "1",
+      "customerName": "Admin",
+      "items": [
+        {
+          "productId": 2,
+          "name": "Samsung Galaxy S24 Ultra 256GB",
+          "price": 26990000,
+          "quantity": 1,
+          "image": "/IMG/samsung-galaxy-s24-ultra-5g-600x600.jpg"
+        },
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max 256GB",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-hong-thumb-600x600.jpg"
+        }
+      ],
+      "totalPrice": 56980000,
+      "receiverName": "Nam",
+      "phone": "0123123123",
+      "address": "123",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "27/5/2026",
+      "id": 1,
+      "paymentStatus": "paid"
+    },
+    {
+      "id": "1779866321239",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "2",
+          "name": "Samsung Galaxy S24 Ultra 256GB",
+          "price": 26990000,
+          "quantity": 2,
+          "image": "/IMG/samsung-galaxy-s24-ultra-5g-600x600.jpg"
+        },
+        {
+          "productId": "3",
+          "name": "iPhone 14 Pro 128GB",
+          "price": 21990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-14-den-600x600.jpg"
+        },
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max 256GB",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-hong-thumb-600x600.jpg"
+        }
+      ],
+      "totalPrice": 105960000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "hn",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "27/5/2026",
+      "paymentStatus": "paid"
+    },
+    {
+      "id": "1779866549570",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "3",
+          "name": "iPhone 14 Pro 128GB",
+          "price": 21990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-14-den-600x600.jpg"
+        }
+      ],
+      "totalPrice": 21990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "hn",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "27/5/2026",
+      "paymentStatus": "paid"
+    },
+    {
+      "id": "1779868241445",
+      "userId": "1",
+      "customerName": "Admin",
+      "items": [
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max 256GB",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-hong-thumb-600x600.jpg"
+        },
+        {
+          "productId": "4",
+          "name": "Samsung Galaxy Z Flip7 5G 12GB/512GB",
+          "price": 35990000,
+          "quantity": 1,
+          "image": "/IMG/samsung-galaxy-z-flip7-xanh-navy-thumb-200x200.jpg"
+        }
+      ],
+      "totalPrice": 65980000,
+      "receiverName": "Admin",
+      "phone": "0900000000",
+      "address": "Ha Noi",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "27/5/2026"
+    },
+    {
+      "id": "1779871952235",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max 256GB",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-hong-thumb-600x600.jpg"
+        }
+      ],
+      "productTotal": 29990000,
+      "productDiscount": 4000000,
+      "coupon": {
+        "code": "SALE10",
+        "discount": 10
+      },
+      "couponDiscount": 2999000,
+      "totalPrice": 26991000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "hn",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "27/5/2026"
+    },
+    {
+      "id": "1779872823171",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "2",
+          "name": "Samsung Galaxy S24 Ultra 256GB",
+          "price": 26990000,
+          "quantity": 1,
+          "image": "/IMG/samsung-galaxy-s24-ultra-5g-600x600.jpg"
+        },
+        {
+          "productId": "5",
+          "name": "Google Pixel 8 Pro 256GB",
+          "price": 20990000,
+          "quantity": 1,
+          "image": "/IMG/google-pixel-8-pro_7_.png"
+        }
+      ],
+      "productTotal": 47980000,
+      "productDiscount": 8000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 47980000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "hn",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "27/5/2026"
+    },
+    {
+      "id": "1779873886644",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max 256GB",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-hong-thumb-600x600.jpg"
+        }
+      ],
+      "productTotal": 29990000,
+      "productDiscount": 4000000,
+      "coupon": {
+        "code": "SALE10",
+        "discount": 10
+      },
+      "couponDiscount": 2999000,
+      "totalPrice": 26991000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "27/5/2026"
+    },
+    {
+      "id": "1780249674390",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "2",
+          "name": "Samsung Galaxy S24 Ultra",
+          "price": 26990000,
+          "quantity": 1,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-xam.jpg"
+        },
+        {
+          "productId": "3",
+          "name": "iPhone 14 Pro",
+          "price": 21990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-14-pro-black.jpg"
+        },
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max 1TB",
+          "price": 51090000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-silver.jpg"
+        }
+      ],
+      "productTotal": 100070000,
+      "productDiscount": 12000000,
+      "coupon": {
+        "code": "10TRIEU",
+        "discountType": "amount",
+        "discount": 10000000
+      },
+      "couponDiscount": 10000000,
+      "totalPrice": 90070000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "1/6/2026"
+    },
+    {
+      "id": "1780249802172",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg"
+        }
+      ],
+      "productTotal": 29990000,
+      "productDiscount": 4000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 29990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "1/6/2026"
+    },
+    {
+      "id": "1780249884065",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "2",
+          "name": "Samsung Galaxy S24 Ultra",
+          "price": 26990000,
+          "quantity": 1,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-xam.jpg"
+        }
+      ],
+      "productTotal": 26990000,
+      "productDiscount": 5000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 26990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "pending",
+      "createdAt": "1/6/2026"
+    },
+    {
+      "id": "1780249971008",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "3",
+          "name": "iPhone 14 Pro",
+          "price": 21990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-14-pro-black.jpg"
+        }
+      ],
+      "productTotal": 21990000,
+      "productDiscount": 5000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 21990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "1/6/2026"
+    },
+    {
+      "id": "1780362875548",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        },
+        {
+          "productId": "21",
+          "name": "iPhone 16 Pro Max",
+          "price": 38990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-16-pro-max-desert-titanium.jpg"
+        },
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg"
+        }
+      ],
+      "productTotal": 106970000,
+      "productDiscount": 8000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 106970000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "2/6/2026"
+    },
+    {
+      "id": "1780363831434",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        },
+        {
+          "productId": "32",
+          "name": "iPhone 17 Pro",
+          "price": 34990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-deep-blue.jpg"
+        }
+      ],
+      "productTotal": 72980000,
+      "productDiscount": 4000000,
+      "coupon": {
+        "code": "10TRIEU",
+        "discountType": "amount",
+        "discount": 10000000
+      },
+      "couponDiscount": 10000000,
+      "totalPrice": 62980000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "giao nhanh cho tôi",
+      "status": "cancelled",
+      "createdAt": "2/6/2026"
+    },
+    {
+      "id": "1780363915913",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        },
+        {
+          "productId": "32",
+          "name": "iPhone 17 Pro",
+          "price": 34990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-deep-blue.jpg"
+        }
+      ],
+      "productTotal": 72980000,
+      "productDiscount": 4000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 72980000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "2/6/2026"
+    },
+    {
+      "id": "1780364108004",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        }
+      ],
+      "productTotal": 37990000,
+      "productDiscount": 2000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 37990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "2/6/2026",
+      "paymentStatus": "unpaid"
+    },
+    {
+      "id": "1780367464595",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "32",
+          "name": "iPhone 17 Pro",
+          "price": 34990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-deep-blue.jpg"
+        },
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg"
+        }
+      ],
+      "productTotal": 64980000,
+      "productDiscount": 6000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 64980000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "2/6/2026",
+      "cancelReason": "thích thì hủy",
+      "cancelledBy": "customer",
+      "cancelledAt": "2/6/2026"
+    },
+    {
+      "id": "1780367486461",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max 256GB",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        }
+      ],
+      "productTotal": 37990000,
+      "productDiscount": 2000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 37990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "2/6/2026",
+      "cancelReason": "hủy luôn",
+      "cancelledBy": "admin",
+      "cancelledAt": "2/6/2026"
+    },
+    {
+      "id": "1780367638373",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        }
+      ],
+      "productTotal": 37990000,
+      "productDiscount": 2000000,
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 37990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "note": "",
+      "status": "completed",
+      "createdAt": "2/6/2026",
+      "deliveredAt": "2/6/2026",
+      "completedAt": "2/6/2026"
+    },
+    {
+      "id": "1780368939054",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "32",
+          "name": "iPhone 17 Pro",
+          "price": 34990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-deep-blue.jpg"
+        }
+      ],
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 34990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "paymentStatus": "paid",
+      "paidAt": "2/6/2026",
+      "paidBy": "customer_cod",
+      "note": "",
+      "status": "completed",
+      "createdAt": "2/6/2026",
+      "deliveredAt": "2/6/2026",
+      "completedAt": "2/6/2026"
+    },
+    {
+      "id": "1780369022089",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        }
+      ],
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 37990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "BANK",
+      "paymentStatus": "paid",
+      "paidAt": "2/6/2026",
+      "paidBy": "admin",
+      "note": "",
+      "status": "delivered",
+      "createdAt": "2/6/2026",
+      "deliveredAt": "2/6/2026"
+    },
+    {
+      "id": "1780408034698",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "31",
+          "name": "iPhone 17 Pro Max",
+          "price": 37990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-17-pro-max-cosmic-orange.jpg"
+        }
+      ],
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 37990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "paymentStatus": "paid",
+      "paidAt": "2/6/2026",
+      "paidBy": "customer_cod",
+      "note": "",
+      "status": "completed",
+      "createdAt": "2/6/2026",
+      "deliveredAt": "2/6/2026",
+      "completedAt": "2/6/2026"
+    },
+    {
+      "id": "1781163710473",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "1",
+          "name": "iPhone 15 Pro Max",
+          "price": 29990000,
+          "quantity": 1,
+          "image": "/IMG/iphone-15-pro-max-natural-titanium.jpg"
+        }
+      ],
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 29990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "paymentStatus": "paid",
+      "paidAt": "11/6/2026",
+      "paidBy": "customer_cod",
+      "note": "",
+      "status": "completed",
+      "createdAt": "11/6/2026",
+      "deliveredAt": "11/6/2026",
+      "completedAt": "11/6/2026"
+    },
+    {
+      "id": "1781163755631",
+      "userId": "1779866309897",
+      "customerName": "Nam",
+      "items": [
+        {
+          "productId": "2",
+          "name": "Samsung Galaxy S24 Ultra",
+          "price": 26990000,
+          "quantity": 1,
+          "image": "/IMG/samsung-galaxy-s24-ultra-titan-xam.jpg"
+        }
+      ],
+      "coupon": null,
+      "couponDiscount": 0,
+      "totalPrice": 26990000,
+      "receiverName": "Nam",
+      "phone": "0123456789",
+      "address": "Hà Nội",
+      "paymentMethod": "COD",
+      "paymentStatus": "unpaid",
+      "paidAt": null,
+      "paidBy": null,
+      "note": "",
+      "status": "cancelled",
+      "createdAt": "11/6/2026",
+      "cancelReason": "Hủy đơn",
+      "cancelledBy": "admin",
+      "cancelledAt": "11/6/2026"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1779873922773",
+      "orderId": "1779873886644",
+      "productId": "1",
+      "userId": "1779866309897",
+      "userName": "Nam",
+      "rating": 5,
+      "comment": "ok",
+      "createdAt": "27/5/2026"
+    },
+    {
+      "id": "1779873933789",
+      "orderId": "1779872823171",
+      "productId": "2",
+      "userId": "1779866309897",
+      "userName": "Nam",
+      "rating": 4,
+      "comment": "ko ok",
+      "createdAt": "27/5/2026"
+    },
+    {
+      "id": "1780032419935",
+      "orderId": "1779872823171",
+      "productId": "5",
+      "userId": "1779866309897",
+      "userName": "Nam",
+      "rating": 3,
+      "comment": "ok\n",
+      "createdAt": "29/5/2026"
+    },
+    {
+      "id": "1780363346011",
+      "orderId": "1780362875548",
+      "productId": "31",
+      "userId": "1779866309897",
+      "userName": "Nam",
+      "rating": 5,
+      "comment": "ngonnnnnnnn",
+      "createdAt": "2/6/2026"
+    },
+    {
+      "id": "1780363352625",
+      "orderId": "1780362875548",
+      "productId": "21",
+      "userId": "1779866309897",
+      "userName": "Nam",
+      "rating": 5,
+      "comment": "ngonnnnnnnn luônnnnnnnnnn",
+      "createdAt": "2/6/2026"
+    }
+  ],
+  "coupons": [
+    {
+      "id": "1",
+      "code": "SALE10",
+      "discount": 10,
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "code": "FREESHIP",
+      "discount": 5,
+      "status": "inactive"
+    },
+    {
+      "id": "1779875886408",
+      "code": "10TRIEU",
+      "discountType": "amount",
+      "discount": 10000000,
+      "status": "active"
+    }
+  ]
+}
