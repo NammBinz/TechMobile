@@ -7,6 +7,7 @@ import ProductReviews from '../../components/ProductReviews'
 import RatingStars from '../../components/RatingStars'
 import '../../assets/css/product-detail.css'
 import { isInWishlist, toggleWishlistProduct } from '../../utils/shopActions'
+import { withVariant } from '../../utils/variants'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -48,7 +49,7 @@ function ProductDetail() {
       setProducts(productsRes.data)
 
       // Lấy danh sách biến thể
-      const variants = productRes.data.variants || []
+      const variants = (productRes.data.variants || []).filter(v => v.status !== 'inactive')
 
       // Chọn biến thể đầu làm mặc định
       if (variants.length > 0) {
@@ -159,10 +160,9 @@ function ProductDetail() {
     )
   }
 
-  const specs = getSpecs(product)               // Lấy thông số sản phẩm
   const relatedProducts = getRelatedProducts()  // Lấy sản phẩm liên quan
 
-  const variants = product.variants || []       // Lấy biến thể
+  const variants = (product.variants || []).filter(v => v.status !== 'inactive')
   const colors = [...new Set(variants.map((item) => item.color))]      // Lấy màu sắc ko trùng lặp
   const storages = [...new Set(variants.map((item) => item.storage))]  // Lấy dung lượng ko trùng lặp
 
@@ -170,20 +170,8 @@ function ProductDetail() {
     return item.color === selectedColor && item.storage === selectedStorage
   })
 
-  const displayProduct = selectedVariant
-    ? {
-      ...product,
-      price: selectedVariant.price,
-      oldPrice: selectedVariant.oldPrice,
-      image: selectedVariant.image || product.image,
-      storage: selectedVariant.storage,
-      color: selectedVariant.color,
-      variantId: selectedVariant.id,
-      cartKey: `${product.id}-${selectedVariant.id}`,
-      productId: product.id,
-      name: `${product.name} ${selectedVariant.storage}`
-    }
-    : product
+  const displayProduct = selectedVariant ? withVariant(product, selectedVariant) : product
+  const specs = getSpecs({ ...displayProduct, rom: displayProduct.storage, memory: { ...product.memory, ram: displayProduct.ram, storage: displayProduct.storage } })
 
   const displayOldPrice = displayProduct.oldPrice || product.oldPrice || 0
 
@@ -194,7 +182,7 @@ function ProductDetail() {
       ? Math.round((displayDiscount / displayOldPrice) * 100) : 0
 
   const isOutOfStock =
-    Number(displayProduct.quantity) <= 0 || displayProduct.status !== 'active'
+    !selectedVariant || Number(displayProduct.quantity) <= 0 || displayProduct.status !== 'active'
 
   return (
     <main className="main">
@@ -295,7 +283,10 @@ function ProductDetail() {
                           selectedStorage === storage ? 'option-btn active' : 'option-btn'
                         }
                         key={storage}
-                        onClick={() => setSelectedStorage(storage)}
+                        onClick={() => {
+                          setSelectedStorage(storage)
+                          if (!variants.some(v => v.storage === storage && v.color === selectedColor)) setSelectedColor(variants.find(v => v.storage === storage).color)
+                        }}
                       >
                         {storage}
                       </button>
@@ -558,7 +549,7 @@ function ProductDetail() {
                         className="related-buy-btn"
                         onClick={(e) => {
                           e.stopPropagation()
-                          addToCart(item)
+                          navigate(`/products/${item.id}`)
                         }}
                         disabled={itemOutOfStock}
                       >

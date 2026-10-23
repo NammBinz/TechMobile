@@ -1,29 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import api from '../../services/api'
 import AdminLayout from '../../components/AdminLayout'
 import { formatPrice } from '../../utils/formatPrice'
 import OrderInvoiceModal from '../../components/OrderInvoiceModal'
+import OrderDeviceAllocation from '../../components/OrderDeviceAllocation'
+import { messageOf, runCommand } from '../../services/operations'
+import { formatDate } from '../../utils/variants'
 
 function OrderManager() {
   const [orders, setOrders] = useState([])
+  const [orderDevices, setOrderDevices] = useState([])
   const [statusFilter, setStatusFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [invoiceOrder, setInvoiceOrder] = useState(null)
   const [cancelOrder, setCancelOrder] = useState(null)
   const [cancelReason, setCancelReason] = useState('')
+  const [busyOrderId, setBusyOrderId] = useState(null)
 
-  useEffect(() => {
-    getOrders()
-  }, [])
-
-  const getOrders = async () => {
+  const getOrders = useCallback(async () => {
     try {
-      const res = await api.get('/orders')
+      const [res, allocated, returns] = await Promise.all([api.get('/orders'), api.get('/devices', { params: { status: 'allocated' } }), api.get('/devices', { params: { status: 'return_pending' } })])
       setOrders(res.data.reverse())
+      setOrderDevices([...allocated.data, ...returns.data])
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    Promise.resolve().then(getOrders)
+  }, [getOrders])
 
   const getStatusText = (status) => {
     if (status === 'pending') return 'Chờ xác nhận'
@@ -48,45 +54,13 @@ function OrderManager() {
   }
 
   const handleUpdateStatus = async (order, newStatus) => {
-    try {
-      await api.patch(`/orders/${order.id}`, {
-        status: newStatus
-      })
-
-      alert('Cập nhật trạng thái đơn hàng thành công')
-      getOrders()
-    } catch (error) {
-      console.log(error)
-      alert('Có lỗi xảy ra khi cập nhật trạng thái')
-    }
+    setBusyOrderId(order.id)
+    try { await runCommand('transition', { orderId: order.id, expectedRevision: order.revision || 0, status: newStatus }); await getOrders() }
+    catch (error) { alert(messageOf(error)); await getOrders() }
+    finally { setBusyOrderId(null) }
   }
-
-  const handleConfirmOrder = (order) => {
-    if (order.status !== 'pending') {
-      alert('Chỉ có thể xác nhận đơn đang chờ xác nhận')
-      return
-    }
-
-    handleUpdateStatus(order, 'confirmed')
-  }
-
-  const handleShippingOrder = (order) => {
-    if (order.status !== 'confirmed') {
-      alert('Chỉ có thể giao hàng khi đơn đã được xác nhận')
-      return
-    }
-
-    handleUpdateStatus(order, 'shipping')
-  }
-
-  const handleCompleteOrder = (order) => {
-    if (order.status !== 'shipping') {
-      alert('Chỉ có thể hoàn thành đơn đang giao hàng')
-      return
-    }
-
-    handleUpdateStatus(order, 'completed')
-  }
+  const handleConfirmOrder = order => handleUpdateStatus(order, 'confirmed')
+  const handleShippingOrder = order => handleUpdateStatus(order, 'shipping')
 
   const openAdminCancelModal = (order) => {
     setCancelOrder(order)
@@ -100,74 +74,14 @@ function OrderManager() {
 
   const handleSubmitAdminCancelOrder = async (e) => {
     e.preventDefault()
-
-    if (!cancelReason.trim()) {
-      alert('Vui lòng nhập lý do hủy đơn hàng')
-      return
-    }
-
-    if (!cancelOrder) return
-
+    if (!cancelOrder || !cancelReason.trim()) { alert('Nhập lý do hủy'); return }
     try {
-      for (const item of cancelOrder.items) {
-        const productRes = await api.get(`/products/${item.productId}`)
-        const product = productRes.data
-
-        await api.patch(`/products/${item.productId}`, {
-          quantity: Number(product.quantity) + Number(item.quantity)
-        })
-      }
-
-      await api.patch(`/orders/${cancelOrder.id}`, {
-        status: 'cancelled',
-        cancelReason: cancelReason.trim(),
-        cancelledBy: 'admin',
-        cancelledAt: new Date().toLocaleDateString('vi-VN')
-      })
-
-      alert('Đã hủy đơn hàng và hoàn lại tồn kho')
-      closeAdminCancelModal()
-      getOrders()
-    } catch (error) {
-      console.log(error)
-      alert('Có lỗi xảy ra khi hủy đơn hàng')
-    }
+      await runCommand('cancel', { orderId: cancelOrder.id, expectedRevision: cancelOrder.revision || 0, reason: cancelReason.trim() })
+      closeAdminCancelModal(); await getOrders()
+      alert('Đã hủy đơn. Máy đã xuất giao phải được nhận lại trước khi bán tiếp.')
+    } catch (error) { alert(messageOf(error)); await getOrders() }
   }
-
-  const handleMarkDelivered = async (order) => {
-    try {
-      await api.patch(`/orders/${order.id}`, {
-        status: 'delivered',
-        deliveredAt: new Date().toLocaleDateString('vi-VN')
-      })
-
-      alert('Đã cập nhật đơn hàng sang trạng thái Đã giao hàng')
-      getOrders()
-    } catch (error) {
-      console.log(error)
-      alert('Có lỗi xảy ra khi cập nhật trạng thái đơn hàng')
-    }
-  }
-
-  const handleDelete = async (order) => {
-    if (order.status !== 'cancelled') {
-      alert('Chỉ nên xóa đơn hàng đã hủy')
-      return
-    }
-
-    const confirmDelete = window.confirm('Bạn có chắc muốn xóa đơn hàng này không?')
-
-    if (!confirmDelete) return
-
-    try {
-      await api.delete(`/orders/${order.id}`)
-      alert('Xóa đơn hàng thành công')
-      getOrders()
-    } catch (error) {
-      console.log(error)
-      alert('Có lỗi xảy ra khi xóa đơn hàng')
-    }
-  }
+  const handleMarkDelivered = order => handleUpdateStatus(order, 'delivered')
 
   const filteredOrders = orders.filter((order) => {
     const matchStatus = statusFilter === 'all' || order.status === statusFilter
@@ -192,26 +106,8 @@ function OrderManager() {
   }
 
   const handleChangePaymentStatus = async (order, newStatus) => {
-    if (order.paymentMethod === 'COD') {
-      alert('Đơn COD sẽ tự chuyển thành Đã thanh toán khi khách xác nhận đã nhận hàng')
-      return
-    }
-
-    const today = new Date().toLocaleDateString('vi-VN')
-
-    try {
-      await api.patch(`/orders/${order.id}`, {
-        paymentStatus: newStatus,
-        paidAt: newStatus === 'paid' ? today : null,
-        paidBy: newStatus === 'paid' ? 'admin' : null
-      })
-
-      alert('Cập nhật trạng thái thanh toán thành công')
-      getOrders()
-    } catch (error) {
-      console.log(error)
-      alert('Có lỗi xảy ra khi cập nhật thanh toán')
-    }
+    try { await runCommand('payment', { orderId: order.id, expectedRevision: order.revision || 0, status: newStatus }); await getOrders() }
+    catch (error) { alert(messageOf(error)); await getOrders() }
   }
 
   return (
@@ -278,7 +174,7 @@ function OrderManager() {
         </div>
       ) : (
         filteredOrders.map((order) => (
-          <div className="card mb-4 shadow-sm" key={order.id}>
+          <div className="card mb-4 shadow-sm" key={order.id} data-order-id={order.id} data-order-revision={order.revision || 0}>
             <div className="card-header d-flex justify-content-between align-items-center">
               <div>
                 <strong>Mã đơn hàng: #{order.id}</strong>
@@ -328,6 +224,7 @@ function OrderManager() {
                 </div>
               </div>
 
+              {order.status === 'cancelled' && orderDevices.some(d => d.status === 'return_pending' && String(d.assignment?.orderId) === String(order.id)) && <OrderDeviceAllocation order={order} onChange={getOrders} />}
               <div className="table-responsive">
                 <table className="table table-bordered align-middle text-center">
                   <thead>
@@ -342,7 +239,7 @@ function OrderManager() {
 
                   <tbody>
                     {order.items.map((item) => (
-                      <tr key={item.productId}>
+                      <tr key={item.id || item.productId}>
                         <td>
                           <img
                             src={item.image}
@@ -355,7 +252,7 @@ function OrderManager() {
                           />
                         </td>
 
-                        <td>{item.name}</td>
+                        <td>{item.name}{(item.color || item.storage) && <><br />{[item.color, item.storage].filter(Boolean).join(' · ')}</>}<div className="order-item-imeis">{(item.deviceSnapshots?.length ? item.deviceSnapshots : orderDevices.filter(d => String(d.assignment?.orderId) === String(order.id) && String(d.assignment?.orderItemId) === String(item.id))).map(d => <small className="d-block" key={d.deviceId || d.id}>IMEI: {d.imei}</small>)}{!item.deviceSnapshots?.length && !orderDevices.some(d => String(d.assignment?.orderId) === String(order.id) && String(d.assignment?.orderItemId) === String(item.id)) && <small className="text-muted">{order.status === 'cancelled' ? 'Chưa ghi nhận IMEI cho dòng đơn này.' : 'Chưa phân bổ IMEI.'}</small>}</div></td>
 
                         <td>{formatPrice(item.price)}</td>
 
@@ -377,7 +274,7 @@ function OrderManager() {
                   <small>
                     Người hủy:{' '}
                     {order.cancelledBy === 'admin' ? 'Quản trị viên' : 'Khách hàng'}
-                    {order.cancelledAt ? ` - ${order.cancelledAt}` : ''}
+                    {order.cancelledAt ? ` - ${formatDate(order.cancelledAt)}` : ''}
                   </small>
                 </div>
               )}
@@ -387,7 +284,7 @@ function OrderManager() {
                   <button
                     className="btn btn-primary btn-sm"
                     onClick={() => handleConfirmOrder(order)}
-                    disabled={order.status !== 'pending'}
+                    disabled={order.status !== 'pending' || busyOrderId === order.id}
                   >
                     Xác nhận đơn
                   </button>
@@ -395,7 +292,7 @@ function OrderManager() {
                   <button
                     className="btn btn-info btn-sm text-dark"
                     onClick={() => handleShippingOrder(order)}
-                    disabled={order.status !== 'confirmed'}
+                    disabled={order.status !== 'confirmed' || busyOrderId === order.id}
                   >
                     Giao hàng
                   </button>
@@ -403,7 +300,7 @@ function OrderManager() {
                   <button
                     className="btn btn-success btn-sm"
                     onClick={() => handleMarkDelivered(order)}
-                    disabled={order.status !== 'shipping'}
+                    disabled={order.status !== 'shipping' || busyOrderId === order.id}
                   >
                     Đã giao hàng
                   </button>

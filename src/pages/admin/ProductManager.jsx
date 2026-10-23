@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import api from '../../services/api'
 import AdminLayout from '../../components/AdminLayout'
 import { formatPrice } from '../../utils/formatPrice'
+import VariantEditor from '../../components/VariantEditor'
 
 function ProductManager() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [editId, setEditId] = useState(null)
   const [imageError, setImageError] = useState(false)
+  const [variantProduct, setVariantProduct] = useState(null)
 
   const [search, setSearch] = useState('')
   const [brandFilter, setBrandFilter] = useState('all')
@@ -104,8 +106,7 @@ function ProductManager() {
       !formData.brand ||
       !formData.categoryId ||
       !formData.image ||
-      !formData.price ||
-      !formData.quantity
+      !formData.price
     ) {
       alert('Vui lòng nhập đầy đủ thông tin bắt buộc')
       return
@@ -318,7 +319,7 @@ function ProductManager() {
               </div>
 
               <div className="col-md-2 mb-3">
-                <label className="form-label">Hã Nếu lấy ảnh local,nh</label>
+                <label className="form-label">Hãng</label>
                 <input
                   type="text"
                   className="form-control"
@@ -392,11 +393,12 @@ function ProductManager() {
               </div>
 
               <div className="col-md-2 mb-3">
-                <label className="form-label">Giá bán</label>
+                <label className="form-label">{editId ? 'Giá từ (sửa ở Phiên bản)' : 'Giá bán'}</label>
                 <input
                   type="number"
                   className="form-control"
                   name="price"
+                  readOnly={!!editId}
                   value={formData.price}
                   onChange={handleChange}
                 />
@@ -408,17 +410,19 @@ function ProductManager() {
                   type="number"
                   className="form-control"
                   name="oldPrice"
+                  readOnly={!!editId}
                   value={formData.oldPrice}
                   onChange={handleChange}
                 />
               </div>
 
               <div className="col-md-2 mb-3">
-                <label className="form-label">Số lượng</label>
+                <label className="form-label">Tồn tính từ IMEI</label>
                 <input
                   type="number"
                   className="form-control"
                   name="quantity"
+                  readOnly
                   value={formData.quantity}
                   onChange={handleChange}
                 />
@@ -676,6 +680,7 @@ function ProductManager() {
                       >
                         Sửa
                       </button>
+                      <button className="btn btn-outline-primary btn-sm me-2" onClick={() => { setVariantProduct(product); window.setTimeout(() => document.getElementById('variant-editor')?.scrollIntoView({ behavior: 'smooth' }), 0) }}>Phiên bản</button>
 
                       {product.status === 'active' ? (
                         <button
@@ -708,6 +713,7 @@ function ProductManager() {
           </div>
         </div>
       </div>
+      {variantProduct && <div id="variant-editor"><VariantEditor key={variantProduct.id} product={variantProduct} onSaved={async () => { await getProducts(); setVariantProduct(null) }} /></div>}
     </AdminLayout>
   )
 }

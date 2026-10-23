@@ -5,9 +5,16 @@ import { formatPrice } from '../../utils/formatPrice'
 import { getCurrentUser } from '../../utils/auth'
 import { showToast } from '../../utils/shopActions'
 import OrderInvoiceModal from '../../components/OrderInvoiceModal'
+import OrderDevices from '../../components/OrderDevices'
+import { messageOf, runCommand } from '../../services/operations'
+import { formatDate } from '../../utils/variants'
 
 function OrderHistory() {
   const [orders, setOrders] = useState([])
+  const [warranties, setWarranties] = useState([])
+  const [claims, setClaims] = useState([])
+  const [busy, setBusy] = useState(false)
+  const [loadError, setLoadError] = useState('')
   const [reviews, setReviews] = useState([])
   const [invoiceOrder, setInvoiceOrder] = useState(null)
   const [cancelOrder, setCancelOrder] = useState(null)
@@ -38,15 +45,16 @@ function OrderHistory() {
         return
       }
 
-      const res = await api.get('/orders')
+      const [res, w, c] = await Promise.all([api.get('/orders'), api.get('/warranties'), api.get('/warrantyClaims')])
+      setWarranties(w.data); setClaims(c.data); setLoadError('')
 
       const userOrders = res.data.filter((order) => {
-        return order.userId === currentUser.id
+        return String(order.userId) === String(currentUser.id)
       })
 
       setOrders([...userOrders].reverse())
     } catch (error) {
-      console.log(error)
+      setLoadError(messageOf(error))
     }
   }
 
@@ -108,74 +116,22 @@ function OrderHistory() {
 
   const handleSubmitCancelOrder = async (e) => {
     e.preventDefault()
-
-    if (!cancelReason.trim()) {
-      showToast('Vui lòng nhập lý do hủy đơn hàng', 'warning')
-      return
-    }
-
-    if (!cancelOrder) return
-
+    if (busy || !cancelOrder || !cancelReason.trim()) return
+    setBusy(true)
     try {
-      for (const item of cancelOrder.items) {
-        const productRes = await api.get(`/products/${item.productId}`)
-        const product = productRes.data
-
-        await api.patch(`/products/${item.productId}`, {
-          quantity: Number(product.quantity) + Number(item.quantity)
-        })
-      }
-
-      await api.patch(`/orders/${cancelOrder.id}`, {
-        status: 'cancelled',
-        cancelReason: cancelReason.trim(),
-        cancelledBy: 'customer',
-        cancelledAt: new Date().toLocaleDateString('vi-VN')
-      })
-
-      showToast('Đã hủy đơn hàng và hoàn lại tồn kho', 'info')
-      closeCancelModal()
-      getOrders()
-    } catch (error) {
-      console.log(error)
-      showToast('Có lỗi xảy ra khi hủy đơn hàng', 'warning')
-    }
+      await runCommand('cancel', { orderId: cancelOrder.id, expectedRevision: cancelOrder.revision || 0, reason: cancelReason.trim() })
+      closeCancelModal(); await getOrders(); showToast('Đã hủy đơn và hoàn lại số máy đang xử lí phù hợp')
+    } catch (error) { showToast(messageOf(error), 'warning'); await getOrders() }
+    finally { setBusy(false) }
   }
-
   const handleConfirmReceived = async (order) => {
-    if (order.status !== 'delivered') {
-      showToast('Chỉ xác nhận nhận hàng khi đơn đã được giao', 'warning')
-      return
-    }
-
-    const confirmReceived = window.confirm(
-      'Bạn xác nhận đã nhận được hàng? Sau khi xác nhận, đơn hàng sẽ hoàn thành.'
-    )
-
-    if (!confirmReceived) return
-
-    const today = new Date().toLocaleDateString('vi-VN')
-
-    const updateData = {
-      status: 'completed',
-      completedAt: today
-    }
-
-    if (order.paymentMethod === 'COD') {
-      updateData.paymentStatus = 'paid'
-      updateData.paidAt = today
-      updateData.paidBy = 'customer_cod'
-    }
-
+    if (busy || !window.confirm('Bạn xác nhận đã nhận đủ hàng?')) return
+    setBusy(true)
     try {
-      await api.patch(`/orders/${order.id}`, updateData)
-
-      showToast('Cảm ơn bạn đã xác nhận nhận hàng', 'success')
-      getOrders()
-    } catch (error) {
-      console.log(error)
-      showToast('Có lỗi xảy ra khi xác nhận nhận hàng', 'warning')
-    }
+      await runCommand('transition', { orderId: order.id, expectedRevision: order.revision || 0, status: 'completed' })
+      await getOrders(); showToast('Đã xác nhận nhận hàng')
+    } catch (error) { showToast(messageOf(error), 'warning'); await getOrders() }
+    finally { setBusy(false) }
   }
 
   const hasReviewed = (orderId, productId) => {
@@ -255,23 +211,6 @@ function OrderHistory() {
     try {
       await api.post('/reviews', newReview)
 
-      const reviewRes = await api.get('/reviews')
-
-      const allReviews = reviewRes.data.filter((review) => {
-        return review.productId === product.productId
-      })
-
-      const avgRating = Math.round(
-        allReviews.reduce((sum, review) => {
-          return sum + Number(review.rating)
-        }, 0) / allReviews.length
-      )
-
-      await api.patch(`/products/${product.productId}`, {
-        rating: avgRating,
-        reviews: allReviews.length
-      })
-
       showToast('Đánh giá sản phẩm thành công', 'success')
       closeReviewModal()
       getReviews()
@@ -297,6 +236,8 @@ function OrderHistory() {
       </main>
     )
   }
+
+  if (loadError) return <main className="main container"><div className="alert alert-warning">{loadError}</div><button className="btn btn-outline-primary" onClick={getOrders}>Tải lại</button></main>
 
   if (orders.length === 0) {
     return (
@@ -403,14 +344,14 @@ function OrderHistory() {
                     {order.cancelledBy === 'admin'
                       ? 'Quản trị viên'
                       : 'Khách hàng'}
-                    {order.cancelledAt ? ` - ${order.cancelledAt}` : ''}
+                    {order.cancelledAt ? ` - ${formatDate(order.cancelledAt)}` : ''}
                   </small>
                 </div>
               )}
 
               {order.status === 'delivered' && order.deliveredAt && (
                 <div className="alert alert-primary py-2">
-                  <strong>Đã giao hàng:</strong> {order.deliveredAt}
+                  <strong>Đã giao hàng:</strong> {formatDate(order.deliveredAt)}
                   <br />
                   <small>
                     Vui lòng xác nhận đã nhận hàng để hoàn thành đơn hàng.
@@ -420,10 +361,11 @@ function OrderHistory() {
 
               {order.status === 'completed' && order.completedAt && (
                 <div className="alert alert-success py-2">
-                  <strong>Đơn hàng hoàn thành:</strong> {order.completedAt}
+                  <strong>Đơn hàng hoàn thành:</strong> {formatDate(order.completedAt)}
                 </div>
               )}
 
+              <OrderDevices order={order} warranties={warranties} claims={claims} />
               <div className="table-responsive">
                 <table className="table table-bordered align-middle text-center">
                   <thead>
@@ -601,7 +543,7 @@ function OrderHistory() {
                   placeholder="Nhập lý do hủy đơn hàng..."
                 />
 
-                <button className="btn btn-danger me-2">
+                <button className="btn btn-danger me-2" disabled={busy}>
                   Xác nhận hủy đơn
                 </button>
 

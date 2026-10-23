@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatPrice } from '../../utils/formatPrice'
 import {
   getWishlist,
   removeWishlistProduct,
-  addToCart,
   toggleCompareProduct
 } from '../../utils/shopActions'
 
 function Wishlist() {
+  const navigate = useNavigate()
   const [wishlist, setWishlist] = useState([])
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function Wishlist() {
   }
 
   const handleAddToCart = (product) => {
-    addToCart(product)
+    navigate(`/products/${product.id}`)
   }
 
   const handleCompare = (product) => {

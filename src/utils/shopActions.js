@@ -35,6 +35,11 @@ export const addToCart = (product) => {
     return
   }
 
+  if (!product.variantId || !Number.isFinite(product.quantity)) {
+    showToast('Vui lòng mở chi tiết và chọn phiên bản sản phẩm', 'warning')
+    return
+  }
+
   const cart = getCart()
   const productCartKey = product.cartKey || product.id
 

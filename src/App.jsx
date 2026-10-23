@@ -26,6 +26,8 @@ import UserManager from './pages/admin/UserManager'
 import StaffManager from './pages/admin/StaffManager'
 import OrderManager from './pages/admin/OrderManager'
 import CouponManager from './pages/admin/CouponManager'
+import DeviceManager from './pages/admin/DeviceManager'
+import WarrantyManager from './pages/admin/WarrantyManager'
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
       <Header />
 
       <Routes>
+        <Route path="/admin/devices" element={<ProtectedRoute allowedRoles={['admin', 'staff']}><DeviceManager /></ProtectedRoute>} />
+        <Route path="/admin/warranties" element={<ProtectedRoute allowedRoles={['admin', 'staff']}><WarrantyManager /></ProtectedRoute>} />
         {/* Client */}
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductList />} />

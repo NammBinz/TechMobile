@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { getCurrentUser } from '../utils/auth'
 
 function AdminSidebar() {
   const currentUser = getCurrentUser()
+  const [expanded, setExpanded] = useState(false)
 
   return (
-    <div className="bg-dark text-white p-3 min-vh-100">
+    <aside className="bg-dark text-white p-3 admin-sidebar" aria-label="Menu quản trị">
+      <button className="btn btn-outline-light btn-sm admin-menu-toggle" aria-expanded={expanded} aria-controls="admin-navigation" onClick={() => setExpanded(!expanded)}>{expanded ? 'Thu gọn menu quản trị' : 'Mở menu quản trị'}</button>
       <h4 className="mb-4 text-white admin-sidebar-title">
         <strong>Admin Panel</strong>
       </h4>
 
-      <ul className="nav flex-column">
+      <ul id="admin-navigation" className={`nav flex-column admin-navigation${expanded ? ' is-expanded' : ''}`}>
+        <li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/devices">IMEI và tồn kho</Link></li>
+        <li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/warranties">Tra cứu và bảo hành</Link></li>
         <li className="nav-item mb-2">
           <Link className="nav-link text-white" to="/admin">
             Dashboard
@@ -57,7 +62,7 @@ function AdminSidebar() {
           </Link>
         </li>
       </ul>
-    </div>
+    </aside>
   )
 }
 

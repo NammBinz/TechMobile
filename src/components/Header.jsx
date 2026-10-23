@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaSearch, FaHistory, FaHeart, FaSignOutAlt } from 'react-icons/fa'
 import { getCurrentUser, logout } from '../utils/auth'
@@ -7,6 +7,15 @@ function Header() {
   const navigate = useNavigate()
   const currentUser = getCurrentUser()
   const [keyword, setKeyword] = useState('')
+  const headerRef = useRef(null)
+  useLayoutEffect(() => {
+    const header = headerRef.current
+    const measure = () => document.documentElement.style.setProperty('--site-header-height', `${Math.ceil(header.getBoundingClientRect().height)}px`)
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(header)
+    return () => { observer.disconnect(); document.documentElement.style.removeProperty('--site-header-height') }
+  }, [])
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
@@ -31,7 +40,7 @@ function Header() {
   }
 
   return (
-    <header className="site-header">
+    <header ref={headerRef} className="site-header">
       <div className="container">
         <div className="header-shell">
           <Link to="/" className="navbar-brand-box text-decoration-none">

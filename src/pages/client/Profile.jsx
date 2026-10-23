@@ -64,30 +64,7 @@ function Profile() {
     }
 
     try {
-      const usersRes = await api.get('/users')
-
-      const isEmailExist = usersRes.data.find((user) => {
-        return user.email === formData.email && user.id !== currentUser.id
-      })
-
-      if (isEmailExist) {
-        showToast('Email đã được sử dụng bởi tài khoản khác', 'warning')
-        return
-      }
-
-      const oldUserRes = await api.get(`/users/${currentUser.id}`)
-      const oldUser = oldUserRes.data
-
-      const updatedUser = {
-        ...oldUser,
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        address: formData.address,
-        password: formData.password ? formData.password : oldUser.password
-      }
-
-      await api.put(`/users/${currentUser.id}`, updatedUser)
+      const { data: updatedUser } = await api.put('/auth/profile', formData)
 
       const newCurrentUser = {
         id: updatedUser.id,

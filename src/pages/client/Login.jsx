@@ -27,17 +27,9 @@ function Login() {
     }
 
     try {
-      const res = await api.get('/users')
-
-      const user = res.data.find((item) => {
-        const matchAccount =
-          item.email === formData.account ||
-          item.username === formData.account
-
-        const matchPassword = item.password === formData.password
-
-        return matchAccount && matchPassword
-      })
+      const res = await api.post('/auth/login', formData)
+      const user = res.data.user
+      localStorage.setItem('authToken', res.data.token)
 
       if (!user) {
         alert('Tài khoản hoặc mật khẩu không đúng')

@@ -50,21 +50,6 @@ function Register() {
     }
 
     try {
-      const res = await api.get('/users')
-
-      const isEmailExist = res.data.find((user) => user.email === formData.email)
-      const isUsernameExist = res.data.find((user) => user.username === formData.username)
-
-      if (isEmailExist) {
-        alert('Email đã tồn tại')
-        return
-      }
-
-      if (isUsernameExist) {
-        alert('Tên đăng nhập đã tồn tại')
-        return
-      }
-
       const newUser = {
         id: Date.now().toString(),
         fullName: formData.fullName,
@@ -78,13 +63,13 @@ function Register() {
         createdAt: new Date().toLocaleDateString('vi-VN')
       }
 
-      await api.post('/users', newUser)
+      await api.post('/auth/register', newUser)
 
       alert('Đăng ký thành công')
       navigate('/login')
     } catch (error) {
       console.log(error)
-      alert('Có lỗi xảy ra khi đăng ký')
+      alert(error.response?.data?.message || 'Có lỗi xảy ra khi đăng ký')
     }
   }
 

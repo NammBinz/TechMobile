@@ -224,7 +224,7 @@ function FloatingPanels() {
                                             const discount = oldPrice > item.price ? oldPrice - item.price : 0
 
                                             return (
-                                                <div className="mini-product-item cart-mini-item" key={item.id}>
+                                                <div className="mini-product-item cart-mini-item" key={item.cartKey || item.id}>
                                                     <div className="cart-left-column">
                                                         <img src={item.image} alt={item.name} />
                                                         <div className="cart-quantity-badge">

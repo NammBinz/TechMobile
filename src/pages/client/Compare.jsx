@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatPrice } from '../../utils/formatPrice'
 
 function Compare() {
+  const navigate = useNavigate()
   const [compareList, setCompareList] = useState([])
 
   useEffect(() => {
@@ -78,22 +79,7 @@ function Compare() {
   }
 
   const handleAddCart = (product) => {
-    let cart = JSON.parse(localStorage.getItem('cart')) || []
-
-    const index = cart.findIndex((item) => item.id === product.id)
-
-    if (index !== -1) {
-      cart[index].cartQuantity += 1
-    } else {
-      cart.push({
-        ...product,
-        cartQuantity: 1
-      })
-    }
-
-    localStorage.setItem('cart', JSON.stringify(cart))
-    window.dispatchEvent(new Event('cartUpdated'))
-    alert('Đã thêm vào giỏ hàng')
+    navigate(`/products/${product.id}`)
   }
 
   const renderCompareTable = (title, rows) => {

@@ -2,12 +2,21 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../../utils/formatPrice'
 import { getCart, saveCart, showToast } from '../../utils/shopActions'
+import api from '../../services/api'
+import { withVariant } from '../../utils/variants'
 
 function Cart() {
   const [cart, setCart] = useState([])
 
   useEffect(() => {
-    setCart(getCart())
+    api.get('/products').then(({ data }) => {
+      const refreshed = getCart().map(item => {
+        const product = data.find(p => String(p.id) === String(item.productId || item.id))
+        const variant = product?.variants?.find(v => String(v.id) === String(item.variantId))
+        return variant ? { ...withVariant(product, variant), cartQuantity: item.cartQuantity } : { ...item, variantId: null, quantity: 0 }
+      })
+      setCart(refreshed); saveCart(refreshed)
+    }).catch(() => { setCart(getCart()); showToast('Không tải được tồn kho mới nhất', 'warning') })
   }, [])
 
   const getKey = (item) => item.cartKey || item.id
@@ -113,7 +122,7 @@ function Cart() {
                       </div>
 
                       <div className="col-md-5">
-                        <h5>{item.name}</h5>
+                        <h5>{item.name}</h5>{!item.variantId && <Link to={`/products/${item.productId || item.id}`} className="text-danger">Chọn lại phiên bản trước khi thanh toán</Link>}
                         <p className="text-muted mb-1">Hãng: {item.brand}</p>
                         <p className="mb-1">
                           <strong>RAM:</strong> {item.ram || 'Đang cập nhật'} |{' '}

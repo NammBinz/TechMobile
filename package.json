@@ -8,7 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server db.json --port 3000"
+    "server": "node server/index.cjs",
+    "migrate:imei": "node scripts/migrate-imei.cjs",
+    "test": "node --test",
+    "test:ui": "node scripts/smoke-ui.cjs"
   },
   "dependencies": {
     "axios": "^1.16.1",

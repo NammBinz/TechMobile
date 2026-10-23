@@ -2,13 +2,13 @@ import AdminSidebar from './AdminSidebar'
 
 function AdminLayout({ children }) {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid admin-layout">
       <div className="row">
-        <div className="col-md-3 col-lg-2 p-0">
+        <div className="col-md-3 col-lg-2 p-0 admin-sidebar-column">
           <AdminSidebar />
         </div>
 
-        <div className="col-md-9 col-lg-10 p-4">
+        <div className="col-md-9 col-lg-10 p-4 admin-main">
           {children}
         </div>
       </div>

@@ -11,6 +11,7 @@ function OrderInvoiceModal({ order, onClose }) {
     if (status === 'pending') return 'Chờ xác nhận'
     if (status === 'confirmed') return 'Đã xác nhận'
     if (status === 'shipping') return 'Đang giao hàng'
+    if (status === 'delivered') return 'Đã giao hàng'
     if (status === 'completed') return 'Hoàn thành'
     if (status === 'cancelled') return 'Đã hủy'
     return status
@@ -77,9 +78,11 @@ function OrderInvoiceModal({ order, onClose }) {
 
             <tbody>
               {order.items.map((item, index) => (
-                <tr key={item.productId || index}>
+                <tr key={item.id || index}>
                   <td>{index + 1}</td>
-                  <td>{item.name}</td>
+                  <td>{item.name}<br />{item.color} {item.storage}
+                    {(item.deviceSnapshots || []).map(device => <small className="d-block" key={device.deviceId}>IMEI: {device.imei}</small>)}
+                  </td>
                   <td>{formatPrice(item.price)}</td>
                   <td>{item.quantity}</td>
                   <td>{formatPrice(item.price * item.quantity)}</td>

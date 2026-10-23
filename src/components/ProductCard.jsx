@@ -42,7 +42,8 @@ function ProductCard({ product }) {
 
   const handleAddCart = (e) => {
     e.stopPropagation()
-    addToCart(product)
+    if (product.variants?.length) navigate(`/products/${product.id}`)
+    else addToCart(product)
   }
 
   const handleCompare = (e) => {
@@ -90,7 +91,7 @@ function ProductCard({ product }) {
         <div className="product-price-section">
           <div className="price-row">
             <span className="product-price">
-              {formatPrice(product.price)}
+              {product.variants?.length ? 'Từ ' : ''}{formatPrice(product.price)}
             </span>
 
             {(product.oldPrice || product.msrp) > product.price && (

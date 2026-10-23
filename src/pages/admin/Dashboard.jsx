@@ -20,6 +20,7 @@ function Dashboard() {
   const [products, setProducts] = useState([])
   const [users, setUsers] = useState([])
   const [orders, setOrders] = useState([])
+  const [devices, setDevices] = useState([])
 
   useEffect(() => {
     getData()
@@ -30,10 +31,12 @@ function Dashboard() {
       const productRes = await api.get('/products')
       const userRes = await api.get('/users')
       const orderRes = await api.get('/orders')
+      const deviceRes = await api.get('/devices')
 
       setProducts(productRes.data)
       setUsers(userRes.data)
       setOrders(orderRes.data)
+      setDevices(deviceRes.data)
     } catch (error) {
       console.log(error)
     }
@@ -297,6 +300,7 @@ function Dashboard() {
       </div>
 
       <div className="row">
+        <div className="col-12 mb-3"><div className="card p-3"><strong>Kho IMEI · Mỗi máy một IMEI</strong><div className="d-flex gap-3 flex-wrap mt-2"><span>Khả dụng bán: {products.reduce((s, p) => s + p.quantity, 0)}</span><span title="Máy đã gán IMEI cho đơn, chưa xuất giao; không bao gồm máy đã bán">Đã phân bổ (chờ giao): {devices.filter(d => d.status === 'allocated').length}</span><span>Đang giao: {devices.filter(d => d.status === 'shipping').length}</span><span title="Máy đã giao thành công, gồm đơn delivered và completed">Đã bán: {devices.filter(d => d.status === 'sold').length}</span><span>Chờ nhận lại/kiểm tra: {devices.filter(d => ['return_pending', 'quarantine'].includes(d.status)).length}</span><span>Phiên bản sắp hết: {products.flatMap(p => p.variants || []).filter(v => v.quantity > 0 && v.quantity <= 5).length}</span><span>Phiên bản hết hàng: {products.flatMap(p => p.variants || []).filter(v => v.quantity <= 0).length}</span></div></div></div>
         <div className="col-md-3 mb-3">
           <div className="card admin-stat-card stat-blue">
             <div className="card-body">

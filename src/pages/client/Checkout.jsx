@@ -4,12 +4,14 @@ import api from '../../services/api'
 import { formatPrice } from '../../utils/formatPrice'
 import { getCurrentUser } from '../../utils/auth'
 import { showToast, saveCart } from '../../utils/shopActions'
+import { messageOf, runCommand } from '../../services/operations'
 
 function Checkout() {
   const navigate = useNavigate()
   const currentUser = getCurrentUser()
 
   const [cart, setCart] = useState([])
+  const [submitting, setSubmitting] = useState(false)
   const [couponCode, setCouponCode] = useState('')
   const [appliedCoupon, setAppliedCoupon] = useState(null)
 
@@ -117,105 +119,20 @@ function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    if (!currentUser) {
-      showToast('Bạn cần đăng nhập trước khi thanh toán', 'warning')
-      navigate('/login')
-      return
-    }
-
-    if (cart.length === 0) {
-      showToast('Giỏ hàng đang trống', 'warning')
-      return
-    }
-
-    if (!formData.receiverName || !formData.phone || !formData.address) {
-      showToast('Vui lòng nhập đầy đủ thông tin nhận hàng', 'warning')
-      return
-    }
-
-    for (const item of cart) {
-      const productId = item.productId || item.id
-      const productRes = await api.get(`/products/${productId}`)
-      const latestProduct = productRes.data
-
-      if (latestProduct.status !== 'active') {
-        showToast(`Sản phẩm ${latestProduct.name} hiện không còn kinh doanh`, 'warning')
-        return
-      }
-
-      if (Number(latestProduct.quantity) <= 0) {
-        showToast(`Sản phẩm ${latestProduct.name} đã hết hàng`, 'warning')
-        return
-      }
-
-      if (item.cartQuantity > Number(latestProduct.quantity)) {
-        showToast(
-          `Sản phẩm ${latestProduct.name} chỉ còn ${latestProduct.quantity} sản phẩm`,
-          'warning'
-        )
-        return
-      }
-    }
-
-    const newOrder = {
-      id: Date.now().toString(),
-      userId: currentUser.id,
-      customerName: currentUser.fullName,
-      items: cart.map((item) => ({
-        productId: item.productId || item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.cartQuantity,
-        image: item.image
-      })),
-      coupon: appliedCoupon
-        ? {
-          code: appliedCoupon.code,
-          discountType: appliedCoupon.discountType || 'percent',
-          discount: appliedCoupon.discount
-        }
-        : null,
-      couponDiscount: couponDiscount,
-      totalPrice: finalTotal,
-      receiverName: formData.receiverName,
-      phone: formData.phone,
-      address: formData.address,
-      paymentMethod: formData.paymentMethod,
-      paymentStatus: 'unpaid',
-      paidAt: null,
-      paidBy: null,
-      note: formData.note,
-      status: 'pending',
-      createdAt: new Date().toLocaleDateString('vi-VN')
-    }
-
+    if (submitting) return
+    if (!currentUser) { showToast('Bạn cần đăng nhập trước khi thanh toán', 'warning'); navigate('/login'); return }
+    if (!cart.length || cart.some(item => !item.variantId)) { showToast('Vui lòng chọn lại phiên bản trong giỏ hàng', 'warning'); navigate('/cart'); return }
+    setSubmitting(true)
     try {
-      await api.post('/orders', newOrder)
-
-      // Trừ tồn kho
-      for (const item of cart) {
-        const productId = item.productId || item.id
-        const productRes = await api.get(`/products/${productId}`)
-        const latestProduct = productRes.data
-
-        await api.patch(`/products/${productId}`, {
-          quantity: Number(latestProduct.quantity) - Number(item.cartQuantity)
-        })
-      }
-
-      saveCart([])
-      setCart([])
-
-      showToast('Đặt hàng thành công', 'success')
-
-      setTimeout(() => {
-        navigate('/orders')
-      }, 500)
-    } catch (error) {
-      console.log(error)
-      showToast('Có lỗi xảy ra khi đặt hàng', 'warning')
-    }
+      await runCommand('place', {
+        items: cart.map(item => ({ productId: item.productId || item.id, variantId: item.variantId, quantity: item.cartQuantity })),
+        shipping: formData, couponCode: appliedCoupon?.code || null, expectedTotal: productTotal
+      })
+      saveCart([]); setCart([])
+      showToast('Đặt hàng thành công. Cửa hàng sẽ phân bổ IMEI khi chuẩn bị giao.')
+      navigate('/orders')
+    } catch (error) { showToast(messageOf(error), 'warning') }
+    finally { setSubmitting(false) }
   }
 
   if (cart.length === 0) {
@@ -312,7 +229,7 @@ function Checkout() {
                     ></textarea>
                   </div>
 
-                  <button type="submit" className="btn btn-success">
+                  <button type="submit" className="btn btn-success" disabled={submitting}>
                     Xác nhận đặt hàng
                   </button>
                 </form>
@@ -330,7 +247,7 @@ function Checkout() {
                 {cart.map((item) => (
                   <div
                     className="d-flex align-items-center border-bottom py-2"
-                    key={item.id}
+                    key={item.cartKey || item.id}
                   >
                     <img
                       src={item.image}
@@ -344,7 +261,7 @@ function Checkout() {
                     />
 
                     <div className="flex-grow-1">
-                      <strong>{item.name}</strong>
+                      <strong>{item.name} {item.color} {item.storage}</strong>
                       <p className="mb-0 text-muted">
                         Số lượng: {item.cartQuantity}
                       </p>
