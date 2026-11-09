@@ -19,7 +19,7 @@ function createStore(initial, file = null, writer = writeSnapshot) {
         requireThat(typeof operationId === 'string' && operationId.length >= 8 && operationId.length <= 150, 'Thiếu mã thao tác')
         const fingerprint = createHash('sha256').update(JSON.stringify({ actorId: String(actor.id), action, payload })).digest('hex')
         const previous = state.inventoryOperations.find(op => op.id === operationId)
-        if (previous) { requireThat(previous.fingerprint === fingerprint, 'Mã thao tác đã dùng cho nội dung khác', 409); return structuredClone(previous.result) }
+        if (previous) { const compatible = [actor.id, ...(actor.legacyIds || [])].some(actorId => createHash('sha256').update(JSON.stringify({ actorId: String(actorId), action, payload })).digest('hex') === previous.fingerprint); requireThat(compatible, 'Mã thao tác đã dùng cho nội dung khác', 409); return structuredClone(previous.result) }
         const draft = structuredClone(state)
         const result = apply(draft)
         invariant(draft)

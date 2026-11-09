@@ -1,5 +1,19 @@
 # TechMobile — đối chiếu chức năng
 
+**06/11 — toàn bộ mã quản lý:** sau yêu cầu tiếp theo đã chuẩn hóa 345 ID và quan hệ, cấp mới string 13 chữ số, giữ alias/giỏ cũ/cache idempotency. UUID kỹ thuật và IMEI giữ nguyên. [Bằng chứng và backup](ENTITY_CODES_2026-11-06.md), 47 domain/HTTP + Chrome migration fixture + build đạt.
+
+**06/11 — mã đơn:** đã chuẩn hóa 29 mã đơn thành string 13 chữ số (đổi 6 UUID + một mã number 1, giữ 22 mã cũ), cấp mã mới chống trùng và giữ alias/quan hệ/cache retry. 43 domain/HTTP, Chrome và full 32/32, build đạt. [Mapping, backup và danh sách định dạng ID khác](ORDER_CODES_2026-11-06.md). Chưa đổi ID các thực thể ngoài đơn hàng.
+
+**06/11/2026:** import .xlsx/CSV admin-only có xem trước lỗi theo dòng, IMEI Text/giá vốn/SKU/trùng; áp dụng vào phiếu nháp rồi xác nhận nguyên tử. Đã cập nhật giá có nguồn cho 129 SKU (127 giá đổi), giữ 145 SKU chưa khớp; fake vốn một lần theo yêu cầu 80–90% giá bán trước cập nhật cho 841 máy/23 snapshot thiếu. Không fake nhập mới. [Nguồn, backup và kiểm chứng](IMPORT_AND_PRICES_2026-11-06.md): 39 domain/HTTP, Chrome nhập Excel thật và full 32/32 đạt.
+
+**02/11/2026:** đã triển khai ba phần được duyệt: nhà cung cấp/phiếu nhập/giá vốn, timeline đơn/hồ sơ IMEI và Dashboard tổng hợp có lọc ngày/năm/CSV. Quyền giá vốn/lợi nhuận chỉ admin; dữ liệu cũ thiếu giữ rõ unknown, không sinh giá. [Phạm vi và schema](OPERATIONS_REPORTING.md), [kiểm chứng 34 domain/HTTP và UI](TEST_REPORT_2026-11-02.md). Full 31/32 do nhóm đọc website thật chưa có server, 31 nhóm fixture đạt. Những kết quả cũ bên dưới giữ nguyên theo thời điểm.
+
+**Kết quả mới nhất A–E 23/10:** lựa chọn phiên bản theo RAM/dung lượng, xem hết hàng nhưng chặn mua, giữ màu hợp lệ; editor có RAM, API chặn trùng tổ hợp và bảo vệ SKU đã có máy. Đã sửa 404 kẹt tải và đồng bộ Compare/panel. **27/27 domain/HTTP, 32/32 UI mở rộng và Chrome smoke/build đạt**; lint 29 errors/5 warnings cũ còn lại. Không sửa db trong lượt này. Các ghi chú 29/32 và ba lỗi dưới đây thuộc trước lần sửa; xem TEST_REPORT_2026-10-23.md.
+
+Kiểm chứng đợt IMEI demo/form admin: **23/23 domain/API**, Chrome smoke đạt, **29/32 UI mở rộng** (ba lỗi cũ giữ nguyên), build đạt; lint baseline 30 errors/5 warnings. Xem [báo cáo 23/10](TEST_REPORT_2026-10-23.md).
+
+**Cập nhật 23/10/2026:** có nút **Tạo IMEI demo** trong trang kho, chọn số lượng để tạo mã hợp lệ không trùng rồi bấm **Nhập kho** mới lưu. Giữ provenance `demo_generated`, không sinh lại dữ liệu cũ. Form admin được chia nhóm, đồng bộ nhãn/trường bắt buộc, ảnh xem trước, mật khẩu ẩn/hiện, thẻ phiên bản responsive và hộp thoại ghi chú cho máy/phiếu bảo hành. Xem [thiết kế hiện hành](IMEI_WARRANTY.md). Commit phần IMEI: `8aca7e4 — Update IMEI` đã push trước khi chỉnh form; không đưa db đang dùng vào commit.
+
 **Kiểm thử tổng thể 17/10/2026:** đã trực tiếp mở website đang chạy (chỉ đọc trang công khai), kiểm invariant/API thật và chạy các thao tác ghi qua Chrome + API fixture riêng. **22/22 domain/HTTP tests**, smoke IMEI và build đạt; **29/32 nhóm UI mở rộng đạt**, 3 lỗi còn tồn tại: chi tiết không chọn được RAM khác cùng màu/storage, xóa so sánh không đồng bộ panel nổi, ID sản phẩm không tồn tại kẹt trạng thái tải. Không sửa mã ứng dụng hoặc db trong đợt kiểm tra. Xem [báo cáo, ma trận và bước tái hiện](TEST_REPORT_2026-10-17.md). Các trạng thái audit cũ bên dưới cần đọc cùng kết quả này; không khẳng định mọi tính năng đã hoàn chỉnh.
 
 **Bổ sung giao diện kho 17/10/2026:** bộ lọc hãng/dòng điện thoại/phiên bản RAM-dung lượng/màu; tách cột màu/dung lượng; số liệu Tổng kho, Đang xử lí, Sẵn bán, Đang giao, Đã bán, Bảo hành đang mở và nhận lại/kiểm tra, tô màu cột trạng thái. Thuật ngữ “Giữ chỗ” không còn trên UI/thông báo. Bảo hành đếm máy có phiếu đang mở; có hướng dẫn trên trang. **22 Node/HTTP tests + Chrome UI + build pass**, lint giữ baseline 30 errors/5 warnings. Không chạy migration hoặc ghi db dự án trong quá trình sửa/kiểm thử.

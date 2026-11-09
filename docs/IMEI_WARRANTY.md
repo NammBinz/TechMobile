@@ -1,5 +1,27 @@
 # TechMobile — IMEI, tồn kho và bảo hành đã triển khai
 
+## Lựa chọn phiên bản cập nhật 23/10/2026
+
+Mỗi product giữ trang riêng, không gộp mẫu Plus/Ultra. Phiên bản active cùng RAM chỉ hiện dung lượng; nhiều RAM hiện RAM - dung lượng. Sắp RAM tăng trước, dung lượng tăng sau (quy đổi TB/GB); dùng cùng helper ở chi tiết, bộ lọc kho và editor. Giữ màu đang chọn nếu tổ hợp đó tồn tại; khi không tồn tại chọn màu đầu tiên của phiên bản mới để không tạo tổ hợp giả. Phiên bản/màu hết hàng vẫn chọn xem giá/thông số nhưng không mua được. Giá, tồn, thông số và cartKey/variantId lấy từ đúng variant.
+
+Editor thêm trường RAM; API chống trùng RAM/dung lượng/màu (bỏ khoảng trắng/hoa thường, quy đổi TB), không xóa variant cũ hoặc đổi RAM/màu/dung lượng của variant có devices. RAM thiếu ở dữ liệu cũ dùng RAM product làm fallback; không migration db cho thay đổi này. Chỉnh RAM chung của sản phẩm cần bảo toàn định danh máy có sẵn.
+
+## Bổ sung IMEI đơn hủy theo yêu cầu 23/10/2026
+
+Chủ dự án đã yêu cầu điền IMEI cho các đơn còn thiếu, thay thế quyết định trước đó không bổ sung đơn hủy. Đã áp dụng `node scripts/backfill-order-imeis.cjs --apply` sau khi dừng API: **10 đơn, 17 dòng, 18 IMEI**. Backup: `backups/db-before-order-imei-backfill-1792731072717.json`. Khi bắt đầu thống kê có 9 đơn cũ; một đơn hủy mới phát sinh trong lúc làm được bổ sung cùng đợt. API đã khởi động lại, cần đăng nhập lại.
+
+Đây là dữ liệu mô phỏng được bổ sung, không phải bằng chứng từng xuất giao: snapshot có `simulated=true`, `historicalOnly=true`; dòng đơn có `imeiHistorySource=demo_backfill` và thời điểm bổ sung. Máy tham chiếu riêng có `origin=demo_order_backfill`, status=retired, historicalOnly=true, không assignment. Không tính vào tồn bán, không tạo bảo hành; API chặn đưa máy lịch sử về available và UI ẩn nút đổi trạng thái. Không sửa máy đã có, snapshot đã có, trạng thái/thanh toán/giá đơn; biến thể thiếu được suy luận theo dung lượng trong dữ liệu, fallback phiên bản đầu và đánh dấu legacyVariantInferred. Không suy tạo ngày giao hoặc lịch sử phân bổ.
+
+Script mặc định dry-run; apply lấy lock độc quyền, tạo backup trước khi ghi nguyên tử và không tự chạy khi bật server. Chạy lại không sinh thêm mã. Chỉ bổ sung dòng đơn hủy released chưa có snapshot/assignment; đơn đang xử lý phải dùng luồng phân bổ bình thường. Kiểm tra sau cập nhật: không còn dòng thiếu cả snapshot và assignment, tồn và tất cả collection ngoài orders/devices không đổi.
+
+## Giao diện form admin 23/10/2026
+
+- Form sản phẩm chia thông tin chung, giá/tồn, thông số và mô tả; có ảnh xem trước. Giá tổng khi sửa và tồn IMEI là trường chỉ đọc, có hướng dẫn nơi cập nhật.
+- Form tài khoản/nhân sự chia liên hệ, đăng nhập, quyền/trạng thái; mật khẩu mặc định ẩn, có nút Hiện/Ẩn. Danh mục và mã giảm giá dùng cùng nhóm trường, nhãn bắt buộc và vùng lưu/hủy gọn.
+- Phiên bản hiển thị dạng thẻ responsive, không phải bảng nhập quá rộng; giữ ID/metadata và API hiện có. RAM có sẵn được hiển thị cùng màu/dung lượng để phân biệt.
+- Nhập IMEI và tiếp nhận bảo hành có hướng dẫn, nhãn liên kết trường; các bộ lọc dùng cùng kiểu input. Đổi trạng thái máy và xử lý phiếu bảo hành dùng hộp thoại ghi chú thay prompt trình duyệt, bắt buộc nội dung, khóa nút trong khi lưu, hỗ trợ Escape/Tab.
+- Component dùng chung: `AdminFormSection`, `AdminFields`, `AdminField`, `AdminNoteModal`; CSS chỉ áp dụng trong `.admin-layout`. Không sửa dữ liệu kho hoặc chạy migration cho thay đổi giao diện.
+
 ## Tạo IMEI demo theo yêu cầu chủ dự án
 
 Admin chọn số lượng rồi bấm **Tạo IMEI demo** để thêm mã hợp lệ vào ô nhập, giữ các mã đang có. Nút không nhập kho; bấm **Nhập kho** mới lưu máy vào đúng phiên bản đã chọn. Mỗi lần tối đa 500 máy. API `POST /devices/demo-imeis` chỉ admin, loại trùng với kho và danh sách đang soạn; kiểm trùng lại khi nhập qua transaction. Không sinh lại IMEI cũ. Máy tạo từ nút lưu `origin=demo_generated`; snapshot giao hàng giữ `simulated=true`. IMEI gõ tay vẫn kiểm checksum/trùng, origin=manual. Các mã demo là định danh mô phỏng theo yêu cầu chủ dự án, không xác minh từ nhà sản xuất.
@@ -112,6 +134,8 @@ Mọi thao tác domain đi qua `POST /commands/:action`, với token Bearer và 
 | transition-claim | Admin/staff; revision và bước xử lý hợp lệ; bắt buộc ghi chú, lưu lịch sử. |
 
 device.assignment là nguồn chuẩn của phân bổ hiện hành. deviceSnapshots chỉ ghi khi shipping (hoặc migration lịch sử đã bán); bảo toàn IMEI trên đơn/invoice sau các thay đổi khác.
+
+**Chốt luồng bán lại 23/10/2026:** một IMEI có thể xuất hiện trong snapshot của nhiều đơn lịch sử, nhưng chỉ có một assignment hiện hành. Đơn A đã shipping rồi hủy giữ snapshot vĩnh viễn; máy phải qua return_pending → quarantine → available trước khi gán cho đơn B. Đơn B delivered/completed giữ cùng IMEI, máy sold không được phân bổ hoặc đưa về available bằng lệnh đổi trạng thái. Bảo hành tra theo cả deviceId và orderId, thuộc khách của lần bán thành công; quyền của đơn hủy suspended khi chờ trả và void khi nhận lại. Retry hủy/nhận của đơn A không được giải phóng máy đang thuộc đơn B. Admin và lịch sử khách có giải thích IMEI lịch sử trên đơn hủy. Không gán ngược IMEI vào đơn cũ thiếu snapshot.
 
 Hủy trước xuất giao: release hold và máy allocated về available. Hủy shipping/delivered: máy return_pending, không bán lại cho tới khi nhận về quarantine và admin kiểm tra chuyển available. Đơn paid bị hủy giữ nguyên thông tin paid để không che lịch sử thu tiền; hoàn tiền chưa tích hợp. Không có tự hoàn thành sau ba ngày, tự hết hạn pending hay giao nhiều đợt.
 

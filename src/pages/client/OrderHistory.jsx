@@ -5,6 +5,7 @@ import { formatPrice } from '../../utils/formatPrice'
 import { getCurrentUser } from '../../utils/auth'
 import { showToast } from '../../utils/shopActions'
 import OrderInvoiceModal from '../../components/OrderInvoiceModal'
+import OrderTimeline from '../../components/OrderTimeline'
 import OrderDevices from '../../components/OrderDevices'
 import { messageOf, runCommand } from '../../services/operations'
 import { formatDate } from '../../utils/variants'
@@ -365,6 +366,7 @@ function OrderHistory() {
                 </div>
               )}
 
+              <OrderTimeline order={order} />
               <OrderDevices order={order} warranties={warranties} claims={claims} />
               <div className="table-responsive">
                 <table className="table table-bordered align-middle text-center">

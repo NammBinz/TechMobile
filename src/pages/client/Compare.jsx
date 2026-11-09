@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { getCompareList, saveCompareList as persistCompareList } from '../../utils/shopActions'
 import { formatPrice } from '../../utils/formatPrice'
 
 function Compare() {
@@ -7,8 +8,10 @@ function Compare() {
   const [compareList, setCompareList] = useState([])
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('compareList')) || []
-    setCompareList(data)
+    const sync = () => setCompareList(getCompareList())
+    sync()
+    window.addEventListener('compareUpdated', sync)
+    return () => window.removeEventListener('compareUpdated', sync)
   }, [])
 
   const getSpecs = (product) => {
@@ -61,7 +64,7 @@ function Compare() {
 
   const saveCompareList = (newList) => {
     setCompareList(newList)
-    localStorage.setItem('compareList', JSON.stringify(newList))
+    persistCompareList(newList)
   }
 
   const handleRemove = (id) => {
@@ -75,7 +78,7 @@ function Compare() {
     if (!confirmClear) return
 
     setCompareList([])
-    localStorage.removeItem('compareList')
+    persistCompareList([])
   }
 
   const handleAddCart = (product) => {

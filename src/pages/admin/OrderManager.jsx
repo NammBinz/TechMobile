@@ -1,3 +1,6 @@
+import OrderTimeline from '../../components/OrderTimeline'
+import { getCurrentUser } from '../../utils/auth'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react'
 import api from '../../services/api'
 import AdminLayout from '../../components/AdminLayout'
@@ -11,7 +14,8 @@ function OrderManager() {
   const [orders, setOrders] = useState([])
   const [orderDevices, setOrderDevices] = useState([])
   const [statusFilter, setStatusFilter] = useState('all')
-  const [search, setSearch] = useState('')
+  const [params] = useSearchParams()
+  const [search, setSearch] = useState(params.get('order') || '')
   const [invoiceOrder, setInvoiceOrder] = useState(null)
   const [cancelOrder, setCancelOrder] = useState(null)
   const [cancelReason, setCancelReason] = useState('')
@@ -88,6 +92,7 @@ function OrderManager() {
 
     const matchSearch =
       order.id.toString().includes(search) ||
+      (order.legacyIds || []).some(value => String(value).includes(search)) ||
       order.customerName?.toLowerCase().includes(search.toLowerCase()) ||
       order.receiverName?.toLowerCase().includes(search.toLowerCase()) ||
       order.phone?.includes(search)
@@ -225,6 +230,9 @@ function OrderManager() {
               </div>
 
               {order.status === 'cancelled' && orderDevices.some(d => d.status === 'return_pending' && String(d.assignment?.orderId) === String(order.id)) && <OrderDeviceAllocation order={order} onChange={getOrders} />}
+              {order.status === 'cancelled' && order.items.some(item => item.deviceSnapshots?.length > 0) && !order.items.some(item => item.imeiHistorySource === 'demo_backfill') && <p className="small text-muted mb-2">IMEI đã xuất giao được lưu theo đơn này, kể cả khi máy đã nhận về và bán cho đơn khác. Chỉ được bán lại sau khi nhận về và kiểm tra đạt.</p>}
+              {order.items.some(item => item.imeiHistorySource === 'demo_backfill') && <p className="small text-muted">Đơn cũ đã được bổ sung IMEI mô phỏng theo yêu cầu; không xác nhận máy đã từng xuất giao và không tính vào tồn bán.</p>}
+              <OrderTimeline order={order} admin={getCurrentUser()?.role === 'admin'} />
               <div className="table-responsive">
                 <table className="table table-bordered align-middle text-center">
                   <thead>
@@ -252,7 +260,7 @@ function OrderManager() {
                           />
                         </td>
 
-                        <td>{item.name}{(item.color || item.storage) && <><br />{[item.color, item.storage].filter(Boolean).join(' · ')}</>}<div className="order-item-imeis">{(item.deviceSnapshots?.length ? item.deviceSnapshots : orderDevices.filter(d => String(d.assignment?.orderId) === String(order.id) && String(d.assignment?.orderItemId) === String(item.id))).map(d => <small className="d-block" key={d.deviceId || d.id}>IMEI: {d.imei}</small>)}{!item.deviceSnapshots?.length && !orderDevices.some(d => String(d.assignment?.orderId) === String(order.id) && String(d.assignment?.orderItemId) === String(item.id)) && <small className="text-muted">{order.status === 'cancelled' ? 'Chưa ghi nhận IMEI cho dòng đơn này.' : 'Chưa phân bổ IMEI.'}</small>}</div></td>
+                        <td>{item.name}{(item.color || item.storage) && <><br />{[item.color, item.storage].filter(Boolean).join(' · ')}</>}<div className="order-item-imeis">{(item.deviceSnapshots?.length ? item.deviceSnapshots : orderDevices.filter(d => String(d.assignment?.orderId) === String(order.id) && String(d.assignment?.orderItemId) === String(item.id))).map(d => <small className="d-block" key={d.deviceId || d.id}>IMEI: <Link to={'/admin/imei?imei=' + d.imei}>{d.imei}</Link></small>)}{!item.deviceSnapshots?.length && !orderDevices.some(d => String(d.assignment?.orderId) === String(order.id) && String(d.assignment?.orderItemId) === String(item.id)) && <small className="text-muted">{order.status === 'cancelled' ? 'Chưa ghi nhận IMEI cho dòng đơn này.' : 'Chưa phân bổ IMEI.'}</small>}</div></td>
 
                         <td>{formatPrice(item.price)}</td>
 
@@ -320,7 +328,7 @@ function OrderManager() {
                     Hóa đơn
                   </button>
 
-                  <span className={getStatusBadge(order.status)} style={{ height: '30px', lineHeight: '20px', width: '165px' }}>
+                  <span className={getStatusBadge(order.status)} style={{ height: '30px', lineHeight: '20px', width: '110px' }}>
                     {getStatusText(order.status)}
                   </span>
                 </div>
@@ -364,15 +372,17 @@ function OrderManager() {
             <h3>Lý do hủy đơn hàng</h3>
 
             <form onSubmit={handleSubmitAdminCancelOrder}>
+              <label htmlFor="admin-cancel-reason" className="form-label">Lý do hủy <span className="admin-required">*</span></label>
               <textarea
                 className="form-control mb-3"
                 rows="4"
-                value={cancelReason}
+                id="admin-cancel-reason" required value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder="Nhập lý do hủy đơn hàng..."
               />
 
-              <button className="btn btn-danger me-2">
+              <div className="admin-form-actions">
+              <button type="submit" className="btn btn-danger">
                 Xác nhận hủy đơn
               </button>
 
@@ -383,6 +393,7 @@ function OrderManager() {
               >
                 Đóng
               </button>
+              </div>
             </form>
           </div>
         </div>

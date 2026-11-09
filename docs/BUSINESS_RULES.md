@@ -1,5 +1,7 @@
 # TechMobile — quy tắc nghiệp vụ
 
+**Quy tắc bổ sung 02/11/2026:** [OPERATIONS_REPORTING.md](OPERATIONS_REPORTING.md) quy định phiếu nhập, nhà cung cấp, snapshot giá vốn, timeline và báo cáo đã được duyệt. Doanh thu theo completedAt; ghi nhận thanh toán theo ledger/paidAt, tách điều chỉnh demo. Thiếu giá vốn không bằng 0; snapshot đã biết không đổi khi điều chỉnh giá nhập. Admin có lệnh bổ sung snapshot còn thiếu với lý do. Không có công nợ/hoàn tiền tự động trong phạm vi mới.
+
 **Quy tắc hiện hành cập nhật 17/10/2026:** [IMEI_WARRANTY.md](IMEI_WARRANTY.md) thay thế các phần “Hiện tại” liên quan bên dưới. Phần còn lại là snapshot audit trước thay đổi.
 
 **Bổ sung 23/10:** Máy chờ nhận lại phải có device return_pending và IMEI gắn đúng dòng đơn; đơn hủy cũ không có dữ liệu IMEI không tự trở thành hàng chờ nhận về. Nhận máy xong giữ snapshot lịch sử. Đã phân bổ (chờ giao), Đang giao và Đã bán là các số đếm trạng thái allocated/shipping/sold tách biệt, không phải các số phải bằng nhau.

@@ -50,7 +50,8 @@ async function main() {
   }
   const goto = async route => { await send('Page.navigate', { url: uiOrigin + route }); await until('document.readyState === "complete"', route) }
   const fill = (selector, value) => evaluate(`(() => { const input = document.querySelector(${JSON.stringify(selector)}); if (!input) throw Error('Missing input'); const prototype = input.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : input.tagName === 'SELECT' ? HTMLSelectElement.prototype : HTMLInputElement.prototype; Object.getOwnPropertyDescriptor(prototype, 'value').set.call(input, ${JSON.stringify(value)}); input.dispatchEvent(new Event('input', {bubbles:true})); input.dispatchEvent(new Event('change', {bubbles:true})); })()`)
-  const click = label => evaluate(`(() => {const button = [...document.querySelectorAll('button')].find(b=>b.textContent.trim() === ${JSON.stringify(label)});if(!button)throw Error('Missing button: '+${JSON.stringify(label)});button.click()})()`)
+  const confirmNote = async () => { await until('!!document.querySelector(".admin-note-modal textarea")', 'note modal'); await fill('.admin-note-modal textarea', 'Fixture service note'); await evaluate('document.querySelector(".admin-note-modal button[type=submit]").click()') }
+  const click = async label => { await evaluate(`(() => {const button = [...document.querySelectorAll('button')].find(b=>(b.textContent.trim() === ${JSON.stringify(label)} || b.getAttribute('aria-label') === ${JSON.stringify(label)}));if(!button)throw Error('Missing button: '+${JSON.stringify(label)});button.click()})()`); if (label !== 'Xác nhận' && await evaluate('!!document.querySelector(".admin-note-modal")')) await confirmNote() }
   const screenshot = async name => { const image = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false }); fs.writeFileSync(path.join(artifacts, name + '.png'), Buffer.from(image.data, 'base64')) }
   const noDemo = async () => assert.ok(await evaluate('[...document.querySelectorAll(".badge,.order-item-imeis,.device-warranty-line,.invoice-print-area")].every(e=>!/(?:\\bDemo\\b|\\(demo\\))/i.test(e.innerText))'), 'IMEIs must not display Demo provenance labels')
   const login = async role => {
@@ -146,8 +147,10 @@ async function main() {
     await evaluate('window.scrollTo(0, 0)')
     await click('Đóng danh sách IMEI'); await until('!document.querySelector(".variant-device-list")', 'close scoped list')
     console.log('PASS brand/model/RAM/storage/color filters and reset, colored stock columns, scoped IMEI pagination; sticky sidebar at desktop/laptop/tablet/mobile')
-    await goto('/admin/products'); await until('document.body.innerText.includes("Phiên bản")', 'product manager')
+    await goto('/admin/products'); await until('[...document.querySelectorAll("button")].some(b=>b.textContent.trim()==="Phiên bản")', 'product manager')
+    await screenshot('admin-product-form-desktop')
     await click('Phiên bản'); await until('!!document.querySelector("#variant-editor")', 'variant editor')
+    await screenshot('admin-variant-form-desktop')
     await fill('#variant-editor input[aria-label=price]', '10000001'); await click('Lưu phiên bản')
     await until('!document.querySelector("#variant-editor")', 'saved variant')
     assert.equal(store.state.products[0].variants[0].price, 10000001)
@@ -257,10 +260,29 @@ async function main() {
     await screenshot('returns-imei-after-receipt')
     assert.deepEqual(exceptions, [])
     console.log('PASS return IMEIs in product rows and return panel; legacy cancellations have no phantom return; received IMEIs persist; allocated and sold counts are separate')
+    const returnedDevices = store.state.devices.filter(d => returnImeis.includes(d.imei))
+    for (const device of returnedDevices) await execute(fixtureAdmin, 'device-status', { deviceId: device.id, expectedRevision: device.revision, status: 'available', reason: 'Fixture inspection passed' })
+    let resaleOrder = await execute(fixtureCustomer, 'place', { items: [{ productId: 'fixture', variantId: 'blue', quantity: 2 }], shipping: { receiverName: 'Fixture resale', phone: '0000000000', address: 'Fixture address', paymentMethod: 'COD' } })
+    resaleOrder = await execute(fixtureAdmin, 'allocate', { orderId: resaleOrder.id, orderItemId: resaleOrder.items[0].id, expectedRevision: resaleOrder.revision, deviceIds: returnedDevices.map(d => d.id) })
+    for (const status of ['confirmed', 'shipping', 'delivered', 'completed']) resaleOrder = await execute(status === 'completed' ? fixtureCustomer : fixtureAdmin, 'transition', { orderId: resaleOrder.id, expectedRevision: resaleOrder.revision, status })
+    await goto('/admin/orders')
+    const resaleSelector = `[data-order-id="${resaleOrder.id}"]`
+    await until(`!!document.querySelector(${JSON.stringify(resaleSelector)})`, 'resale order completed')
+    for (const selector of [returnSelector, resaleSelector]) for (const imei of returnImeis) assert.ok(await evaluate(`document.querySelector(${JSON.stringify(selector + ' .order-item-imeis')}).innerText.includes(${JSON.stringify(imei)})`))
+    assert.ok(await evaluate(`document.querySelector(${JSON.stringify(returnSelector)}).innerText.includes('IMEI đã xuất giao')`))
+    await screenshot('resale-imei-old-and-new-orders')
+    await logout(); await login('customer'); await goto('/orders')
+    await until(`document.body.innerText.includes(${JSON.stringify(resaleOrder.id)})`, 'resale in customer history')
+    assert.ok(await evaluate('document.body.innerText.includes("Bảo hành của lần mua khác không thuộc đơn này.")'))
+    assert.deepEqual(exceptions, [])
+    console.log('PASS resale retains IMEI in both orders and customer history after successful completion')
+    await require('./commerce-ui-cases.cjs')({ store, goto, fill, click, until, evaluate, screenshot, login, logout, send })
+    await require('./receipt-import-ui-cases.cjs')({ store, goto, until, evaluate, click, screenshot })
     if (process.argv.includes('--full')) {
-      const report = await require('./full-ui-cases.cjs')({ store, goto, fill, click, evaluate, until, screenshot, send, apiOrigin, uiOrigin, artifacts, exceptions })
+      const report = await require('./full-ui-cases.cjs')({ store, goto, fill, click, confirmNote, evaluate, until, screenshot, send, apiOrigin, uiOrigin, artifacts, exceptions })
       if (report.failed) process.exitCode = 1
     }
+    await require('./entity-ids-ui-cases.cjs')({ store, goto, fill, click, until, evaluate })
   } catch (error) {
     if (browser && sessionId) { try { await screenshot('failure'); console.error(await evaluate('document.body.innerText.slice(-2500)')) } catch { /* Preserve original failure. */ } }
     throw error

@@ -1,0 +1,219 @@
+/* All form styles stay within the admin area. */
+.admin-layout .admin-main form {
+  min-width: 0;
+}
+
+.admin-layout .admin-main .card>.card-header {
+  padding: 1rem 1.25rem;
+  background: #fafafa;
+  border-color: #e5e7eb;
+}
+
+.admin-layout .admin-main .card>.card-body {
+  padding: 1.25rem;
+}
+
+.admin-layout .admin-form-section {
+  min-width: 0;
+  margin: 0 0 1.5rem;
+  padding: 0 0 1.5rem;
+  border: 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-layout .admin-form-section:last-of-type {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.admin-layout .admin-form-section legend {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  float: none;
+  width: auto;
+  margin: 0 0 0.85rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #202936;
+}
+
+.admin-layout .admin-section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  background: #fff0f1;
+  color: #b91c1c;
+  font-size: 0.75rem;
+}
+
+.admin-layout .admin-section-description,
+.admin-layout .admin-field-hint {
+  color: #64748b;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.admin-layout .admin-section-description {
+  margin: -0.3rem 0 1rem;
+}
+
+.admin-layout .admin-field-hint {
+  display: block;
+  margin-top: 0.4rem;
+}
+
+.admin-layout .admin-required {
+  color: #c62828;
+}
+
+.admin-layout .admin-main .form-label {
+  margin-bottom: 0.45rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.admin-layout .admin-main :is(.form-control, .form-select) {
+  min-height: 44px;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.65rem;
+  border-color: #dbe1e8;
+  font-size: 0.9375rem;
+  box-shadow: none;
+}
+
+.admin-layout .admin-main :is(.form-control, .form-select):hover {
+  border-color: #9ca3af;
+}
+
+.admin-layout .admin-main :is(.form-control, .form-select):focus {
+  border-color: #cf2939;
+  box-shadow: 0 0 0 3px rgb(207 41 57 / 10%);
+}
+
+.admin-layout .admin-main .form-control[readonly],
+.admin-layout .admin-main :is(input, textarea, select):disabled {
+  background-color: #f3f5f8;
+  color: #64748b;
+}
+
+.admin-layout .admin-main form textarea.form-control {
+  min-height: 104px;
+  resize: vertical;
+}
+
+.admin-layout .admin-form-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 0 0;
+  margin-top: 1.25rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.admin-layout .admin-main form .admin-form-actions>.btn {
+  flex: 0 1 auto;
+  width: auto !important;
+  min-width: 120px;
+  min-height: 44px;
+  padding: 0.6rem 1.1rem;
+  margin: 0 !important;
+  border-radius: 0.65rem;
+}
+
+.admin-layout .admin-main form .admin-form-actions>small {
+  margin-left: auto;
+  color: #64748b;
+  font-size: 0.8125rem;
+}
+
+.admin-layout .admin-password-control {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+.admin-layout .admin-password-control .form-control {
+  min-width: 0;
+  flex: 1;
+}
+
+.admin-layout .admin-password-control>button {
+  flex: 0 0 auto;
+  min-width: 58px;
+  border-radius: 0.65rem;
+}
+
+.admin-layout .admin-product-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border: 1px dashed #dbe1e8;
+  border-radius: 0.75rem;
+  background: #fafbfc;
+}
+
+.admin-layout .admin-product-preview img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  background: white;
+}
+
+.admin-layout .admin-product-preview p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.admin-layout .admin-variant-card {
+  min-width: 0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.85rem;
+}
+
+.admin-layout .admin-variant-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.admin-layout .admin-filter-panel {
+  padding: 1rem;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.85rem;
+}
+
+@media (max-width: 575.98px) {
+  .admin-layout .admin-main .card>.card-body {
+    padding: 1rem;
+  }
+
+  .admin-layout .admin-form-actions>.btn {
+    flex: 1 1 130px !important;
+  }
+
+  .admin-layout .admin-form-actions>small {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .admin-layout .admin-form-section legend {
+    font-size: 0.9375rem;
+  }
+}

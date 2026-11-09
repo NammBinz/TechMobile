@@ -1,3 +1,4 @@
+import { matchesId } from './entityIds'
 // Chuyển chuỗi JSON thành object JavaScript > return
 export const getCart = () => {
   return JSON.parse(localStorage.getItem('cart')) || []
@@ -44,7 +45,7 @@ export const addToCart = (product) => {
   const productCartKey = product.cartKey || product.id
 
   const index = cart.findIndex((item) => {
-    return (item.cartKey || item.id) === productCartKey
+    return (item.cartKey || item.id) === productCartKey || (matchesId(product, item.productId || item.id) && matchesId({ id: product.variantId, legacyIds: product.variantLegacyIds }, item.variantId))
   })
 
   if (index !== -1) {
@@ -53,7 +54,7 @@ export const addToCart = (product) => {
       return
     }
 
-    cart[index].cartQuantity += 1
+    cart[index] = { ...product, productId: product.productId || product.id, cartKey: productCartKey, cartQuantity: cart[index].cartQuantity + 1 }
   } else {
     cart.push({
       ...product,
@@ -80,10 +81,10 @@ export const removeFromCart = (cartKey) => {
 export const toggleCompareProduct = (product) => {
   let compareList = getCompareList()
 
-  const isExist = compareList.find((item) => item.id === product.id)
+  const isExist = compareList.find((item) => matchesId(product, item.id))
 
   if (isExist) {
-    compareList = compareList.filter((item) => item.id !== product.id)
+    compareList = compareList.filter((item) => !matchesId(product, item.id))
     saveCompareList(compareList)
     showToast(`Đã bỏ ${product.name} khỏi so sánh`, 'info')
     return
@@ -118,7 +119,7 @@ export const isInWishlist = (productId) => {
   const wishlist = getWishlist()
 
   return wishlist.some((item) => {
-    return String(item.id) === String(productId)
+    return typeof productId === 'object' ? matchesId(productId, item.id) : matchesId(item, productId)
   })
 }
 
@@ -126,14 +127,14 @@ export const toggleWishlistProduct = (product) => {
   const wishlist = getWishlist()
 
   const existed = wishlist.find((item) => {
-    return String(item.id) === String(product.id)
+    return matchesId(product, item.id)
   })
 
   let newWishlist = []
 
   if (existed) {
     newWishlist = wishlist.filter((item) => {
-      return String(item.id) !== String(product.id)
+      return !matchesId(product, item.id)
     })
 
     saveWishlist(newWishlist)
@@ -141,6 +142,7 @@ export const toggleWishlistProduct = (product) => {
   } else {
     const wishlistItem = {
       id: product.id,
+      legacyIds: product.legacyIds || [],
       name: product.name,
       price: product.price,
       oldPrice: product.oldPrice,

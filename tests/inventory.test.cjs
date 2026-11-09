@@ -15,11 +15,51 @@ function fixture(quantity = 3) {
   return migrate({ users: [admin, customer, other], products: [{ id: 'p', name: 'Fixture', status: 'active', quantity, price: 100, variants: [{ id: 'a', color: 'Blue', storage: '128GB', price: 100 }, { id: 'b', color: 'Black', storage: '256GB', price: 200 }] }], orders: [], reviews: [], coupons: [], categories: [] }).db
 }
 const shipping = { receiverName: 'Fixture', phone: 'fixture', address: 'fixture', paymentMethod: 'COD' }
+test('variant API rejects duplicate capacity/color and RAM changes for stocked machines without partial writes', async t => {
+  const store = createStore(fixture(2)), server = createApp(store).listen(0, '127.0.0.1')
+  await new Promise(resolve => server.once('listening', resolve))
+  t.after(() => new Promise(resolve => server.close(resolve)))
+  const base = `http://127.0.0.1:${server.address().port}`
+  const login = await fetch(base + '/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ account: 'admin', password: 'fixture-password' }) })
+  const token = (await login.json()).token
+  const patch = variants => fetch(base + '/products/p', { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'Idempotency-Key': id() }, body: JSON.stringify({ variants }) })
+  const before = structuredClone(store.state)
+  const variants = before.products[0].variants
+  assert.equal((await patch([...variants, { ...variants[0], id: 'duplicate', color: ' blue ', storage: '128 GB' }])).status, 400)
+  assert.deepEqual(store.state, before)
+  assert.equal((await patch(variants.map(v => v.id === 'a' ? { ...v, ram: '16GB' } : v))).status, 400)
+  assert.deepEqual(store.state, before)
+  assert.equal((await patch([...variants, { ...variants[0], id: 'new-ram', ram: '16GB' }])).status, 200)
+  assert.equal(store.state.products[0].variants.length, variants.length + 1)
+})
 const placePayload = (variantId = 'a', quantity = 1) => ({ items: [{ productId: 'p', variantId, quantity }], shipping })
 const execute = (store, actor, action, payload, operationId = id()) => store.transact(actor, operationId, action, payload, db => command(db, actor, action, payload))
 async function place(store, quantity = 1) { return execute(store, customer, 'place', placePayload('a', quantity)) }
 async function transition(store, order, status, actor = admin) { return execute(store, actor, 'transition', { orderId: order.id, expectedRevision: order.revision, status }) }
 async function allocate(store, order, deviceIds) { return execute(store, admin, 'allocate', { orderId: order.id, orderItemId: order.items[0].id, expectedRevision: order.revision, deviceIds }) }
+
+test('explicit cancelled-order IMEI backfill preserves stock/history and cannot become sale inventory', () => {
+  const { backfillOrderImeis } = require('../scripts/backfill-order-imeis.cjs')
+  const source = fixture(2)
+  source.orders.push({ id: 'old-cancelled', userId: customer.id, status: 'cancelled', revision: 0, items: [{ id: 'old-line', productId: 'p', name: 'Fixture 128GB', quantity: 2, price: 777, inventoryState: 'released' }] })
+  const original = structuredClone(source), stock = projectProducts(source)
+  const { db, report } = backfillOrderImeis(source)
+  assert.deepEqual(source, original)
+  assert.equal(report.orders, 1); assert.equal(report.imeis, 2)
+  assert.deepEqual(projectProducts(db), stock)
+  assert.deepEqual(db.devices.slice(0, source.devices.length), source.devices)
+  assert.deepEqual(db.warranties, source.warranties)
+  const item = db.orders[0].items[0]
+  assert.equal(item.price, 777); assert.equal(item.inventoryState, 'released')
+  assert.equal(item.deviceSnapshots.length, item.quantity)
+  assert.ok(item.deviceSnapshots.every(s => s.simulated && s.historicalOnly))
+  assert.equal(new Set(db.devices.map(d => d.imei)).size, db.devices.length)
+  const historical = db.devices.at(-1)
+  assert.equal(historical.status, 'retired'); assert.equal(historical.assignment, null)
+  assert.throws(() => command(db, admin, 'device-status', { deviceId: historical.id, expectedRevision: 0, status: 'available', reason: 'Không được bán' }), /lịch sử/)
+  assert.deepEqual(backfillOrderImeis(db).db, db)
+  assert.equal(backfillOrderImeis(db).report.imeis, 0)
+})
 
 test('migration preserves total stock, financial snapshots, one IMEI/device and is repeatable', () => {
   const source = { ...fixture(5), inventoryMeta: undefined, devices: [], warranties: [] }
@@ -106,6 +146,41 @@ test('shipped cancellation stays out of sellable inventory until received and in
   await execute(store, admin, 'device-status', { deviceId: device.id, expectedRevision: store.state.devices[0].revision, status: 'available', reason: 'Đã kiểm tra' })
   assert.equal(availability(store.state, 'p', 'a').sellable, 1)
 })
+for (const cancelledAt of ['shipping', 'delivered']) test(`IMEI history survives resale after cancelling ${cancelledAt}; sold device cannot be reused`, async () => {
+  const store = createStore(fixture(1)), device = store.state.devices[0]
+  let first = await transition(store, await place(store), 'confirmed')
+  first = await transition(store, first, 'shipping')
+  const snapshot = structuredClone(first.items[0].deviceSnapshots)
+  if (cancelledAt === 'delivered') first = await transition(store, first, 'delivered')
+  first = await execute(store, admin, 'cancel', { orderId: first.id, expectedRevision: first.revision, reason: 'Giao không thành công' })
+  await assert.rejects(execute(store, other, 'place', placePayload()), /Không đủ/)
+  await execute(store, admin, 'accept-return', { orderId: first.id, deviceId: device.id, expectedRevision: first.revision })
+  await assert.rejects(execute(store, other, 'place', placePayload()), /Không đủ/)
+  await execute(store, admin, 'device-status', { deviceId: device.id, expectedRevision: store.state.devices[0].revision, status: 'available', reason: 'Đã nhận và kiểm tra đạt' })
+  let second = await execute(store, other, 'place', placePayload())
+  second = await transition(store, second, 'confirmed')
+  second = await transition(store, second, 'shipping')
+  assert.deepEqual(second.items[0].deviceSnapshots, snapshot)
+  second = await transition(store, second, 'delivered')
+  second = await transition(store, second, 'completed', other)
+  const sold = store.state.devices[0]
+  assert.equal(sold.status, 'sold')
+  assert.equal(sold.assignment.orderId, second.id)
+  assert.equal(sold.assignment.customerId, other.id)
+  assert.deepEqual(store.state.orders.find(o => o.id === first.id).items[0].deviceSnapshots, snapshot)
+  const currentWarranty = store.state.warranties.find(w => w.orderId === second.id)
+  assert.equal(currentWarranty.customerId, other.id)
+  assert.equal(currentWarranty.status, 'issued')
+  assert.ok(store.state.warranties.filter(w => w.orderId === first.id).every(w => w.status === 'void'))
+  // A late retry for the old cancellation/return must never release the new owner's machine.
+  await execute(store, admin, 'cancel', { orderId: first.id, expectedRevision: first.revision, reason: 'Thử lại đơn cũ' })
+  await assert.rejects(execute(store, admin, 'accept-return', { orderId: first.id, deviceId: device.id, expectedRevision: store.state.orders.find(o => o.id === first.id).revision }))
+  await assert.rejects(execute(store, admin, 'device-status', { deviceId: device.id, expectedRevision: sold.revision, status: 'available', reason: 'Không được bán lại máy đã bán' }))
+  await assert.rejects(place(store), /Không đủ/)
+  assert.deepEqual(store.state.devices[0], sold)
+  invariant(store.state)
+})
+
 test('warranty claims validate eligibility, prevent duplicate open tickets and preserve history', async () => {
   const store = createStore(fixture(1))
   let order = await allocate(store, await place(store), [store.state.devices[0].id])

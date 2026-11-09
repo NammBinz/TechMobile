@@ -1,3 +1,4 @@
+import { matchesId } from '../utils/entityIds'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatPrice } from '../utils/formatPrice'
@@ -25,19 +26,19 @@ function ProductCard({ product }) {
   const [liked, setLiked] = useState(false)
 
   useEffect(() => {
-    setLiked(isInWishlist(product.id))
-  }, [product.id])
+    setLiked(isInWishlist(product))
+  }, [product])
 
   const handleWishlist = (e) => {
     e.preventDefault()
     e.stopPropagation()
 
     toggleWishlistProduct(product)
-    setLiked(isInWishlist(product.id))
+    setLiked(isInWishlist(product))
   }
 
   const discount = (product.oldPrice || product.msrp || 0) - product.price
-  const isComparing = compareList.some((item) => item.id === product.id)
+  const isComparing = compareList.some((item) => matchesId(product, item.id))
   const isOutOfStock = Number(product.quantity) <= 0 || product.status !== 'active'
 
   const handleAddCart = (e) => {

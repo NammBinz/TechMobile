@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
 import AdminLayout from '../../components/AdminLayout'
+import AdminFormSection, { AdminFields } from '../../components/AdminFormSection'
 
 function UserManager() {
   const [users, setUsers] = useState([])
@@ -207,115 +208,11 @@ function UserManager() {
         </div>
 
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Họ tên</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Tên đăng nhập</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Mật khẩu</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Số điện thoại</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Vai trò</label>
-                <select
-                  className="form-select"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                >
-                  <option value="customer">Khách hàng</option>
-                  <option value="staff">Nhân viên</option>
-                  <option value="admin">Quản trị viên</option>
-                </select>
-              </div>
-
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Trạng thái</label>
-                <select
-                  className="form-select"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                >
-                  <option value="active">Hoạt động</option>
-                  <option value="blocked">Bị khóa</option>
-                </select>
-              </div>
-
-              <div className="col-md-8 mb-3">
-                <label className="form-label">Địa chỉ</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <button type="submit" className="btn btn-primary me-2">
-              {editId ? 'Cập nhật' : 'Thêm mới'}
-            </button>
-
-            {editId && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={resetForm}
-              >
-                Hủy sửa
-              </button>
-            )}
+          <form onSubmit={handleSubmit} className="admin-entry-form">
+            <AdminFormSection number="01" title="Thông tin liên hệ" description="Thông tin sử dụng cho liên hệ và giao nhận."><AdminFields fields={[{"name":"fullName","label":"Họ và tên","required":true,"placeholder":"Nhập họ và tên"},{"name":"email","label":"Email","required":true,"type":"email","placeholder":"ten@example.com"},{"name":"phone","label":"Số điện thoại","required":true,"type":"tel","placeholder":"Nhập số điện thoại"},{"name":"address","label":"Địa chỉ","placeholder":"Số nhà, đường, phường/xã, tỉnh/thành phố"}]} values={formData} onChange={handleChange} idPrefix="usermanager" /></AdminFormSection>
+            <AdminFormSection number="02" title="Thông tin đăng nhập" description="Tên đăng nhập là duy nhất trong hệ thống."><AdminFields fields={[{"name":"username","label":"Tên đăng nhập","required":true,"autoComplete":"off","placeholder":"Nhập tên đăng nhập"},{"name":"password","label":"Mật khẩu","required":true,"type":"password","minLength":6,"hint":"Ít nhất 6 ký tự. Bấm Hiện để kiểm tra trước khi lưu."}]} values={formData} onChange={handleChange} idPrefix="usermanager" /></AdminFormSection>
+            <AdminFormSection number="03" title="Quyền và trạng thái" description="Chọn phạm vi truy cập và trạng thái hoạt động của tài khoản."><AdminFields fields={[{"name":"role","label":"Vai trò","type":"select","options":[{"value":"customer","label":"Khách hàng"},{"value":"staff","label":"Nhân viên"},{"value":"admin","label":"Quản trị viên"}]},{"name":"status","label":"Trạng thái","type":"select","options":[{"value":"active","label":"Hoạt động"},{"value":"blocked","label":"Bị khóa"}]}]} values={formData} onChange={handleChange} idPrefix="usermanager" /></AdminFormSection>
+            <div className="admin-form-actions"><button type="submit" className="btn btn-primary">{editId ? 'Cập nhật' : 'Thêm mới'}</button>{editId && <button type="button" className="btn btn-outline-secondary" onClick={resetForm}>Hủy sửa</button>}<small><span className="admin-required">*</span> Thông tin bắt buộc</small></div>
           </form>
         </div>
       </div>

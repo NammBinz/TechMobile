@@ -1,5 +1,7 @@
 # TechMobile — tổng quan source thực tế
 
+**02/11/2026:** thêm server/commerce.cjs và reports.cjs, các trang SupplierManager/ReceiptManager/DeviceProfile, component OrderTimeline và Dashboard dùng API tổng hợp. Thêm ba route `/admin/suppliers`, `/admin/receipts`, `/admin/imei` (hai route mua hàng chỉ admin). Collections suppliers/purchaseReceipts tùy chọn cho db cũ, không migration trong lượt này. Xem [quy tắc nhập kho/báo cáo hiện hành](OPERATIONS_REPORTING.md).
+
 **Cập nhật 17/10/2026:** xác nhận đơn tự phân bổ FIFO trong domain command hiện có; không đổi store/kiến trúc hoặc db. Trang kho dùng GET /devices/summary (staff/admin) và danh sách IMEI phân trang theo cặp product/variant; OrderManager tự mở IMEI sau xác nhận. Bỏ nhãn Demo, giữ metadata; sidebar sticky dưới navbar đo bằng ResizeObserver, mobile thu gọn. UI fixture chạy cổng động với VITE_API_URL, mặc định API ứng dụng vẫn localhost:3000. Xem [IMEI_WARRANTY.md](IMEI_WARRANTY.md).
 
 **Cập nhật sau triển khai IMEI/bảo hành 16/10/2026:** xem [IMEI_WARRANTY.md](IMEI_WARRANTY.md) cho kiến trúc/schema/quy tắc hiện hành. Các phần audit bên dưới giữ lại snapshot tiếp nhận để đối chiếu.

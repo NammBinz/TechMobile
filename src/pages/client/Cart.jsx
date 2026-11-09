@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { formatPrice } from '../../utils/formatPrice'
 import { getCart, saveCart, showToast } from '../../utils/shopActions'
 import api from '../../services/api'
+import { matchesId } from '../../utils/entityIds'
 import { withVariant } from '../../utils/variants'
 
 function Cart() {
@@ -11,8 +12,8 @@ function Cart() {
   useEffect(() => {
     api.get('/products').then(({ data }) => {
       const refreshed = getCart().map(item => {
-        const product = data.find(p => String(p.id) === String(item.productId || item.id))
-        const variant = product?.variants?.find(v => String(v.id) === String(item.variantId))
+        const product = data.find(p => matchesId(p, item.productId || item.id))
+        const variant = product?.variants?.find(v => matchesId(v, item.variantId))
         return variant ? { ...withVariant(product, variant), cartQuantity: item.cartQuantity } : { ...item, variantId: null, quantity: 0 }
       })
       setCart(refreshed); saveCart(refreshed)

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
 import AdminLayout from '../../components/AdminLayout'
+import AdminFormSection, { AdminFields } from '../../components/AdminFormSection'
 
 function CategoryManager() {
   const [categories, setCategories] = useState([])
@@ -134,46 +135,9 @@ function CategoryManager() {
         </div>
 
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col-md-4 mb-3">
-                <label className="form-label">Tên danh mục</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Apple, Samsung, Xiaomi..."
-                />
-              </div>
-
-              <div className="col-md-8 mb-3">
-                <label className="form-label">Mô tả</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  placeholder="Nhập mô tả danh mục"
-                />
-              </div>
-            </div>
-
-            <button type="submit" className="btn btn-primary me-2">
-              {editId ? 'Cập nhật' : 'Thêm mới'}
-            </button>
-
-            {editId && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={resetForm}
-              >
-                Hủy sửa
-              </button>
-            )}
+          <form onSubmit={handleSubmit} className="admin-entry-form">
+            <AdminFormSection number="01" title="Thông tin danh mục" description="Dùng tên hãng hoặc nhóm sản phẩm dễ nhận biết."><AdminFields fields={[{"name":"name","label":"Tên danh mục","required":true,"width":"col-md-4","placeholder":"Ví dụ: Apple, Samsung"},{"name":"description","label":"Mô tả","type":"textarea","width":"col-md-8","rows":3,"placeholder":"Mô tả ngắn về danh mục"}]} values={formData} onChange={handleChange} idPrefix="categorymanager" /></AdminFormSection>
+            <div className="admin-form-actions"><button type="submit" className="btn btn-primary">{editId ? 'Cập nhật' : 'Thêm mới'}</button>{editId && <button type="button" className="btn btn-outline-secondary" onClick={resetForm}>Hủy sửa</button>}<small><span className="admin-required">*</span> Thông tin bắt buộc</small></div>
           </form>
         </div>
       </div>

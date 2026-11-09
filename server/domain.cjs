@@ -1,4 +1,7 @@
 const { randomUUID, randomInt } = require('node:crypto')
+const commerce = require('./commerce.cjs')
+const { findEntity, findVariant, nextEntityId } = require('./entity-ids.cjs')
+const { nextOrderId, resolveOrderId } = require('./order-ids.cjs')
 
 const id = () => randomUUID()
 const same = (a, b) => String(a) === String(b)
@@ -7,9 +10,9 @@ const fail = (message, status = 400) => { const error = new Error(message); erro
 const requireThat = (condition, message, status) => { if (!condition) fail(message, status) }
 const staff = user => requireThat(['admin', 'staff'].includes(user?.role), 'Bạn không có quyền thao tác', 403)
 const admin = user => requireThat(user?.role === 'admin', 'Chỉ quản trị viên được thao tác', 403)
-const productOf = (db, productId) => db.products.find(p => same(p.id, productId))
-const variantOf = (db, productId, variantId) => productOf(db, productId)?.variants?.find(v => same(v.id, variantId))
-const orderOf = (db, orderId) => { const order = db.orders.find(o => same(o.id, orderId)); requireThat(order, 'Không tìm thấy đơn', 404); return order }
+const productOf = (db, productId) => findEntity(db, 'products', productId)
+const variantOf = (db, productId, variantId) => findVariant(productOf(db, productId), variantId)
+const orderOf = (db, orderId) => { const order = db.orders.find(o => same(o.id, resolveOrderId(db, orderId))); requireThat(order, 'Không tìm thấy đơn', 404); return order }
 const owns = (user, order) => requireThat(['admin', 'staff'].includes(user.role) || same(order.userId, user.id), 'Không có quyền xem đơn này', 403)
 const integer = value => Number.isSafeInteger(value) && value > 0
 const held = item => ['held', 'allocated'].includes(item.inventoryState)
@@ -54,11 +57,12 @@ function monthsAfter(iso, months) {
 function issueWarranty(db, device, order, item, startsAt, estimated = false) {
   const previous = db.warranties.find(w => same(w.deviceId, device.id) && same(w.orderId, order.id))
   if (previous) return previous
-  const warranty = { id: id(), deviceId: device.id, orderId: String(order.id), orderItemId: item.id, customerId: String(order.userId), imeiSnapshot: device.imei, durationMonths: item.warrantyMonths || 12, startsAt, endsAt: monthsAfter(startsAt, item.warrantyMonths || 12), status: 'issued', dateEstimated: estimated, policyVersion: 'store-v1' }
+  const warranty = { id: nextEntityId(db), deviceId: device.id, orderId: String(order.id), orderItemId: item.id, customerId: String(order.userId), imeiSnapshot: device.imei, durationMonths: item.warrantyMonths || 12, startsAt, endsAt: monthsAfter(startsAt, item.warrantyMonths || 12), status: 'issued', dateEstimated: estimated, policyVersion: 'store-v1' }
   db.warranties.push(warranty)
   return warranty
 }
 function invariant(db) {
+  commerce.validate(db)
   for (const collection of ['users', 'products', 'orders', 'warranties', 'warrantyClaims']) {
     const ids = new Set()
     for (const entity of db[collection]) { requireThat(entity.id !== undefined && !ids.has(String(entity.id)), 'ID dữ liệu bị thiếu hoặc trùng'); ids.add(String(entity.id)) }
@@ -69,6 +73,7 @@ function invariant(db) {
     requireThat(!ids.has(device.id) && states.includes(device.status), 'Máy hoặc trạng thái không hợp lệ')
     requireThat(variantOf(db, device.productId, device.variantId), 'Máy tham chiếu phiên bản không tồn tại')
     requireThat(!Object.hasOwn(device, 'secondaryImeis'), 'Mỗi máy chỉ có một IMEI')
+    requireThat(!device.historicalOnly || (device.status === 'retired' && !device.assignment), 'Máy mô phỏng lịch sử không được đưa vào kho bán')
     imeis.add(device.imei); ids.add(device.id)
     if (['allocated', 'shipping', 'sold', 'return_pending'].includes(device.status)) {
       const order = orderOf(db, device.assignment?.orderId)
@@ -145,26 +150,17 @@ function autoAllocate(db, order, actor, timestamp) {
 function command(db, actor, action, payload) {
   requireThat(actor && actor.status !== 'blocked', 'Phiên đăng nhập không hợp lệ', 401)
   const timestamp = now()
-  if (action === 'receive-device') {
-    admin(actor)
-    const variant = variantOf(db, payload.productId, payload.variantId)
-    requireThat(variant, 'Chọn sản phẩm và phiên bản hợp lệ')
-    const values = Array.isArray(payload.imeis) ? payload.imeis : [payload.imei]
-    requireThat(values.length > 0 && values.length <= 500 && values.every(validImei), 'IMEI phải gồm 15 chữ số và đúng chữ số kiểm tra')
-    const simulated = payload.simulatedImeis ?? []
-    requireThat(Array.isArray(simulated) && simulated.every(value => values.includes(value)), 'Danh sách IMEI demo không hợp lệ')
-    const existing = new Set(db.devices.map(d => d.imei))
-    for (const imei of values) { requireThat(!existing.has(imei), 'IMEI đã tồn tại', 409); existing.add(imei) }
-    const devices = values.map(imei => ({ id: id(), imei, productId: String(payload.productId), variantId: String(payload.variantId), status: 'available', assignment: null, receivedAt: timestamp, receivedBy: String(actor.id), origin: simulated.includes(imei) ? 'demo_generated' : 'manual', revision: 0 }))
-    db.devices.push(...devices)
-    return devices
-  }
+  if (['save-supplier', 'save-receipt', 'confirm-receipt', 'adjust-receipt', 'set-device-cost'].includes(action)) return commerce.receiptCommand(db, actor, action, payload)
+  if (action === 'receive-device') return commerce.quickReceive(db, actor, payload)
   if (action === 'device-status') {
     admin(actor)
     const device = db.devices.find(d => same(d.id, payload.deviceId))
+    requireThat(!device?.historicalOnly, 'Máy mô phỏng lịch sử không được đưa vào kho bán')
     requireThat(device, 'Không tìm thấy máy', 404); checkRevision(device, payload.expectedRevision)
     requireThat(['available', 'quarantine', 'retired'].includes(device.status) && ['available', 'quarantine', 'retired'].includes(payload.status), 'Không thể thay đổi máy đã phân bổ/bán')
     requireThat(String(payload.reason || '').trim(), 'Cần ghi lý do thay đổi')
+    device.statusHistory ||= []
+    device.statusHistory.push({ at: timestamp, actorId: String(actor.id), from: device.status, to: payload.status, note: payload.reason.trim() })
     device.status = payload.status; device.revision++; device.lastReason = payload.reason.trim()
     return device
   }
@@ -173,16 +169,18 @@ function command(db, actor, action, payload) {
     const combined = new Map()
     for (const input of payload.items) {
       requireThat(integer(input.quantity), 'Số lượng phải là số nguyên dương')
-      const key = JSON.stringify([String(input.productId), String(input.variantId)])
+      const productId = productOf(db, input.productId)?.id || input.productId
+      const variantId = variantOf(db, productId, input.variantId)?.id || input.variantId
+      const key = JSON.stringify([String(productId), String(variantId)])
       const prior = combined.get(key)
-      combined.set(key, { productId: input.productId, variantId: input.variantId, quantity: (prior?.quantity || 0) + input.quantity })
+      combined.set(key, { productId, variantId, quantity: (prior?.quantity || 0) + input.quantity })
     }
     const items = [...combined.values()].map(input => {
       const product = productOf(db, input.productId), variant = variantOf(db, input.productId, input.variantId)
       requireThat(product?.status === 'active' && variant && variant.status !== 'inactive', 'Sản phẩm/phiên bản không còn bán')
       requireThat(availability(db, product.id, variant.id).sellable >= input.quantity, 'Không đủ máy khả dụng', 409)
       requireThat(Number.isFinite(variant.price) && variant.price >= 0, 'Giá phiên bản không hợp lệ')
-      return { id: id(), productId: String(product.id), variantId: String(variant.id), name: product.name, color: variant.color, storage: variant.storage, price: variant.price, oldPrice: variant.oldPrice || variant.price, image: variant.image || product.image, quantity: input.quantity, warrantyMonths: variant.warrantyMonths || 12, inventoryMode: 'imei', inventoryState: 'held', deviceSnapshots: [] }
+      return { id: id(), productId: String(product.id), variantId: String(variant.id), name: product.name, color: variant.color, ram: variant.ram || product.ram || '', storage: variant.storage, price: variant.price, oldPrice: variant.oldPrice || variant.price, image: variant.image || product.image, quantity: input.quantity, warrantyMonths: variant.warrantyMonths || 12, inventoryMode: 'imei', inventoryState: 'held', deviceSnapshots: [] }
     })
     const info = payload.shipping || {}
     requireThat(['receiverName', 'phone', 'address'].every(k => typeof info[k] === 'string' && info[k].trim()), 'Nhập đầy đủ thông tin nhận hàng')
@@ -192,7 +190,8 @@ function command(db, actor, action, payload) {
     const coupon = payload.couponCode ? db.coupons.find(c => c.code.trim().toLowerCase() === payload.couponCode.trim().toLowerCase() && c.status === 'active') : null
     requireThat(!payload.couponCode || coupon, 'Mã giảm giá không còn hiệu lực', 409)
     const discount = coupon ? Math.min(total, coupon.discountType === 'amount' ? coupon.discount : Math.round(total * coupon.discount / 100)) : 0
-    const order = { id: id(), schemaVersion: 2, userId: String(actor.id), customerName: actor.fullName, items, ...Object.fromEntries(['receiverName', 'phone', 'address', 'note', 'paymentMethod'].map(k => [k, String(info[k] || '').trim()])), coupon: coupon ? { code: coupon.code, discountType: coupon.discountType || 'percent', discount: coupon.discount } : null, productTotal: total, productDiscount: items.reduce((s, i) => s + Math.max(0, i.oldPrice - i.price) * i.quantity, 0), couponDiscount: discount, totalPrice: Math.max(0, total - discount), status: 'pending', paymentStatus: 'unpaid', paidAt: null, paidBy: null, createdAt: new Date().toLocaleDateString('vi-VN'), createdAtIso: timestamp, revision: 0 }
+    const order = { id: nextOrderId(db), schemaVersion: 2, userId: String(actor.id), customerName: actor.fullName, items, ...Object.fromEntries(['receiverName', 'phone', 'address', 'note', 'paymentMethod'].map(k => [k, String(info[k] || '').trim()])), coupon: coupon ? { code: coupon.code, discountType: coupon.discountType || 'percent', discount: coupon.discount } : null, productTotal: total, productDiscount: items.reduce((s, i) => s + Math.max(0, i.oldPrice - i.price) * i.quantity, 0), couponDiscount: discount, totalPrice: Math.max(0, total - discount), status: 'pending', paymentStatus: 'unpaid', paidAt: null, paidBy: null, createdAt: new Date().toLocaleDateString('vi-VN'), createdAtIso: timestamp, revision: 0 }
+    order.history = [{ id: id(), event: 'placed', at: timestamp, actorId: String(actor.id), actorRole: actor.role, to: 'pending' }]
     db.orders.push(order)
     return order
   }
@@ -206,6 +205,7 @@ function command(db, actor, action, payload) {
       requireThat(order.items.filter(i => i.inventoryMode === 'imei').every(i => db.devices.filter(d => d.status === 'allocated' && same(d.assignment?.orderId, order.id) && same(d.assignment?.orderItemId, i.id)).length === i.quantity), 'Đơn đã xác nhận chưa đủ máy. Vui lòng kiểm tra phân bổ.', 409)
       return order
     }
+    const priorStatus = order.status, priorPayment = order.paymentStatus
     const devices = db.devices.filter(d => same(d.assignment?.orderId, order.id))
     if (action === 'allocate') {
       staff(actor); requireThat(['pending', 'confirmed'].includes(order.status), 'Chỉ phân bổ trước khi giao')
@@ -242,18 +242,20 @@ function command(db, actor, action, payload) {
     } else if (action === 'payment') {
       staff(actor); requireThat(order.paymentMethod === 'BANK' && order.status !== 'cancelled', 'Không thể đổi thanh toán của đơn này')
       requireThat(['paid', 'unpaid'].includes(payload.status), 'Trạng thái thanh toán không hợp lệ')
+      if (order.paymentStatus === payload.status) return order
       order.paymentStatus = payload.status; order.paidAt = payload.status === 'paid' ? timestamp : null; order.paidBy = payload.status === 'paid' ? String(actor.id) : null
     } else {
       const next = { pending: 'confirmed', confirmed: 'shipping', shipping: 'delivered', delivered: 'completed' }[order.status]
       requireThat(next && payload.status === next, 'Bước chuyển trạng thái không hợp lệ', 409)
       if (next === 'completed') requireThat(same(actor.id, order.userId), 'Chỉ khách mua được xác nhận nhận hàng', 403)
       else staff(actor)
-      if (next === 'confirmed') autoAllocate(db, order, actor, timestamp)
+      if (next === 'confirmed') { autoAllocate(db, order, actor, timestamp); order.confirmedAt = timestamp }
       if (next === 'shipping') {
+        order.shippedAt = timestamp
         for (const item of order.items) {
           const allocated = devices.filter(d => same(d.assignment.orderItemId, item.id) && d.status === 'allocated')
           requireThat(allocated.length === item.quantity, 'Phải phân bổ đủ IMEI trước khi giao', 409)
-          item.deviceSnapshots = allocated.map(d => ({ deviceId: d.id, imei: d.imei, simulated: ['demo_migration', 'demo_generated'].includes(d.origin) }))
+          item.deviceSnapshots = allocated.map(d => ({ deviceId: d.id, imei: d.imei, simulated: ['demo_migration', 'demo_generated'].includes(d.origin), costSnapshot: d.purchaseCost ?? null, costSnapshotSource: d.purchaseCostSource || null }))
           item.inventoryState = 'shipped'
         }
         for (const d of devices) { d.status = 'shipping'; d.shippedAt = timestamp; d.revision++ }
@@ -269,23 +271,29 @@ function command(db, actor, action, payload) {
       }
       order.status = next
     }
+    order.history ||= []
+    order.history.push({ id: id(), event: action, at: timestamp, actorId: String(actor.id), actorRole: actor.role, from: priorStatus, to: order.status, deviceId: payload.deviceId || null, note: payload.reason || (action === 'payment' ? order.paymentStatus : '') })
+    if (priorPayment !== order.paymentStatus) {
+      order.paymentHistory ||= []
+      order.paymentHistory.push({ action: 'payment-recorded', at: timestamp, actorId: String(actor.id), previousStatus: priorPayment || null, status: order.paymentStatus, amount: order.paymentStatus === 'paid' ? order.totalPrice : priorPayment === 'paid' ? -order.totalPrice : 0 })
+    }
     order.revision = (order.revision || 0) + 1
     return order
   }
   if (action === 'create-claim') {
     staff(actor)
-    const w = db.warranties.find(w => same(w.id, payload.warrantyId))
+    const w = findEntity(db, 'warranties', payload.warrantyId)
     requireThat(w?.status === 'issued', 'Bảo hành không khả dụng')
     requireThat(timestamp >= w.startsAt && timestamp < w.endsAt, 'Máy đã hết hạn hoặc chưa bắt đầu bảo hành')
     requireThat(String(payload.issue || '').trim(), 'Nhập tình trạng máy')
     requireThat(!db.warrantyClaims.some(c => same(c.warrantyId, w.id) && !['returned', 'rejected'].includes(c.status)), 'Máy đang có phiếu chưa đóng', 409)
-    const claim = { id: id(), warrantyId: w.id, status: 'received', reportedIssue: payload.issue.trim(), receivedAt: timestamp, receivedBy: String(actor.id), revision: 0, history: [{ status: 'received', at: timestamp, actorId: String(actor.id), note: payload.issue.trim() }] }
+    const claim = { id: nextEntityId(db), warrantyId: w.id, status: 'received', reportedIssue: payload.issue.trim(), receivedAt: timestamp, receivedBy: String(actor.id), revision: 0, history: [{ status: 'received', at: timestamp, actorId: String(actor.id), note: payload.issue.trim() }] }
     db.warrantyClaims.push(claim)
     return claim
   }
   if (action === 'transition-claim') {
     staff(actor)
-    const claim = db.warrantyClaims.find(c => same(c.id, payload.claimId))
+    const claim = findEntity(db, 'warrantyClaims', payload.claimId)
     requireThat(claim, 'Không tìm thấy phiếu', 404); checkRevision(claim, payload.expectedRevision)
     const next = { received: ['inspecting', 'rejected'], inspecting: ['repairing', 'rejected'], repairing: ['ready'], ready: ['returned'] }
     requireThat(next[claim.status]?.includes(payload.status), 'Bước xử lý phiếu không hợp lệ')

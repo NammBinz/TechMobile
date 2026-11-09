@@ -1,3 +1,4 @@
+import { matchesId } from '../../utils/entityIds'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import api from '../../services/api'
@@ -7,7 +8,7 @@ import ProductReviews from '../../components/ProductReviews'
 import RatingStars from '../../components/RatingStars'
 import '../../assets/css/product-detail.css'
 import { isInWishlist, toggleWishlistProduct } from '../../utils/shopActions'
-import { withVariant } from '../../utils/variants'
+import { withVariant, compareVariants, versionOptionKey } from '../../utils/variants'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -18,12 +19,13 @@ function ProductDetail() {
   const [compareList, setCompareList] = useState([])
 
   const [selectedColor, setSelectedColor] = useState('')
-  const [selectedStorage, setSelectedStorage] = useState('')
+  const [selectedVersion, setSelectedVersion] = useState('')
+  const [loadError, setLoadError] = useState('')
   const [liked, setLiked] = useState(false)
 
   useEffect(() => {
     if (product) {
-      setLiked(isInWishlist(product.id))
+      setLiked(isInWishlist(product))
     }
   }, [product])
 
@@ -41,6 +43,7 @@ function ProductDetail() {
   }, [id])
 
   const getData = async () => {
+    setProduct(null); setLoadError('')
     try {
       const productRes = await api.get(`/products/${id}`)
       const productsRes = await api.get('/products')
@@ -49,15 +52,15 @@ function ProductDetail() {
       setProducts(productsRes.data)
 
       // Lấy danh sách biến thể
-      const variants = (productRes.data.variants || []).filter(v => v.status !== 'inactive')
+      const variants = (productRes.data.variants || []).filter(v => v.status !== 'inactive').sort((a, b) => compareVariants({ ...a, ram: a.ram || productRes.data.ram }, { ...b, ram: b.ram || productRes.data.ram }))
 
       // Chọn biến thể đầu làm mặc định
       if (variants.length > 0) {
         setSelectedColor(variants[0].color)
-        setSelectedStorage(variants[0].storage)
+        setSelectedVersion(versionOptionKey(productRes.data, variants[0]))
       }
     } catch (error) {
-      console.log(error)
+      setLoadError(error.response?.status === 404 ? 'Không tìm thấy sản phẩm.' : 'Không tải được sản phẩm. Vui lòng thử lại.')
     }
   }
 
@@ -117,11 +120,12 @@ function ProductDetail() {
     if (!product) return
 
     toggleWishlistProduct(displayProduct || product)
-    setLiked(isInWishlist(product.id))
+    setLiked(isInWishlist(product))
   }
 
   const isComparing = (productId) => {
-    return compareList.some((item) => item.id === productId)
+    const candidate = [product, ...products].find(p => matchesId(p, productId))
+    return compareList.some(item => matchesId(candidate || { id: productId }, item.id) || matchesId(item, productId))
   }
 
   // Lấy sản phẩm liên quan
@@ -153,7 +157,7 @@ function ProductDetail() {
       <main className="main">
         <div className="container">
           <div className="product-not-found">
-            <h2>Đang tải sản phẩm...</h2>
+            <h2>{loadError || 'Đang tải sản phẩm...'}</h2>{loadError && <Link to="/products">Quay lại danh sách sản phẩm</Link>}
           </div>
         </div>
       </main>
@@ -162,13 +166,11 @@ function ProductDetail() {
 
   const relatedProducts = getRelatedProducts()  // Lấy sản phẩm liên quan
 
-  const variants = (product.variants || []).filter(v => v.status !== 'inactive')
-  const colors = [...new Set(variants.map((item) => item.color))]      // Lấy màu sắc ko trùng lặp
-  const storages = [...new Set(variants.map((item) => item.storage))]  // Lấy dung lượng ko trùng lặp
-
-  const selectedVariant = variants.find((item) => {
-    return item.color === selectedColor && item.storage === selectedStorage
-  })
+  const variants = (product.variants || []).filter(v => v.status !== 'inactive').sort((a, b) => compareVariants({ ...a, ram: a.ram || product.ram }, { ...b, ram: b.ram || product.ram }))
+  const versions = [...new Map(variants.map(v => [versionOptionKey(product, v), v])).values()]
+  const showRam = new Set(variants.map(v => String(v.ram || product.ram || '').trim().toUpperCase())).size > 1
+  const selectedVariant = variants.find(v => v.color === selectedColor && versionOptionKey(product, v) === selectedVersion)
+  const colors = variants.filter(v => versionOptionKey(product, v) === selectedVersion)
 
   const displayProduct = selectedVariant ? withVariant(product, selectedVariant) : product
   const specs = getSpecs({ ...displayProduct, rom: displayProduct.storage, memory: { ...product.memory, ram: displayProduct.ram, storage: displayProduct.storage } })
@@ -235,67 +237,24 @@ function ProductDetail() {
                 )}
               </div>
 
-              {colors.length > 0 && (
-                <div className="detail-options">
-                  <h3>Màu sắc</h3>
-
-                  <div className="option-list">
-                    {colors.map((color) => (
-                      <button
-                        className={
-                          selectedColor === color ? 'option-btn active' : 'option-btn'
-                        }
-                        key={color}
-                        onClick={() => {
-                          setSelectedColor(color)
-
-                          const sameStorageVariant = variants.find((item) => {
-                            return (
-                              item.color === color && item.storage === selectedStorage
-                            )
-                          })
-
-                          if (!sameStorageVariant) {
-                            const firstVariantByColor = variants.find((item) => {
-                              return item.color === color
-                            })
-
-                            if (firstVariantByColor)
-                              setSelectedStorage(firstVariantByColor.storage)
-                          }
-                        }}
-                      >
-                        {color}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               <div className="detail-options">
-                <h3>Dung lượng</h3>
-
+                <h3>Phiên bản</h3>
                 <div className="option-list">
-                  {storages.length > 0 ? (
-                    storages.map((storage) => (
-                      <button
-                        className={
-                          selectedStorage === storage ? 'option-btn active' : 'option-btn'
-                        }
-                        key={storage}
-                        onClick={() => {
-                          setSelectedStorage(storage)
-                          if (!variants.some(v => v.storage === storage && v.color === selectedColor)) setSelectedColor(variants.find(v => v.storage === storage).color)
-                        }}
-                      >
-                        {storage}
-                      </button>
-                    ))
-                  ) : (
-                    <button className="option-btn active">
-                      {specs.rom}
-                    </button>
-                  )}
+                  {versions.map(v => {
+                    const key = versionOptionKey(product, v)
+                    const matches = variants.filter(item => versionOptionKey(product, item) === key)
+                    const soldOut = matches.every(item => Number(item.quantity) <= 0)
+                    return <button type="button" className={selectedVersion === key ? 'option-btn active' : 'option-btn'} aria-pressed={selectedVersion === key} key={key} onClick={() => {
+                      setSelectedVersion(key)
+                      if (!matches.some(item => item.color === selectedColor)) setSelectedColor(matches[0].color)
+                    }}>{showRam ? `${v.ram || product.ram || 'Chưa có RAM'} - ${v.storage}` : v.storage}{soldOut && <small className="d-block text-muted">Hết hàng</small>}</button>
+                  })}
+                </div>
+              </div>
+              <div className="detail-options">
+                <h3>Màu sắc</h3>
+                <div className="option-list">
+                  {colors.map(v => <button type="button" className={selectedColor === v.color ? 'option-btn active' : 'option-btn'} aria-label={v.color} aria-pressed={selectedColor === v.color} key={v.id} onClick={() => setSelectedColor(v.color)}>{v.color}<small className="d-block">{formatPrice(v.price)}</small>{Number(v.quantity) <= 0 && <small className="d-block text-muted">Hết hàng</small>}</button>)}
                 </div>
               </div>
 

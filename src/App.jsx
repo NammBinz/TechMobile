@@ -29,6 +29,10 @@ import CouponManager from './pages/admin/CouponManager'
 import DeviceManager from './pages/admin/DeviceManager'
 import WarrantyManager from './pages/admin/WarrantyManager'
 
+import SupplierManager from './pages/admin/SupplierManager'
+import ReceiptManager from './pages/admin/ReceiptManager'
+import DeviceProfile from './pages/admin/DeviceProfile'
+
 function App() {
   return (
     <>
@@ -37,6 +41,9 @@ function App() {
       <Header />
 
       <Routes>
+        <Route path="/admin/suppliers" element={<ProtectedRoute allowedRoles={['admin']}><SupplierManager /></ProtectedRoute>} />
+        <Route path="/admin/receipts" element={<ProtectedRoute allowedRoles={['admin']}><ReceiptManager /></ProtectedRoute>} />
+        <Route path="/admin/imei" element={<ProtectedRoute allowedRoles={['admin', 'staff']}><DeviceProfile /></ProtectedRoute>} />
         <Route path="/admin/devices" element={<ProtectedRoute allowedRoles={['admin', 'staff']}><DeviceManager /></ProtectedRoute>} />
         <Route path="/admin/warranties" element={<ProtectedRoute allowedRoles={['admin', 'staff']}><WarrantyManager /></ProtectedRoute>} />
         {/* Client */}

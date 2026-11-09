@@ -1,0 +1,55 @@
+import { useCallback, useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { matchesId } from '../../utils/entityIds'
+import ReceiptImport from '../../components/ReceiptImport'
+import AdminLayout from '../../components/AdminLayout'
+import AdminFormSection from '../../components/AdminFormSection'
+import api from '../../services/api'
+import { messageOf, runCommand } from '../../services/operations'
+import { showToast } from '../../utils/shopActions'
+import { compareVariants, formatDate } from '../../utils/variants'
+import { formatPrice } from '../../utils/formatPrice'
+
+const localTime = value => { const d = value ? new Date(value) : new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16) }
+const blankLine = () => ({ key: crypto.randomUUID(), productId: '', variantId: '', unitCost: '', imeis: '', simulatedImeis: [], demoQuantity: 1 })
+const blank = () => ({ supplierId: '', note: '', receivedAt: localTime(), lines: [blankLine()] })
+const tokens = text => String(text).split(/[\s,;]+/).filter(Boolean)
+export default function ReceiptManager() {
+  const [params] = useSearchParams(), requestedReceipt = params.get('receipt')
+  const [form, setForm] = useState(blank), [receipts, setReceipts] = useState([]), [products, setProducts] = useState([]), [suppliers, setSuppliers] = useState([])
+  const [selected, setSelected] = useState(null), [reason, setReason] = useState(''), [costs, setCosts] = useState({}), [busy, setBusy] = useState(false), [error, setError] = useState('')
+  const load = useCallback(async () => { try { const [r, p, s] = await Promise.all([api.get('/purchaseReceipts'), api.get('/products'), api.get('/suppliers')]); setReceipts(r.data); if (requestedReceipt) setSelected(r.data.find(r => matchesId(r, requestedReceipt)) || null); setProducts(p.data); setSuppliers(s.data); setError('') } catch (e) { setError(messageOf(e)) } }, [requestedReceipt])
+  useEffect(() => { Promise.resolve().then(load) }, [load])
+  const changeLine = (index, patch) => setForm(f => ({ ...f, lines: f.lines.map((line, i) => i === index ? { ...line, ...patch } : line) }))
+  const action = async (name, payload, done) => {
+    setBusy(true); setError('')
+    try { const result = await runCommand(name, payload); await load(); done?.(result); showToast('Đã lưu phiếu nhập') }
+    catch (e) { setError(messageOf(e)) } finally { setBusy(false) }
+  }
+  const save = e => {
+    e.preventDefault()
+    action('save-receipt', { ...form, expectedRevision: form.revision, receivedAt: new Date(form.receivedAt).toISOString(), lines: form.lines.map(l => ({ ...l, unitCost: l.unitCost === '' ? null : Number(l.unitCost), imeis: tokens(l.imeis), simulatedImeis: l.simulatedImeis.filter(i => tokens(l.imeis).includes(i)) })) }, () => setForm(blank()))
+  }
+  const generate = async (line, index) => {
+    setBusy(true)
+    try {
+      const all = form.lines.flatMap(l => tokens(l.imeis)), quantity = Number(line.demoQuantity)
+      const { data } = await api.post('/devices/demo-imeis', { quantity, exclude: all })
+      changeLine(index, { imeis: [...tokens(line.imeis), ...data.imeis].join('\n'), simulatedImeis: [...line.simulatedImeis, ...data.imeis] })
+    } catch (e) { setError(messageOf(e)) } finally { setBusy(false) }
+  }
+  const edit = receipt => setForm({ ...receipt, receivedAt: localTime(receipt.receivedAt), lines: receipt.lines.map(l => ({ ...l, key: l.id, unitCost: l.unitCost ?? '', imeis: l.imeis.join('\n'), simulatedImeis: l.simulatedImeis || [], demoQuantity: 1 })) })
+  return <AdminLayout><h2>Phiếu nhập kho</h2><p>Phiếu nháp chưa tăng tồn. Xác nhận nhập kho sẽ kiểm tra và lưu toàn bộ IMEI cùng lúc.</p>
+    {error && <div role="alert" className="alert alert-danger">{error}</div>}
+    <ReceiptImport products={products} disabled={busy} onApply={lines => setForm(current => ({ ...current, lines: [...current.lines.filter(l => l.productId || l.variantId || tokens(l.imeis).length), ...lines.map(l => ({ ...l, key: crypto.randomUUID(), imeis: l.imeis.join('\n'), demoQuantity: 1 }))] }))} />
+    <form className="card p-3 my-3" onSubmit={save}><fieldset disabled={busy}><AdminFormSection title={form.id ? 'Sửa phiếu nháp' : 'Lập phiếu nhập'}><div className="row g-3"><div className="col-md-6"><label htmlFor="receipt-supplier">Nhà cung cấp</label><select id="receipt-supplier" className="form-select" value={form.supplierId || ''} onChange={e => setForm({ ...form, supplierId: e.target.value })}><option value="">Chưa xác định</option>{suppliers.filter(s => s.status === 'active').map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select></div><div className="col-md-6"><label htmlFor="receipt-date">Ngày giờ nhập</label><input id="receipt-date" className="form-control" type="datetime-local" required value={form.receivedAt} onChange={e => setForm({ ...form, receivedAt: e.target.value })} /></div></div></AdminFormSection>
+      {form.lines.map((line, index) => { const product = products.find(p => String(p.id) === line.productId); return <section className="admin-variant-card receipt-line" key={line.key}><h5>Dòng {index + 1}</h5><div className="row g-3"><div className="col-md-6"><label htmlFor={'receipt-product-' + index}>Sản phẩm</label><select id={'receipt-product-' + index} required className="form-select" value={line.productId} onChange={e => changeLine(index, { productId: e.target.value, variantId: '' })}><option value="">Chọn sản phẩm</option>{products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></div><div className="col-md-6"><label htmlFor={'receipt-variant-' + index}>Phiên bản</label><select id={'receipt-variant-' + index} required className="form-select" value={line.variantId} onChange={e => changeLine(index, { variantId: e.target.value })}><option value="">Chọn RAM / dung lượng / màu</option>{[...(product?.variants || [])].sort((a, b) => compareVariants({ ...a, ram: a.ram || product.ram }, { ...b, ram: b.ram || product.ram })).map(v => <option key={v.id} value={v.id}>{v.ram || product.ram} / {v.storage} · {v.color}</option>)}</select></div><div className="col-md-6"><label htmlFor={'receipt-cost-' + index}>Giá nhập mỗi máy (₫)</label><input id={'receipt-cost-' + index} type="number" min="0" step="1" className="form-control" placeholder="Để trống nếu chưa biết" value={line.unitCost} onChange={e => changeLine(index, { unitCost: e.target.value })} /></div><div className="col-md-6"><label htmlFor={'receipt-demo-' + index}>Số IMEI demo</label><div className="d-flex gap-2"><input id={'receipt-demo-' + index} type="number" min="1" max="500" step="1" className="form-control" value={line.demoQuantity} onChange={e => changeLine(index, { demoQuantity: e.target.value })} /><button type="button" className="btn btn-outline-primary" onClick={() => generate(line, index)}>Tạo IMEI demo</button></div></div><div className="col-12"><label htmlFor={'receipt-imeis-' + index}>IMEI, mỗi máy một dòng ({tokens(line.imeis).length} máy)</label><textarea id={'receipt-imeis-' + index} rows="3" className="form-control" value={line.imeis} onChange={e => changeLine(index, { imeis: e.target.value })} /></div></div>{form.lines.length > 1 && <button className="btn btn-sm btn-outline-danger mt-2" type="button" onClick={() => setForm({ ...form, lines: form.lines.filter((_, i) => i !== index) })}>Bỏ dòng {index + 1}</button>}</section> })}
+      <label htmlFor="receipt-note">Ghi chú phiếu</label><textarea id="receipt-note" className="form-control" value={form.note} onChange={e => setForm({ ...form, note: e.target.value })} />
+      <div className="admin-form-actions"><button className="btn btn-primary">Lưu phiếu nháp</button><button type="button" className="btn btn-outline-secondary" onClick={() => setForm({ ...form, lines: [...form.lines, blankLine()] })}>Thêm dòng nhập</button><button type="button" className="btn btn-outline-secondary" onClick={() => setForm(blank())}>Lập phiếu mới</button></div></fieldset></form>
+    <div className="card p-3"><h5>Danh sách phiếu nhập</h5><div className="table-responsive"><table className="table"><thead><tr><th>Phiếu</th><th>Nhà cung cấp</th><th>Ngày nhập</th><th>Số máy</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody>{[...receipts].reverse().map(r => <tr key={r.id} data-receipt-id={r.id}><td>{r.id}</td><td>{r.supplierName || 'Chưa xác định'}</td><td>{formatDate(r.receivedAt)}</td><td>{r.lines.reduce((s, l) => s + l.imeis.length, 0)}</td><td>{r.status === 'draft' ? 'Nháp' : 'Đã nhập kho'}</td><td><div className="d-flex gap-2 flex-wrap"><button className="btn btn-sm btn-outline-primary" onClick={() => { setSelected(r); setCosts({}); setReason('') }}>Chi tiết</button>{r.status === 'draft' && <><button disabled={busy} className="btn btn-sm btn-outline-secondary" onClick={() => { edit(r); window.scrollTo(0, 0) }}>Sửa nháp</button><button disabled={busy} className="btn btn-sm btn-success" onClick={() => action('confirm-receipt', { receiptId: r.id, expectedRevision: r.revision }, () => setSelected(null))}>Xác nhận nhập kho</button></>}</div></td></tr>)}</tbody></table></div>{!receipts.length && <p>Chưa có phiếu nhập.</p>}</div>
+    {selected && <section className="card p-3 my-3"><h5>Phiếu #{selected.id}</h5><p>{selected.note}</p>{selected.lines.map(l => <div key={l.id} className="border-bottom py-2"><strong>{l.name} · {l.ram} / {l.storage} · {l.color}</strong><p>Giá nhập: {l.unitCost == null ? 'Chưa có giá vốn' : formatPrice(l.unitCost)}</p>{l.imeis.map(imei => <div key={imei}><Link to={'/admin/imei?imei=' + imei}>{imei}</Link></div>)}{selected.status === 'confirmed' && <><label htmlFor={'adjust-' + l.id}>Giá nhập điều chỉnh mỗi máy (₫)</label><input id={'adjust-' + l.id} type="number" min="0" step="1" className="form-control" placeholder="Chỉ điền dòng cần điều chỉnh" value={costs[l.id] ?? ''} onChange={e => setCosts({ ...costs, [l.id]: e.target.value })} /></>}</div>)}
+      {selected.status === 'confirmed' && <form className="mt-3" onSubmit={e => { e.preventDefault(); action('adjust-receipt', { receiptId: selected.id, expectedRevision: selected.revision, reason, costs: Object.entries(costs).filter(([, value]) => value !== '').map(([lineId, value]) => ({ lineId, unitCost: Number(value) })) }, result => { setSelected(result); setCosts({}); setReason('') }) }}><p className="text-muted">Điều chỉnh giữ lịch sử, không đổi giá vốn đã chốt khi xuất giao.</p><label htmlFor="receipt-adjust-reason">Lý do điều chỉnh</label><textarea id="receipt-adjust-reason" required className="form-control" value={reason} onChange={e => setReason(e.target.value)} /><button disabled={busy || !Object.values(costs).some(v => v !== '')} className="btn btn-warning mt-2">Lưu điều chỉnh giá nhập</button></form>}
+      <details className="mt-3"><summary>Lịch sử phiếu</summary>{selected.history.map((h, i) => <p key={i}>{formatDate(h.at)} · {h.event} · {h.reason} · người thao tác {h.actorId}</p>)}</details><button className="btn btn-outline-secondary mt-2" onClick={() => setSelected(null)}>Đóng chi tiết</button>
+    </section>}
+  </AdminLayout>
+}

@@ -1,0 +1,32 @@
+const assert = require('node:assert/strict')
+const { demoImei } = require('../server/domain.cjs')
+const { workbook } = require('./receipt-xlsx-fixture.cjs')
+module.exports = async ({ store, goto, until, evaluate, click, screenshot }) => {
+  await goto('/admin/receipts')
+  await until('!!document.querySelector("#receipt-product-0 option[value=fixture]")', 'import catalog loaded')
+  const before = store.state.devices.length, existing = store.state.devices[0].imei
+  const upload = async (name, bytes, type) => {
+    const base64 = Buffer.from(bytes).toString('base64')
+    await evaluate(`(() => { const bytes=Uint8Array.from(atob(${JSON.stringify(base64)}),c=>c.charCodeAt(0)); const file=new File([bytes],${JSON.stringify(name)},{type:${JSON.stringify(type)}}); const transfer=new DataTransfer();transfer.items.add(file);const input=document.querySelector('#receipt-import-file');input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true})); })()`)
+  }
+  await upload('bad.csv', `productId;variantId;imei;unitCost\np;v;${existing};1`, 'text/csv')
+  await until('document.querySelector(".receipt-import")?.innerText.includes("dòng lỗi")', 'bad CSV preview')
+  assert.ok(await evaluate('document.querySelector(".receipt-import table").innerText.includes("IMEI đã có")'))
+  assert.equal(await evaluate('[...document.querySelectorAll(".receipt-import button")].find(b=>b.textContent.includes("Đưa dữ liệu")).disabled'), true)
+  const imei = demoImei(new Set(store.state.devices.map(d => d.imei)))
+  await upload('valid.xlsx', workbook([['productId', 'variantId', 'imei', 'unitCost'], ['fixture', 'blue', imei, 6500000]]), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+  await until('document.querySelector(".receipt-import")?.innerText.includes("0 dòng lỗi")', 'real XLSX preview')
+  assert.equal(store.state.devices.length, before)
+  await screenshot('receipt-import-preview')
+  await click('Đưa dữ liệu hợp lệ vào phiếu nháp')
+  await until(`document.querySelector('#receipt-imeis-0')?.value===${JSON.stringify(imei)}`, 'import applied to local draft')
+  assert.equal(store.state.devices.length, before)
+  await click('Lưu phiếu nháp')
+  await until('[...document.querySelectorAll("button")].some(b=>b.textContent==="Xác nhận nhập kho")', 'import draft persisted')
+  assert.equal(store.state.devices.length, before)
+  await click('Xác nhận nhập kho')
+  await until('![...document.querySelectorAll("button")].some(b=>b.textContent==="Xác nhận nhập kho")', 'import confirmed')
+  assert.equal(store.state.devices.length, before + 1)
+  assert.equal(store.state.devices.find(d => d.imei === imei).purchaseCost, 6500000)
+  console.log('PASS CSV invalid rows blocked; real XLSX preview -> local draft -> saved draft -> confirmed stock and provided cost')
+}

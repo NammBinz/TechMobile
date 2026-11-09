@@ -5,7 +5,7 @@ const path = require('node:path')
 const { command, id, availability, demoImei } = require('../server/domain.cjs')
 
 module.exports = async function fullUiChecks(context) {
-  const { store, goto, fill, click, evaluate, until, screenshot, send, artifacts, apiOrigin, exceptions } = context
+  const { store, goto, fill, click, confirmNote, evaluate, until, screenshot, send, artifacts, apiOrigin, exceptions } = context
   const results = [], observations = [], startedAt = new Date().toISOString()
   const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
   const poll = async (predicate, label) => { for (let i = 0; i < 80; i++) { if (predicate()) return; await pause(100) } throw Error('State timeout: ' + label) }
@@ -29,10 +29,13 @@ module.exports = async function fullUiChecks(context) {
     await until(`[...document.querySelectorAll('tbody tr')].some(r=>r.innerText.includes(${JSON.stringify(marker)})&&[...r.querySelectorAll('button')].some(b=>b.textContent.trim()===${JSON.stringify(label)}&&!b.disabled))`, 'row action ' + label)
     return evaluate(`(() => {const row=[...document.querySelectorAll('tbody tr')].find(r=>r.innerText.includes(${JSON.stringify(marker)}));const button=row&&[...row.querySelectorAll('button')].find(b=>b.textContent.trim()===${JSON.stringify(label)});if(!button)throw Error('Missing row action '+${JSON.stringify(marker + ' / ' + label)});button.click()})()`)
   }
-  const orderClick = (orderId, label) => evaluate(`(() => {const card=[...document.querySelectorAll('[data-order-revision],.card')].find(r=>r.innerText.includes(${JSON.stringify(orderId)})&&[...r.querySelectorAll('button')].some(b=>b.textContent.trim()===${JSON.stringify(label)}));const b=card&&[...card.querySelectorAll('button')].find(b=>b.textContent.trim()===${JSON.stringify(label)});if(!b||b.disabled)throw Error('Missing order action');b.click()})()`)
+  const orderClick = async (orderId, label) => {
+    await until(`[...document.querySelectorAll('[data-order-revision],.card')].some(r=>r.innerText.includes(${JSON.stringify(orderId)})&&[...r.querySelectorAll('button')].some(b=>b.textContent.trim()===${JSON.stringify(label)}&&!b.disabled))`, 'order action ' + label)
+    return evaluate(`(() => {const card=[...document.querySelectorAll('[data-order-revision],.card')].find(r=>r.innerText.includes(${JSON.stringify(orderId)})&&[...r.querySelectorAll('button')].some(b=>b.textContent.trim()===${JSON.stringify(label)}));const b=card&&[...card.querySelectorAll('button')].find(b=>b.textContent.trim()===${JSON.stringify(label)});if(!b||b.disabled)throw Error('Missing order action');b.click()})()`)
+  }
   const form = async values => { for (const [name, value] of Object.entries(values)) await fill(`[name="${name}"]`, String(value)) }
   const clearShopping = () => evaluate(`(() => {for(const key of ['cart','wishlist','compareList'])localStorage.removeItem(key);for(const event of ['cartUpdated','wishlistUpdated','compareUpdated'])dispatchEvent(new Event(event))})()`)
-  const buy = async (color = 'Xanh') => { await goto('/products/fixture'); await until('!!document.querySelector(".detail-buy-btn:not(:disabled)")', 'buyable variant'); if (color !== 'Xanh') await click(color); await click('Mua ngay') }
+  const buy = async (color = 'Xanh') => { await goto('/products/fixture'); await until('!!document.querySelector(".detail-buy-btn:not(:disabled)")', 'buyable variant'); if (color !== 'Xanh') { await click('256GB'); await click(color) } await click('Mua ngay') }
   const tokenRequest = (route, method = 'GET', body) => evaluate(`(async () => {const r=await fetch(${JSON.stringify(apiOrigin + route)},{method:${JSON.stringify(method)},headers:{'Content-Type':'application/json','Authorization':'Bearer '+localStorage.getItem('authToken'),'Idempotency-Key':crypto.randomUUID()},${body ? 'body:JSON.stringify(' + JSON.stringify(body) + '),' : ''}});return {status:r.status,data:await r.json()}})()`)
   await store.transact(admin, id(), 'fixture-setup', {}, db => {
     db.users.push({ ...admin, id: 'staff', username: 'staff', email: 'staff@fixture.invalid', role: 'staff' })
@@ -87,7 +90,7 @@ module.exports = async function fullUiChecks(context) {
     await poll(() => store.state.users.some(u => u.username === 'registered' && u.fullName === 'Fixture renamed'), 'profile save')
     await click('Đăng xuất'); await until('location.pathname === "/login"', 'logout')
     await login('registered', 'fixture-new-password')
-    assert.ok(await evaluate('document.querySelector(".navbar-user-card").innerText.includes("Fixture renamed")'))
+    await until('document.querySelector(".navbar-user-card")?.innerText.includes("Fixture renamed")', 'updated profile navbar')
   })
   await check('Đăng nhập sai mật khẩu và tài khoản bị khóa bị từ chối', async () => {
     for (const [account, password] of [['customer','wrong'],['blocked','fixture-password']]) {
@@ -112,7 +115,7 @@ module.exports = async function fullUiChecks(context) {
     await clearShopping(); await goto('/products'); await until('!!document.querySelector(".wishlist-rating-btn")', 'wishlist card')
     await domClick('.product-card .wishlist-rating-btn'); await goto('/wishlist'); await until('!!document.querySelector(".wishlist-card")', 'wishlist page')
     await click('Thêm vào giỏ'); await until('location.pathname.startsWith("/products/")', 'wishlist buy selects variant')
-    await goto('/wishlist'); await click('Bỏ yêu thích'); await until('!document.querySelector(".wishlist-card")', 'remove wishlist')
+    await goto('/wishlist'); await until('!!document.querySelector(".wishlist-card")', 'wishlist loaded for removal'); await click('Bỏ yêu thích'); await until('!document.querySelector(".wishlist-card")', 'remove wishlist')
     assert.equal(await evaluate('JSON.parse(localStorage.getItem("wishlist")||"[]").length'), 0)
   })
   await check('So sánh: thêm 3 sản phẩm, mở modal và xem bảng thông số', async () => {
@@ -182,6 +185,7 @@ module.exports = async function fullUiChecks(context) {
     await click('Xem IMEI'); await until('!!document.querySelector("#device-imei-search")', 'return IMEI list')
     await fill('#device-imei-search', device.imei); await until('document.body.innerText.includes("1 máy phù hợp")', 'return IMEI search')
     await fill('.variant-device-list select[aria-label="Đổi trạng thái máy"]', 'available')
+    await confirmNote()
     await poll(() => store.state.devices.find(d => d.id === device.id).status === 'available', 'inspection passed')
     assert.equal(availability(store.state, 'fixture', 'blue').sellable, before + 1)
   })
@@ -246,7 +250,7 @@ module.exports = async function fullUiChecks(context) {
     await login('admin'); await goto('/admin'); await until('document.querySelectorAll(".recharts-wrapper").length>=2', 'dashboard charts')
     await until(`document.querySelector('.admin-main')?.innerText.includes(${JSON.stringify(store.state.orders.at(-1).id)})`, 'dashboard data loaded')
     await evaluate(`(() => {window.__exportResult={};const originalURL=URL.createObjectURL,originalClick=HTMLAnchorElement.prototype.click;URL.createObjectURL=function(blob){window.__exportPromise=blob.text().then(text=>{window.__exportResult.text=text});return originalURL.call(this,blob)};HTMLAnchorElement.prototype.click=function(){window.__exportResult.filename=this.download};window.__restoreExport=()=>{URL.createObjectURL=originalURL;HTMLAnchorElement.prototype.click=originalClick}})()`)
-    try { await click('Xuất doanh thu Excel'); await evaluate('window.__exportPromise'); const exported = await evaluate('window.__exportResult'); assert.ok(exported.filename.endsWith('.csv')); assert.ok(exported.text.includes(';')); fs.writeFileSync(path.join(artifacts, 'full-revenue.csv'), exported.text) }
+    try { await click('Xuất báo cáo CSV'); await evaluate('window.__exportPromise'); const exported = await evaluate('window.__exportResult'); assert.ok(exported.filename.endsWith('.csv')); assert.ok(exported.text.includes(';')); fs.writeFileSync(path.join(artifacts, 'full-revenue.csv'), exported.text) }
     finally { await evaluate('window.__restoreExport()') }
   })
   await check('Phân quyền staff: các màn hình cho phép, chặn route/API chỉ admin', async () => {
@@ -291,12 +295,27 @@ module.exports = async function fullUiChecks(context) {
   await check('Chi tiết: chọn được phiên bản khác RAM khi cùng màu và dung lượng', async () => {
     const used = new Set(store.state.devices.map(d => d.imei))
     for (const variantId of ['blue','blue-high']) await execute(admin, 'receive-device', { productId: 'fixture-extra', variantId, imeis: [demoImei(used)] })
+    await store.transact(admin, id(), 'fixture-ram-options', {}, db => {
+      const product = db.products.find(p => p.id === 'fixture-extra')
+      product.variants.push({ ...product.variants[0], id: 'ram12-tb', ram: '12GB', storage: '1TB' }, { ...product.variants[0], id: 'ram16-tb', ram: '16GB', storage: '1TB' })
+      return { ok: true }
+    })
     await login('customer'); await goto('/products/fixture-extra'); await until('!!document.querySelector(".detail-info-box")', 'RAM variants detail')
     const choice = await evaluate('[...document.querySelectorAll(".detail-info-box button, .detail-info-box option")].some(e=>e.textContent.includes("16GB"))')
     assert.ok(choice, 'Có bản RAM 12GB và 16GB cùng màu Xanh/128GB trong API nhưng chi tiết không có lựa chọn RAM 16GB')
+    assert.deepEqual(await evaluate('[...document.querySelectorAll(".detail-options")].find(e=>e.querySelector("h3").textContent==="Phiên bản").querySelectorAll("button").length'), 4)
+    await click('16GB - 128GB')
+    await until('document.querySelector("button[aria-label=Xanh]")?.getAttribute("aria-pressed")==="true"', 'preserve color')
+    await click('Mua ngay'); await until('JSON.parse(localStorage.getItem("cart") || "[]").some(i=>i.variantId==="blue-high")', 'RAM variant added')
+    assert.ok(await evaluate('JSON.parse(localStorage.getItem("cart")).some(i=>i.variantId==="blue-high" && i.ram==="16GB")'))
+    await goto('/products/fixture-extra'); await until('!!document.querySelector(".detail-info-box")', 'sold out version detail')
+    await evaluate('[...document.querySelectorAll(".option-btn")].find(b=>b.textContent.startsWith("16GB - 1TB")).click()')
+    await until('[...document.querySelectorAll(".option-btn")].some(b=>b.textContent.startsWith("16GB - 1TB") && b.getAttribute("aria-pressed")=="true") && document.querySelector(".detail-buy-btn")?.disabled === true', 'sold out cannot buy')
+    assert.equal(await evaluate('document.querySelector(".detail-buy-btn").textContent.trim()'), 'Hết hàng')
+    await screenshot('ram-storage-selection')
   })
   await check('Nhập IMEI: từ chối trùng và sai checksum, không tăng tồn', async () => {
-    await login('admin'); await goto('/admin/devices'); await until('!!document.querySelector("#inventory-product")', 'IMEI import validation')
+    await login('admin'); await goto('/admin/devices'); await until('!!document.querySelector("#inventory-product option[value=fixture]")', 'IMEI import validation')
     await fill('#inventory-product', 'fixture'); await fill('#inventory-variant', JSON.stringify(['8GB','128GB'])); await fill('#inventory-color', 'Xanh')
     const count = store.state.devices.length, existing = store.state.devices.find(d => d.productId === 'fixture' && d.variantId === 'blue')
     await fill('#receive-imeis', existing.imei); await click('Nhập kho'); await until('document.querySelector("#toastContainer")?.innerText.includes("IMEI đã tồn tại")', 'duplicate IMEI blocked')

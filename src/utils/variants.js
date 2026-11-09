@@ -5,6 +5,8 @@ export const withVariant = (product, variant) => ({
   ...product,
   ...variant,
   id: product.id,
+  legacyIds: product.legacyIds || [],
+  variantLegacyIds: variant.legacyIds || [],
   productId: product.id,
   variantId: variant.id,
   cartKey: variantKey(product.id, variant.id),
@@ -26,3 +28,11 @@ export const warrantyLabel = warranty => {
   if (timestamp < Date.parse(warranty.startsAt)) return 'Chưa bắt đầu'
   return timestamp < Date.parse(warranty.endsAt) ? 'Còn bảo hành' : 'Hết hạn'
 }
+
+export const capacityInGB = value => {
+  const match = String(value || '').trim().match(/^(\d+(?:[.,]\d+)?)\s*(TB|GB|MB)?$/i)
+  if (!match) return Infinity
+  return Number(match[1].replace(',', '.')) * ({ TB: 1024, GB: 1, MB: 1 / 1024 }[match[2]?.toUpperCase()] || 1)
+}
+export const compareVariants = (a, b) => capacityInGB(a.ram) - capacityInGB(b.ram) || capacityInGB(a.storage) - capacityInGB(b.storage) || String(a.color || '').localeCompare(String(b.color || ''), 'vi')
+export const versionOptionKey = (product, variant) => JSON.stringify([String(variant.ram || product.ram || '').trim().toUpperCase(), String(variant.storage || '').trim().toUpperCase()])

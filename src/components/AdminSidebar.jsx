@@ -14,13 +14,16 @@ function AdminSidebar() {
       </h4>
 
       <ul id="admin-navigation" className={`nav flex-column admin-navigation${expanded ? ' is-expanded' : ''}`}>
-        <li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/devices">IMEI và tồn kho</Link></li>
-        <li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/warranties">Tra cứu và bảo hành</Link></li>
         <li className="nav-item mb-2">
           <Link className="nav-link text-white" to="/admin">
             Dashboard
           </Link>
         </li>
+        <li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/imei">Hồ sơ IMEI</Link></li>
+        {currentUser?.role === 'admin' && <><li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/receipts">Phiếu nhập kho</Link></li><li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/suppliers">Nhà cung cấp</Link></li></>}
+        <li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/devices">IMEI và tồn kho</Link></li>
+        <li className="nav-item mb-2"><Link className="nav-link text-white" to="/admin/warranties">Tra cứu và bảo hành</Link></li>
+
 
         <li className="nav-item mb-2">
           <Link className="nav-link text-white" to="/admin/products">

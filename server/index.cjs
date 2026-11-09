@@ -4,6 +4,10 @@ const { randomBytes } = require('node:crypto')
 const jsonServer = require('json-server')
 const { createStore } = require('./store.cjs')
 const domain = require('./domain.cjs')
+const { resolveOrderId } = require('./order-ids.cjs')
+const commerce = require('./commerce.cjs')
+const { findEntity, findVariant, createIdAllocator, nextEntityId } = require('./entity-ids.cjs')
+const reports = require('./reports.cjs')
 const { same, requireThat, staff, admin, id, command, projectProducts } = domain
 
 const safeUser = user => Object.fromEntries(Object.entries(user).filter(([key]) => key !== 'password'))
@@ -16,6 +20,8 @@ function createApp(store) {
     const session = sessions.get(token)
     const user = session && session.expires > Date.now() ? store.state.users.find(u => same(u.id, session.userId) && u.status !== 'blocked') : null
     req.actor = user || null
+    const json = res.json.bind(res)
+    res.json = value => json(req.actor?.role === 'admin' ? value : commerce.redact(value))
     next()
   })
   const handler = fn => (req, res, next) => Promise.resolve().then(() => fn(req, res)).catch(next)
@@ -44,7 +50,7 @@ function createApp(store) {
   }
   app.post('/auth/register', handler(async (req, res) => {
     const result = await store.transact({ id: 'registration' }, req.headers['idempotency-key'] || id(), 'register', req.body, db => {
-      const user = { ...Object.fromEntries(['fullName', 'username', 'email', 'password', 'phone', 'address'].map(k => [k, String(req.body[k] || '').trim()])), id: id(), role: 'customer', status: 'active', createdAt: new Date().toLocaleDateString('vi-VN') }
+      const user = { ...Object.fromEntries(['fullName', 'username', 'email', 'password', 'phone', 'address'].map(k => [k, String(req.body[k] || '').trim()])), id: nextEntityId(db), role: 'customer', status: 'active', createdAt: new Date().toLocaleDateString('vi-VN') }
       validateUser(db, user, user.id); db.users.push(user); return safeUser(user)
     })
     res.status(201).json(result)
@@ -65,9 +71,23 @@ function createApp(store) {
     requireThat(req.headers['idempotency-key'], 'Thiếu mã thao tác. Vui lòng tải lại trang.')
     res.json(await transact(req, req.params.action, req.body, db => command(db, actor, req.params.action, req.body)))
   }))
+  app.post('/purchaseReceipts/import-preview', handler((req, res) => {
+    admin(authenticated(req)); res.json(require('./receipt-import.cjs').preview(store.state, req.body.rows))
+  }))
+  for (const collection of ['suppliers', 'purchaseReceipts']) app.get('/' + collection, handler((req, res) => {
+    admin(authenticated(req)); res.json(store.state[collection] || [])
+  }))
+  app.get('/reports/dashboard', handler((req, res) => { staff(authenticated(req)); res.json(reports.report(store.state, req.query)) }))
+  app.get('/devices/profile/:imei', handler((req, res) => {
+    const actor = authenticated(req); staff(actor)
+    const result = reports.deviceProfile(store.state, req.params.imei)
+    requireThat(result, 'Không tìm thấy IMEI', 404)
+    if (actor.role !== 'admin') result.receipt = null
+    res.json(result)
+  }))
   app.get('/inventory/availability', handler((req, res) => res.json(projectProducts(store.state).flatMap(p => p.variants.map(v => ({ productId: p.id, variantId: v.id, quantity: v.quantity }))))))
   app.get('/products', handler((req, res) => res.json(projectProducts(store.state))))
-  app.get('/products/:id', handler((req, res) => { const p = projectProducts(store.state).find(p => same(p.id, req.params.id)); requireThat(p, 'Không có sản phẩm', 404); res.json(p) }))
+  app.get('/products/:id', handler((req, res) => { const raw = findEntity(store.state, 'products', req.params.id); const p = projectProducts(store.state).find(p => same(p.id, raw?.id)); requireThat(p, 'Không có sản phẩm', 404); res.json(p) }))
   app.post('/devices/demo-imeis', handler((req, res) => {
     admin(authenticated(req))
     const quantity = req.body.quantity ?? 1, exclude = req.body.exclude ?? []
@@ -100,7 +120,7 @@ function createApp(store) {
   }))
   app.get('/devices', handler((req, res) => {
     staff(authenticated(req))
-    const rows = store.state.devices.filter(d => (!req.query.productId || same(d.productId, req.query.productId)) && (!req.query.variantId || same(d.variantId, req.query.variantId)) && (!req.query.imei || d.imei.includes(String(req.query.imei).trim())) && (!req.query.status || d.status === req.query.status) && (!req.query.orderId || same(d.assignment?.orderId, req.query.orderId)))
+    const rows = store.state.devices.filter(d => (!req.query.productId || same(d.productId, findEntity(store.state, 'products', req.query.productId)?.id || req.query.productId)) && (!req.query.variantId || same(d.variantId, findVariant(findEntity(store.state, 'products', req.query.productId), req.query.variantId)?.id || req.query.variantId)) && (!req.query.imei || d.imei.includes(String(req.query.imei).trim())) && (!req.query.status || d.status === req.query.status) && (!req.query.orderId || same(d.assignment?.orderId, req.query.orderId)))
     // Keep the array response for existing dashboard/API consumers. New lists
     // explicitly request bounded pages; no stock IMEIs enter the summary API.
     if (req.query.page === undefined && req.query.limit === undefined) return res.json(rows)
@@ -111,23 +131,24 @@ function createApp(store) {
   }))
   for (const collection of ['orders', 'warranties', 'warrantyClaims', 'users']) app.get(`/${collection}/:id?`, handler((req, res) => {
     const actor = authenticated(req), privileged = ['admin', 'staff'].includes(actor.role), db = store.state
-    let rows = db[collection]
+    let rows = collection === 'orders' ? db.orders.map(o => ({ ...o, history: reports.timeline(o) })) : db[collection]
     if (collection === 'orders' && !privileged) rows = rows.filter(o => same(o.userId, actor.id))
     if (collection === 'warranties' && !privileged) rows = rows.filter(w => same(w.customerId, actor.id))
     if (collection === 'warrantyClaims' && !privileged) rows = rows.filter(c => db.warranties.some(w => same(w.id, c.warrantyId) && same(w.customerId, actor.id)))
     if (collection === 'users') { if (!privileged) rows = rows.filter(u => same(u.id, actor.id)); if (actor.role !== 'admin') rows = rows.map(safeUser) }
-    if (req.params.id) { const item = rows.find(r => same(r.id, req.params.id)); requireThat(item, 'Không tìm thấy dữ liệu', 404); return res.json(item) }
+    if (req.params.id) { const item = rows.find(r => same(r.id, collection === 'orders' ? resolveOrderId(db, req.params.id) : findEntity(db, collection, req.params.id)?.id)); requireThat(item, 'Không tìm thấy dữ liệu', 404); return res.json(item) }
     res.json(rows)
   }))
   // json-server 0.17 uses Express 4: explicit optional parameter syntax.
   app.post('/reviews', handler(async (req, res) => {
     const actor = authenticated(req)
     res.status(201).json(await transact(req, 'review', req.body, db => {
-      const order = db.orders.find(o => same(o.id, req.body.orderId))
-      requireThat(order?.status === 'completed' && same(order.userId, actor.id) && order.items.some(i => same(i.productId, req.body.productId)), 'Chỉ người mua đơn hoàn thành được đánh giá', 403)
-      requireThat(!db.reviews.some(r => same(r.orderId, order.id) && same(r.productId, req.body.productId) && same(r.userId, actor.id)), 'Bạn đã đánh giá sản phẩm này', 409)
+      const productId = findEntity(db, 'products', req.body.productId)?.id || req.body.productId
+      const order = db.orders.find(o => same(o.id, resolveOrderId(db, req.body.orderId)))
+      requireThat(order?.status === 'completed' && same(order.userId, actor.id) && order.items.some(i => same(i.productId, productId)), 'Chỉ người mua đơn hoàn thành được đánh giá', 403)
+      requireThat(!db.reviews.some(r => same(r.orderId, order.id) && same(r.productId, productId) && same(r.userId, actor.id)), 'Bạn đã đánh giá sản phẩm này', 409)
       requireThat(Number.isInteger(req.body.rating) && req.body.rating >= 1 && req.body.rating <= 5 && String(req.body.comment || '').trim(), 'Đánh giá không hợp lệ')
-      const review = { id: id(), orderId: order.id, productId: String(req.body.productId), userId: actor.id, userName: actor.fullName, rating: req.body.rating, comment: req.body.comment.trim(), createdAt: new Date().toLocaleDateString('vi-VN') }
+      const review = { id: nextEntityId(db), orderId: order.id, productId: String(productId), userId: actor.id, userName: actor.fullName, rating: req.body.rating, comment: req.body.comment.trim(), createdAt: new Date().toLocaleDateString('vi-VN') }
       db.reviews.push(review)
       const all = db.reviews.filter(r => same(r.productId, review.productId)), product = db.products.find(p => same(p.id, review.productId))
       product.reviews = all.length; product.rating = Math.round(all.reduce((s, r) => s + Number(r.rating), 0) / all.length)
@@ -138,11 +159,13 @@ function createApp(store) {
     const actor = authenticated(req)
     if (collection === 'products') staff(actor); else admin(actor)
     const result = await transact(req, `${method}-${collection}`, { id: req.params.id, data: req.body }, db => {
-      const rows = db[collection], existing = req.params.id ? rows.find(row => same(row.id, req.params.id)) : null
+      const rows = db[collection], existing = req.params.id ? findEntity(db, collection, req.params.id) : null
       requireThat(method === 'post' ? !req.params.id : existing, 'Không tìm thấy dữ liệu', 404)
-      const entry = existing || { id: id() }, data = structuredClone(req.body)
-      delete data.id
+      const allocateId = createIdAllocator(db)
+      const entry = existing || { id: allocateId() }, data = structuredClone(req.body)
+      delete data.id; delete data.legacyIds
       if (collection === 'products') {
+        if (data.categoryId != null) data.categoryId = findEntity(db, 'categories', data.categoryId)?.id || String(data.categoryId)
         delete data.quantity; delete data.inventoryMode; delete data.legacyQuantitySnapshot
         if (existing?.variants?.length && data.variants === undefined) {
           for (const key of ['memory', 'displayCamera', 'batteryCharge', 'utilities', 'connection', 'design']) if (existing[key]) {
@@ -152,18 +175,29 @@ function createApp(store) {
           if (data.displayCamera) { data.displayCamera.display = data.screen ?? existing.screen; data.displayCamera.rearCamera = data.camera ?? existing.camera }
           if (data.batteryCharge) { data.batteryCharge.battery = data.battery ?? existing.battery; data.batteryCharge.charge = data.charge ?? existing.charge }
         }
-        if (!existing && !data.variants?.length) data.variants = [{ id: id(), color: 'Mặc định', storage: data.storage || 'Mặc định', price: Number(data.price), oldPrice: Number(data.oldPrice || data.price), image: data.image, warrantyMonths: 12, status: 'active' }]
+        if (!existing && !data.variants?.length) data.variants = [{ id: allocateId(), color: 'Mặc định', storage: data.storage || 'Mặc định', price: Number(data.price), oldPrice: Number(data.oldPrice || data.price), image: data.image, warrantyMonths: 12, status: 'active' }]
+        if (existing && data.ram !== undefined && data.ram !== existing.ram) {
+          requireThat(!existing.variants?.some(v => !v.ram && db.devices.some(d => same(d.productId, existing.id) && same(d.variantId, v.id))), 'Phiên bản có máy không được đổi RAM chung của sản phẩm')
+        }
         if (data.variants) {
-          const variantIds = new Set()
+          const variantIds = new Set(), signatures = new Set()
+          const normalize = value => String(value || '').trim().toUpperCase().replace(/\s+/g, '')
+          const capacity = value => { const text = normalize(value); return /^\d+(?:\.\d+)?TB$/.test(text) ? `${parseFloat(text) * 1024}GB` : text }
           for (const variant of data.variants) {
-            variant.id ||= id(); variant.id = String(variant.id); delete variant.quantity
+            const previous = existing && findVariant(existing, variant.id)
+            variant.id = previous ? String(previous.id) : allocateId()
+            if (previous?.legacyIds) variant.legacyIds = previous.legacyIds; else delete variant.legacyIds
+            delete variant.quantity
             requireThat(!variantIds.has(variant.id) && variant.color?.trim() && variant.storage?.trim() && Number.isFinite(variant.price) && variant.price >= 0 && Number.isInteger(variant.warrantyMonths) && variant.warrantyMonths >= 1 && variant.warrantyMonths <= 120, 'Phiên bản/giá/bảo hành không hợp lệ')
+            const signature = JSON.stringify([normalize(variant.color), capacity(variant.ram || data.ram || existing?.ram), capacity(variant.storage)])
+            requireThat(!signatures.has(signature), 'Trùng phiên bản RAM, dung lượng và màu')
+            signatures.add(signature)
             variantIds.add(variant.id)
           }
           requireThat(!existing?.variants?.some(v => !variantIds.has(String(v.id))), 'Ngừng bán phiên bản thay vì xóa')
           for (const old of existing?.variants || []) {
             const next = data.variants.find(v => same(v.id, old.id))
-            requireThat(!db.devices.some(d => same(d.productId, existing.id) && same(d.variantId, old.id)) || (old.color === next.color && old.storage === next.storage), 'Phiên bản có máy không được đổi màu/dung lượng')
+            requireThat(!db.devices.some(d => same(d.productId, existing.id) && same(d.variantId, old.id)) || (old.color === next.color && old.storage === next.storage && normalize(old.ram || existing.ram) === normalize(next.ram || data.ram || existing.ram)), 'Phiên bản có máy không được đổi RAM/màu/dung lượng')
           }
         }
         requireThat(data.price === undefined || (Number.isFinite(data.price) && data.price >= 0), 'Giá sản phẩm không hợp lệ')
@@ -179,6 +213,10 @@ function createApp(store) {
       return entry
     })
     res.json(result)
+  }))
+  for (const collection of ['categories', 'reviews', 'coupons']) app.get('/' + collection + '/:id', handler((req, res) => {
+    const entity = findEntity(store.state, collection, req.params.id)
+    requireThat(entity, 'Không tìm thấy dữ liệu', 404); res.json(entity)
   }))
   // Public read-only REST routes retain json-server behavior. No /db or write bypass.
   app.use((req, res, next) => {

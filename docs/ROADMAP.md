@@ -1,5 +1,9 @@
 # TechMobile — backlog đề xuất sau tiếp nhận
 
+**02/11/2026:** đã triển khai ba phần được chủ dự án duyệt: Dashboard đúng mốc/lọc năm-ngày, timeline và hồ sơ IMEI, phiếu nhập/nhà cung cấp/giá vốn. Xem [phạm vi thực hiện](OPERATIONS_REPORTING.md) và [kiểm thử](TEST_REPORT_2026-11-02.md). Không coi công nợ, cổng thanh toán, hoàn tiền hay vận chuyển tích hợp là đã triển khai. F–G vẫn để backlog theo trao đổi, không tự mở rộng.
+
+**Phạm vi A–E được duyệt 23/10:** chọn phiên bản theo RAM–dung lượng, sửa ProductDetail 404, đồng bộ Compare qua compareUpdated, editor có RAM, API chống trùng tổ hợp và bảo vệ variant có máy, dùng chung helper sắp RAM rồi dung lượng. Không mở rộng F–G (xử lý loading/error mọi trang và localStorage hỏng) trong lượt này. Kết quả kiểm thử mới đọc tại TEST_REPORT_2026-10-23.md; các lỗi được mô tả trong snapshot cũ bên dưới không tự phản ánh trạng thái sau sửa.
+
 **Cập nhật 16/10/2026:** người dùng đã duyệt và đã triển khai kho IMEI/variant, tích hợp đơn/hóa đơn, bảo hành/tra cứu/phiếu/lịch sử. Xem [IMEI_WARRANTY.md](IMEI_WARRANTY.md). Các bảng dưới là backlog gốc trước triển khai, không phải toàn bộ trạng thái hiện hành.
 
 - P0.1–P0.4: đã có bảo toàn variants/specs, kiểm giá/tồn/coupon server, giữ chỗ, hàng đợi/snapshot/idempotency, hủy/nhận lại; giữ giới hạn một tiến trình json-server.

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
 import AdminLayout from '../../components/AdminLayout'
+import AdminFormSection, { AdminFields } from '../../components/AdminFormSection'
 import { formatPrice } from '../../utils/formatPrice'
 
 function CouponManager() {
@@ -194,81 +195,9 @@ function CouponManager() {
         </div>
 
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col-md-3 mb-3">
-                <label className="form-label">Mã giảm giá</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="code"
-                  value={formData.code}
-                  onChange={handleChange}
-                  placeholder="VD: SALE10"
-                />
-              </div>
-
-              <div className="col-md-3 mb-3">
-                <label className="form-label">Loại giảm giá</label>
-                <select
-                  className="form-select"
-                  name="discountType"
-                  value={formData.discountType}
-                  onChange={handleChange}
-                >
-                  <option value="percent">Giảm theo phần trăm</option>
-                  <option value="amount">Giảm theo số tiền</option>
-                </select>
-              </div>
-
-              <div className="col-md-3 mb-3">
-                <label className="form-label">
-                  {formData.discountType === 'percent'
-                    ? 'Phần trăm giảm'
-                    : 'Số tiền giảm'}
-                </label>
-
-                <input
-                  type="number"
-                  className="form-control"
-                  name="discount"
-                  value={formData.discount}
-                  onChange={handleChange}
-                  placeholder={
-                    formData.discountType === 'percent'
-                      ? 'VD: 10'
-                      : 'VD: 500000'
-                  }
-                />
-              </div>
-
-              <div className="col-md-3 mb-3">
-                <label className="form-label">Trạng thái</label>
-                <select
-                  className="form-select"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                >
-                  <option value="active">Đang hoạt động</option>
-                  <option value="inactive">Ngừng hoạt động</option>
-                </select>
-              </div>
-            </div>
-
-            <button type="submit" className="btn btn-primary me-2">
-              {editId ? 'Cập nhật' : 'Thêm mới'}
-            </button>
-
-            {editId && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={resetForm}
-              >
-                Hủy sửa
-              </button>
-            )}
+          <form onSubmit={handleSubmit} className="admin-entry-form">
+            <AdminFormSection number="01" title="Thiết lập ưu đãi" description="Chọn giảm theo phần trăm hoặc số tiền cố định."><AdminFields fields={[{"name":"code","label":"Mã giảm giá","required":true,"width":"col-md-6 col-xl-3","placeholder":"Ví dụ: SALE10","hint":"Mã không trùng với các mã đã tạo."},{"name":"discountType","label":"Loại ưu đãi","type":"select","width":"col-md-6 col-xl-3","options":[{"value":"percent","label":"Theo phần trăm (%)"},{"value":"amount","label":"Theo số tiền (₫)"}]},{"name":"discount","label":formData.discountType === 'percent' ? 'Phần trăm giảm (%)' : 'Số tiền giảm (₫)',"required":true,"type":"number","min":1,"width":"col-md-6 col-xl-3","hint":"Giảm phần trăm tối đa 100%; số tiền từ 1.000₫."},{"name":"status","label":"Trạng thái","type":"select","width":"col-md-6 col-xl-3","options":[{"value":"active","label":"Đang hoạt động"},{"value":"inactive","label":"Ngừng hoạt động"}]}]} values={formData} onChange={handleChange} idPrefix="couponmanager" /></AdminFormSection>
+            <div className="admin-form-actions"><button type="submit" className="btn btn-primary">{editId ? 'Cập nhật' : 'Thêm mới'}</button>{editId && <button type="button" className="btn btn-outline-secondary" onClick={resetForm}>Hủy sửa</button>}<small><span className="admin-required">*</span> Thông tin bắt buộc</small></div>
           </form>
         </div>
       </div>
